@@ -162,60 +162,65 @@ for (const [topLevelKey, topLevelValue] of Object.entries(tokensJson)) {
   }
 }
 
-// Generate SCSS files for each top-level group
-for (const [groupName, tokens] of Object.entries(tokenGroups)) {
-  let scssContent = '';
+// Organize tokens for output
+const refTokens = {
+  palette: {},
+  font: {},
+  space: {},
+  shape: {},
+  elevation: {},
+  opacity: {},
+  layout: {}
+};
+
+// Map top-level groups to ref categories
+if (tokenGroups.ref) {
+  for (const [category, categoryTokens] of Object.entries(tokenGroups.ref)) {
+    if (category === 'color') {
+      refTokens.palette = categoryTokens;
+    } else if (category === 'shape') {
+      refTokens.shape = categoryTokens;
+    } else if (category === 'space') {
+      refTokens.space = categoryTokens;
+    }
+  }
+}
+
+// Add top-level font and effect groups to ref tokens
+if (tokenGroups.font) {
+  refTokens.font = tokenGroups.font;
+}
+
+if (tokenGroups.effect) {
+  refTokens.elevation = tokenGroups.effect;
+}
+
+// Generate _ref.scss
+let refScssContent = '';
+for (const [category, categoryTokens] of Object.entries(refTokens)) {
+  refScssContent += `$${category}: ${objectToScssMap(categoryTokens)};\n\n`;
+}
+
+const refPath = resolve(outputDir, '_ref.scss');
+writeFileSync(refPath, refScssContent, 'utf-8');
+console.log(`Generated: ${refPath}`);
+
+// Generate _sys.scss
+if (tokenGroups.sys) {
+  let sysScssContent = '';
   
-  // Handle special cases like 'sys' which has light/dark modes
-  if (groupName === 'sys') {
-    // Generate separate exports for light, dark, and component tokens
-    if (tokens.light) {
-      scssContent += `$light: ${objectToScssMap(tokens.light)};\n\n`;
-    }
-    if (tokens.dark) {
-      scssContent += `$dark: ${objectToScssMap(tokens.dark)};\n\n`;
-    }
-    
-    // Component tokens (empty for now, but structure in place)
-    scssContent += `$component-tokens: ();\n`;
-  } else if (groupName === 'ref') {
-    // For ref tokens, organize by category
-    const categories = {};
-    
-    // Map token types to categories expected by index.scss
-    const categoryMapping = {
-      'color': 'palette',
-      'shape': 'shape',
-      'space': 'space',
-    };
-    
-    for (const [category, categoryTokens] of Object.entries(tokens)) {
-      const mappedCategory = categoryMapping[category] || category;
-      categories[mappedCategory] = categoryTokens;
-    }
-    
-    // Generate SCSS variables for each category
-    for (const [category, categoryTokens] of Object.entries(categories)) {
-      scssContent += `$${category}: ${objectToScssMap(categoryTokens)};\n\n`;
-    }
-    
-    // Add empty placeholders for categories expected by index.scss
-    const expectedCategories = ['font', 'elevation', 'opacity', 'layout'];
-    for (const cat of expectedCategories) {
-      if (!categories[cat]) {
-        scssContent += `$${cat}: ();\n\n`;
-      }
-    }
-  } else {
-    // Skip font, effect, and typography groups as they're not part of the ref/sys structure
-    // These may be added in future iterations if needed
-    continue;
+  if (tokenGroups.sys.light) {
+    sysScssContent += `$light: ${objectToScssMap(tokenGroups.sys.light)};\n\n`;
+  }
+  if (tokenGroups.sys.dark) {
+    sysScssContent += `$dark: ${objectToScssMap(tokenGroups.sys.dark)};\n\n`;
   }
   
-  // Write SCSS file
-  const outputPath = resolve(outputDir, `_${groupName}.scss`);
-  writeFileSync(outputPath, scssContent, 'utf-8');
-  console.log(`Generated: ${outputPath}`);
+  sysScssContent += `$component-tokens: ();\n`;
+  
+  const sysPath = resolve(outputDir, '_sys.scss');
+  writeFileSync(sysPath, sysScssContent, 'utf-8');
+  console.log(`Generated: ${sysPath}`);
 }
 
 console.log('Token transformation complete!');
