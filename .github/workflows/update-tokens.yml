@@ -41,7 +41,8 @@ jobs:
         run: pnpm install
       
       - name: Transform tokens
-        run: node scripts/build-token.mjs tokens/${{ github.event.client_payload.filename }}
+        working-directory: packages/web-design
+        run: pnpm run build-tokens ../../tokens/${{ github.event.client_payload.filename }}
       
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
