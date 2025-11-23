@@ -44,9 +44,9 @@ function formatValue(value) {
     return 'null';
   }
   if (typeof value === 'string') {
-    // If it's a color hex, return without quotes
-    if (/^#[0-9a-fA-F]{6,8}$/.test(value)) {
-      return value.toLowerCase().substring(0, 7); // Remove alpha channel
+    // If it's a color hex, return without quotes and remove alpha channel
+    if (/^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$/.test(value)) {
+      return value.toLowerCase().substring(0, 7);
     }
     // If it's a CSS value with units, return without quotes
     if (/^\d+(\.\d+)?(px|rem|em|%)$/.test(value)) {
@@ -97,6 +97,15 @@ function resolveReferences(value, refMap) {
   return value;
 }
 
+// Helper to normalize color values
+function normalizeColor(value) {
+  // Remove alpha channel from color values if present
+  if (typeof value === 'string' && /^#[0-9a-f]{8}$/i.test(value)) {
+    return value.substring(0, 7);
+  }
+  return value;
+}
+
 // Helper to recursively process tokens and extract values
 function extractTokenValues(obj, refMap, path = []) {
   const result = {};
@@ -122,9 +131,9 @@ function extractTokenValues(obj, refMap, path = []) {
           tokenValue = `${tokenValue}px`;
         }
         
-        // Remove alpha channel from color values if present
-        if (value.type === 'color' && typeof tokenValue === 'string' && tokenValue.match(/^#[0-9a-f]{8}$/i)) {
-          tokenValue = tokenValue.substring(0, 7);
+        // Normalize color values using shared utility
+        if (value.type === 'color') {
+          tokenValue = normalizeColor(tokenValue);
         }
         
         result[key] = tokenValue;
@@ -195,8 +204,8 @@ for (const [groupName, tokens] of Object.entries(tokenGroups)) {
       }
     }
   } else {
-    // Skip font, effect, and typography groups as they're handled elsewhere or not needed
-    // We can include them as separate files if needed
+    // Skip font, effect, and typography groups as they're not part of the ref/sys structure
+    // These may be added in future iterations if needed
     continue;
   }
   
