@@ -1,0 +1,13 @@
+{
+  "name": "inkcre-design",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.22.0",
+  "scripts": {
+    "build-tokens": "node scripts/build-token.mjs"
+  },
+  "devDependencies": {
+    "design-token-transformer": "^0.5.3"
+  }
+}
