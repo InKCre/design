@@ -10,7 +10,10 @@ const outputDir = resolve(rootDir, 'packages/web-design/src/styles/tokens');
 mkdirSync(outputDir, { recursive: true });
 
 // Read the W3C DTCG JSON file
-const tokensPath = resolve(rootDir, 'inkcre.tokens.json');
+// Accept file path as command-line argument, otherwise use default
+const tokensPath = process.argv[2] 
+  ? resolve(rootDir, process.argv[2])
+  : resolve(rootDir, 'inkcre.tokens.json');
 const tokensJson = JSON.parse(readFileSync(tokensPath, 'utf-8'));
 
 // Helper function to convert nested object to SCSS map string

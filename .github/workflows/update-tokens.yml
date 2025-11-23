@@ -6,13 +6,26 @@ on:
 
 jobs:
   transform-tokens:
+    name: Transform Figma design tokens to SCSS
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
     
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      
+      - name: Create tokens directory
+        run: mkdir -p tokens
+      
+      - name: Create JSON from request body
+        id: create-json
+        uses: jsdaniell/create-json@v1.2.3
+        with:
+          name: ${{ github.event.client_payload.filename }}
+          json: ${{ github.event.client_payload.tokens }}
+          dir: 'tokens'
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -28,12 +41,13 @@ jobs:
         run: pnpm install
       
       - name: Transform tokens
-        run: node scripts/build-token.mjs
+        run: node scripts/build-token.mjs tokens/${{ github.event.client_payload.filename }}
       
-      - name: Commit and push changes
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add packages/web-design/src/styles/tokens/
-          git diff --staged --quiet || git commit -m "Update design tokens from DTCG JSON"
-          git push
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: ${{ github.event.client_payload.commitMessage || 'Update design tokens from Figma' }}
+          title: "Design tokens updated from Figma"
+          body: "Design tokens have been updated via Figma and need to be reviewed."
+          branch: design-tokens-update
+          delete-branch: true
