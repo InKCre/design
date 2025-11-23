@@ -10,3 +10,6 @@ yarn.lock
 
 # Temporary tokens from Figma
 tokens/
+
+# temp files
+tmp

@@ -1,19 +1,23 @@
 $light: (
+  "base": #fbfcff,
   "color": (
+    "content": (
+      "base": #0b1220
+    ),
     "surface": (
-      "bg": (
-        "base": #fbfcff
-      )
+      "base": #fbfcff
     )
   )
 );
 
 $dark: (
+  "base": #111827,
   "color": (
+    "content": (
+      "base": #fbfcff
+    ),
     "surface": (
-      "bg": (
-        "base": #111827
-      )
+      "base": #111827
     )
   )
 );

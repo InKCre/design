@@ -7,9 +7,8 @@
   "style": "dist/css/tokens.css",
   "type": "module",
   "files": ["dist"],
-  "scripts": {
-    "build-tokens": "node ./scripts/build-tokens.mjs"
-  },
+  "scripts": {},
+
   "publishConfig": {
     "access": "public"
   },
