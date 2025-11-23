@@ -42,7 +42,7 @@ jobs:
       
       - name: Transform tokens
         working-directory: packages/web-design
-        run: pnpm run build-tokens ../../tokens/${{ github.event.client_payload.filename }}
+        run: pnpm run build-tokens tokens/${{ github.event.client_payload.filename }}
       
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
