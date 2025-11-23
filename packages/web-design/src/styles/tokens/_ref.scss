@@ -17,17 +17,17 @@ $palette: (
 $font: (
   "label": (
     "lg": (
-      "fontSize": 14,
-      "textDecoration": "none",
-      "fontFamily": "Inter",
-      "fontWeight": 400,
-      "fontStyle": "normal",
-      "fontStretch": "normal",
-      "letterSpacing": 0,
-      "lineHeight": 16.8,
-      "paragraphIndent": 0,
-      "paragraphSpacing": 0,
-      "textCase": "none"
+      "font-size": 14,
+      "text-decoration": "none",
+      "font-family": "Inter",
+      "font-weight": 400,
+      "font-style": "normal",
+      "font-stretch": "normal",
+      "letter-spacing": 0,
+      "line-height": 16.8,
+      "paragraph-indent": 0,
+      "paragraph-spacing": 0,
+      "text-case": "none"
     )
   )
 );
@@ -50,16 +50,14 @@ $shape: (
 );
 
 $elevation: (
-  "elevation": (
-    "raised": (
-      "low": (
-        "shadowType": "dropShadow",
-        "radius": 2,
-        "color": #000000,
-        "offsetX": 0,
-        "offsetY": 1,
-        "spread": 0
-      )
+  "raised": (
+    "low": (
+      "shadow-type": "dropShadow",
+      "radius": 2,
+      "color": #000000,
+      "offset-x": 0,
+      "offset-y": 1,
+      "spread": 0
     )
   )
 );

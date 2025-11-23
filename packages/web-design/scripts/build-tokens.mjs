@@ -16,6 +16,11 @@ const tokensPath = process.argv[2]
   : resolve(rootDir, 'inkcre.tokens.json');
 const tokensJson = JSON.parse(readFileSync(tokensPath, 'utf-8'));
 
+// Helper function to convert camelCase to kebab-case
+function toKebabCase(str) {
+  return str.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+}
+
 // Helper function to convert nested object to SCSS map string
 function objectToScssMap(obj, indent = 0) {
   const spaces = '  '.repeat(indent);
@@ -31,7 +36,7 @@ function objectToScssMap(obj, indent = 0) {
   }
   
   const lines = entries.map(([key, value]) => {
-    const scssKey = key.replace(/[^a-zA-Z0-9_-]/g, '-');
+    const scssKey = toKebabCase(key.replace(/[^a-zA-Z0-9_-]/g, '-'));
     if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
       return `${nextSpaces}"${scssKey}": ${objectToScssMap(value, indent + 1)}`;
     }
@@ -192,7 +197,14 @@ if (tokenGroups.font) {
 }
 
 if (tokenGroups.effect) {
-  refTokens.elevation = tokenGroups.effect;
+  // The effect group contains elevation tokens
+  // Structure in JSON: effect.elevation.raised.low
+  // We want to extract just the content under 'elevation'
+  if (tokenGroups.effect.elevation) {
+    refTokens.elevation = tokenGroups.effect.elevation;
+  } else {
+    refTokens.elevation = tokenGroups.effect;
+  }
 }
 
 // Generate _ref.scss
