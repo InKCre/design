@@ -7,3 +7,6 @@ yarn.lock
 
 # IDE files
 .vscode/
+
+# Temporary tokens from Figma
+tokens/

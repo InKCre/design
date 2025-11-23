@@ -1,0 +1,68 @@
+$palette: (
+  "brand": (
+    "0": #000000,
+    "2": #070707,
+    "10": #1b1b1b,
+    "20": #303030,
+    "30": #474747,
+    "98": #fbfcff,
+    "100": #ffffff
+  ),
+  "neutral": (
+    "6": #111827,
+    "98": #fbfcff
+  )
+);
+
+$font: (
+  "label": (
+    "lg": (
+      "font-size": 14,
+      "text-decoration": "none",
+      "font-family": "Inter",
+      "font-weight": 400,
+      "font-style": "normal",
+      "font-stretch": "normal",
+      "letter-spacing": 0,
+      "line-height": 16.8,
+      "paragraph-indent": 0,
+      "paragraph-spacing": 0,
+      "text-case": "none"
+    )
+  )
+);
+
+$space: (
+  "sm": 8px,
+  "md": 16px,
+  "lg": 32px
+);
+
+$shape: (
+  "radius": (
+    "xs": 4px,
+    "sm": 8px,
+    "md": 16px,
+    "lg": 32px,
+    "none": 0px,
+    "full": 999px
+  )
+);
+
+$elevation: (
+  "raised": (
+    "low": (
+      "shadow-type": "dropShadow",
+      "radius": 2,
+      "color": #000000,
+      "offset-x": 0,
+      "offset-y": 1,
+      "spread": 0
+    )
+  )
+);
+
+$opacity: ();
+
+$layout: ();
+

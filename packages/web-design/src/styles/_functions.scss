@@ -32,6 +32,8 @@
     $next-path: list.append($path, $key);
     @if meta.type-of($value) == "map" {
       @include emit-css-variables($value, $namespace, $next-path);
+    } @else if meta.type-of($value) == "list" and list.length($value) == 0 {
+      // Skip empty lists (which is how SCSS represents empty maps)
     } @else {
       #{token-name($namespace, $next-path)}: #{$value};
     }
