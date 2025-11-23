@@ -46,6 +46,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: ${{ github.event.client_payload.commitMessage || 'Update design tokens from Figma' }}
           title: "Design tokens updated from Figma"
           body: "Design tokens have been updated via Figma and need to be reviewed."
