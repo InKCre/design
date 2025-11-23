@@ -8,6 +8,7 @@
     "build-tokens": "node scripts/build-token.mjs"
   },
   "devDependencies": {
-    "design-token-transformer": "^0.5.3"
+    "design-token-transformer": "^0.5.3",
+    "sass": "^1.94.2"
   }
 }
