@@ -136,16 +136,6 @@ StyleDictionary.registerFormat({
           current = current[subPath[i]];
         }
         current[subPath[subPath.length - 1]] = token.value;
-      } else if (token.path[0] === "font") {
-        const cat = "font";
-        if (!refTokens[cat]) refTokens[cat] = {};
-        const subPath = token.path.slice(1);
-        let current = refTokens[cat];
-        for (let i = 0; i < subPath.length - 1; i++) {
-          if (!current[subPath[i]]) current[subPath[i]] = {};
-          current = current[subPath[i]];
-        }
-        current[subPath[subPath.length - 1]] = token.value;
       } else if (token.path[0] === "effect" && token.path[1] === "elevation") {
         const cat = "elevation";
         if (!refTokens[cat]) refTokens[cat] = {};
@@ -171,6 +161,7 @@ StyleDictionary.registerFormat({
   name: "scss/map-sys",
   format: ({ dictionary }) => {
     const sysTokens = {};
+    const fontTokens = {};
     const categoryMap = {
       light: "light",
       dark: "dark",
@@ -187,6 +178,14 @@ StyleDictionary.registerFormat({
           current = current[subPath[i]];
         }
         current[subPath[subPath.length - 1]] = token.value;
+      } else if (token.path[0] === "font") {
+        const subPath = token.path.slice(1);
+        let current = fontTokens;
+        for (let i = 0; i < subPath.length - 1; i++) {
+          if (!current[subPath[i]]) current[subPath[i]] = {};
+          current = current[subPath[i]];
+        }
+        current[subPath[subPath.length - 1]] = token.value;
       }
     });
 
@@ -197,7 +196,36 @@ StyleDictionary.registerFormat({
     if (sysTokens.dark) {
       content += `$dark: ${objectToScssMap(sysTokens.dark)};\n\n`;
     }
-    content += `$component-tokens: ();\n`;
+    if (Object.keys(fontTokens).length > 0) {
+      content += `$font: ${objectToScssMap(fontTokens)};\n\n`;
+    }
+    return content;
+  },
+});
+
+StyleDictionary.registerFormat({
+  name: "scss/map-comp",
+  format: ({ dictionary }) => {
+    const compTokens = {};
+
+    dictionary.allTokens.forEach((token) => {
+      if (token.path[0] === "comp") {
+        const subPath = token.path.slice(1);
+        let current = compTokens;
+        for (let i = 0; i < subPath.length - 1; i++) {
+          if (!current[subPath[i]]) current[subPath[i]] = {};
+          current = current[subPath[i]];
+        }
+        current[subPath[subPath.length - 1]] = token.value;
+      }
+    });
+
+    let content = "";
+    if (Object.keys(compTokens).length > 0) {
+      content += `$component-tokens: ${objectToScssMap(compTokens)};\n`;
+    } else {
+      content += `$component-tokens: ();\n`;
+    }
     return content;
   },
 });
@@ -235,6 +263,22 @@ const sd = new StyleDictionary({
         {
           destination: "_sys.scss",
           format: "scss/map-sys",
+        },
+      ],
+    },
+    comp: {
+      transforms: [
+        transforms.attributeCti,
+        "attribute/kebab-path",
+        transforms.nameKebab,
+        "color/hex-no-alpha",
+        "size/px",
+      ],
+      buildPath: outputDir + sep,
+      files: [
+        {
+          destination: "_comp.scss",
+          format: "scss/map-comp",
         },
       ],
     },
