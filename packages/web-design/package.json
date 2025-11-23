@@ -1,0 +1,20 @@
+{
+  "name": "@inkcre/web-design",
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.22.0",
+  "description": "Design System for InKCre Web Projects",
+  "main": "dist/js/tokens.js",
+  "style": "dist/css/tokens.css",
+  "type": "module",
+  "files": ["dist"],
+  "scripts": {
+    "build-tokens": "node ./build-tokens.mjs"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "style-dictionary": "^4.0.0"
+  }
+}

@@ -1,0 +1,52 @@
+@use "./tokens/ref" as ref;
+@use "./tokens/sys" as sys;
+@use "./functions" as fn;
+
+// Consolidate reference primitives for CSS variable emission
+$ref-registry: (
+  palette: ref.$palette,
+  font: ref.$font,
+  space: ref.$space,
+  shape: ref.$shape,
+  elevation: ref.$elevation,
+  opacity: ref.$opacity,
+  layout: ref.$layout,
+);
+
+// Emit reference tokens as CSS variables for cross-layer consumption
+:root,
+html[data-theme="light"] {
+  color-scheme: light;
+  @include fn.emit-css-variables($ref-registry, "ref");
+  @include fn.emit-css-variables(sys.$light);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]),
+  html[data-theme="dark"] {
+    color-scheme: dark;
+    @include fn.emit-css-variables(sys.$dark);
+  }
+}
+
+// Component token registration for future component-scoped overrides
+:root {
+  @include fn.emit-css-variables(sys.$component-tokens, "comp");
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: fn.sys-var("color", "surface", "bg", "base");
+  color: fn.sys-var("color", "content", "text", "primary");
+  font-family: fn.sys-var("type", "body-md", "family");
+  font-size: fn.sys-var("type", "body-md", "size");
+  line-height: fn.sys-var("type", "body-md", "line-height");
+  letter-spacing: fn.sys-var("type", "body-md", "letter");
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
