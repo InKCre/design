@@ -32,7 +32,20 @@ $font: (
       "font-style": "normal",
       "font-stretch": "normal",
       "letter-spacing": 0,
-      "line-height": 16.8,
+      "line-height": 16,
+      "paragraph-indent": 0,
+      "paragraph-spacing": 0,
+      "text-case": "none"
+    ),
+    "md": (
+      "font-size": 12,
+      "text-decoration": "none",
+      "font-family": "Inter",
+      "font-weight": 400,
+      "font-style": "normal",
+      "font-stretch": "normal",
+      "letter-spacing": 0,
+      "line-height": 16,
       "paragraph-indent": 0,
       "paragraph-spacing": 0,
       "text-case": "none"
