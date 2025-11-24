@@ -2,6 +2,7 @@
 @use "./tokens/sys" as sys;
 @use "./tokens/comp" as comp;
 @use "./functions" as fn;
+@forward "./mixins";
 
 // Consolidate reference primitives for CSS variable emission
 $ref-registry: (

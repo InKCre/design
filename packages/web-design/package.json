@@ -1,19 +1,49 @@
 {
   "name": "@inkcre/web-design",
   "version": "0.1.0",
+  "type": "module",
   "packageManager": "pnpm@10.22.0",
   "description": "Design System for InKCre Web Projects",
-  "main": "dist/js/tokens.js",
-  "style": "dist/css/tokens.css",
-  "type": "module",
-  "files": ["dist"],
-  "scripts": {},
-
+  "main": "dist/index.js",
+  "sass": "dist/styles/index.scss",
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {},
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "sass": "./dist/styles/index.scss"
+    },
+    "./styles": {
+      "sass": "./dist/styles/index.scss"
+    },
+    "./styles/functions": {
+      "sass": "./dist/styles/_functions.scss"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "pnpm run clean && pnpm run build:js && pnpm run build:styles",
+    "build:js": "vite build",
+    "build:tokens": "node ../../scripts/build-tokens.mjs",
+    "build:styles": "rimraf dist/styles && cpr src/styles dist/styles -o",
+    "clean": "rimraf dist",
+    "preview": "vite preview"
+  },
   "devDependencies": {
-    "style-dictionary": "^4.0.0"
+    "@vitejs/plugin-vue": "^5.0.0",
+    "cpr": "^3.0.1",
+    "rimraf": "^6.0.1",
+    "sass": "^1.94.2",
+    "style-dictionary": "^4.0.0",
+    "vite": "^5.0.0",
+    "vue": "^3.4.0"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
   }
 }
