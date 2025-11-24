@@ -1,16 +1,15 @@
 @use "./tokens/ref" as ref;
 @use "./tokens/sys" as sys;
+@use "./tokens/comp" as comp;
 @use "./functions" as fn;
 
 // Consolidate reference primitives for CSS variable emission
 $ref-registry: (
   palette: ref.$palette,
-  font: ref.$font,
+  font: sys.$font,
   space: ref.$space,
   shape: ref.$shape,
   elevation: ref.$elevation,
-  opacity: ref.$opacity,
-  layout: ref.$layout,
 );
 
 // Emit reference tokens as CSS variables for cross-layer consumption
@@ -31,7 +30,7 @@ html[data-theme="light"] {
 
 // Component token registration for future component-scoped overrides
 :root {
-  @include fn.emit-css-variables(sys.$component-tokens, "comp");
+  @include fn.emit-css-variables(comp.$component-tokens, "comp");
 }
 
 * {
