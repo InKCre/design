@@ -18,7 +18,7 @@ mkdirSync(outputDir, { recursive: true });
 // Accept file path as command-line argument, otherwise use default
 const tokensPath = process.argv[2]
   ? resolve(rootDir, process.argv[2])
-  : resolve(rootDir, "inkcre.tokens.json");
+  : resolve(rootDir, "tokens/inkcre.tokens.json");
 const tokensJson = JSON.parse(readFileSync(tokensPath, "utf-8"));
 
 // Helper function to convert camelCase to kebab-case
@@ -123,6 +123,8 @@ StyleDictionary.registerFormat({
       shape: "shape",
       opacity: "opacity",
       layout: "layout",
+      typo: "typo",
+      breakpoint: "breakpoint",
     };
 
     dictionary.allTokens.forEach((token) => {
@@ -148,6 +150,13 @@ StyleDictionary.registerFormat({
         current[subPath[subPath.length - 1]] = token.value;
       }
     });
+
+    // Ensure all mapped categories are always present
+    Object.values(categoryMap).forEach((cat) => {
+      if (!refTokens[cat]) refTokens[cat] = {};
+    });
+    // Also ensure elevation is present
+    if (!refTokens.elevation) refTokens.elevation = {};
 
     let content = "";
     for (const [category, tokens] of Object.entries(refTokens)) {

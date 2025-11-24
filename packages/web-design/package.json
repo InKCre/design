@@ -20,6 +20,9 @@
     },
     "./styles/functions": {
       "sass": "./dist/styles/_functions.scss"
+    },
+    "./tokens/*": {
+      "sass": "./dist/styles/tokens/*.scss"
     }
   },
   "files": [
@@ -27,7 +30,7 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "pnpm run clean && pnpm run build:js && pnpm run build:styles",
+    "build": "pnpm run clean && pnpm run build:tokens && pnpm run build:js && pnpm run build:styles",
     "build:js": "vite build",
     "build:tokens": "node ../../scripts/build-tokens.mjs",
     "build:styles": "rimraf dist/styles && cpr src/styles dist/styles -o",

@@ -7,10 +7,11 @@
 // Consolidate reference primitives for CSS variable emission
 $ref-registry: (
   palette: ref.$palette,
-  font: sys.$font,
+  typo: ref.$typo,
   space: ref.$space,
   shape: ref.$shape,
   elevation: ref.$elevation,
+  breakpoint: ref.$breakpoint
 );
 
 // Emit reference tokens as CSS variables for cross-layer consumption
@@ -32,21 +33,5 @@ html[data-theme="light"] {
 // Component token registration for future component-scoped overrides
 :root {
   @include fn.emit-css-variables(comp.$component-tokens, "comp");
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  background: fn.sys-var("color", "surface", "bg", "base");
-  color: fn.sys-var("color", "content", "text", "primary");
-  font-family: fn.sys-var("type", "body-md", "family");
-  font-size: fn.sys-var("type", "body-md", "size");
-  line-height: fn.sys-var("type", "body-md", "line-height");
-  letter-spacing: fn.sys-var("type", "body-md", "letter");
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
 }
 

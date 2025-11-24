@@ -1,32 +1,40 @@
-build-tokens.mjs
+# `build-tokens.mjs` Doc
 
 Transforms design tokens from JSON to SCSS format.
 
-Input
+Input:
+
 - Default: inkcre.tokens.json
 - Optional: Custom path via command line argument
 
-Output
-- _ref.scss: Reference/primitive tokens
+Output:
+
+For packages/web-design:
+
+- src/style/tokens/_ref.scss: Reference/primitive tokens
   - palette (from ref.color)
   - space (from ref.space)
   - shape (from ref.shape)
+  - typo (from ref.typo)
+  - breakpoint (from ref.breakpoint)
   - elevation (from effect.elevation)
 
-- _sys.scss: System tokens
+- src/style/tokens/_sys.scss: System tokens
   - light (from sys.light)
   - dark (from sys.dark)
   - font (from font)
 
-- _comp.scss: Component tokens
+- src/style/tokens/_comp.scss: Component tokens
   - component-tokens (from comp)
 
 Transforms
+
 - attribute/kebab-path: Converts token paths to kebab-case
 - color/hex-no-alpha: Removes alpha channel from hex colors
 - size/px: Adds px unit to dimension tokens
 
 Token naming
+
 - camelCase converted to kebab-case
 - Special characters replaced with hyphens
 - All paths normalized to lowercase
