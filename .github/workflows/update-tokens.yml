@@ -51,3 +51,5 @@ jobs:
           body: "Design tokens have been updated via Figma and need to be reviewed."
           branch: design-tokens-update
           delete-branch: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
