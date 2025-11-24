@@ -566,6 +566,50 @@
           }
         }
       }
+    },
+    "breakpoint": {
+      "mobile": {
+        "type": "dimension",
+        "value": 768,
+        "extensions": {
+          "org.lukasoppermann.figmaDesignTokens": {
+            "collection": "ref",
+            "scopes": [
+              "ALL_SCOPES"
+            ],
+            "variableId": "VariableID:42:5",
+            "exportKey": "variables"
+          }
+        }
+      },
+      "tablet": {
+        "type": "dimension",
+        "value": 1024,
+        "extensions": {
+          "org.lukasoppermann.figmaDesignTokens": {
+            "collection": "ref",
+            "scopes": [
+              "ALL_SCOPES"
+            ],
+            "variableId": "VariableID:42:6",
+            "exportKey": "variables"
+          }
+        }
+      },
+      "desktop": {
+        "type": "dimension",
+        "value": 1280,
+        "extensions": {
+          "org.lukasoppermann.figmaDesignTokens": {
+            "collection": "ref",
+            "scopes": [
+              "ALL_SCOPES"
+            ],
+            "variableId": "VariableID:42:7",
+            "exportKey": "variables"
+          }
+        }
+      }
     }
   },
   "sys": {
