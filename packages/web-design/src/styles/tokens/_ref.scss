@@ -70,6 +70,15 @@ $palette: (
   )
 );
 
+$radius: (
+  "xs": 4px,
+  "sm": 8px,
+  "md": 16px,
+  "lg": 32px,
+  "none": 0px,
+  "full": 999px
+);
+
 $space: (
   "sm": 8px,
   "md": 16px,
@@ -94,8 +103,6 @@ $opacity: (
   "medium": 0.84px,
   "strong": 0.92px
 );
-
-$shape: ();
 
 $layout: ();
 
