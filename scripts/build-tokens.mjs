@@ -285,50 +285,42 @@ StyleDictionary.registerFormat({
   name: "scss/map-sys",
   format: ({ dictionary }) => {
     const sysTokens = {};
-    const categoryMap = {
-      light: "color-light",
-      dark: "color-dark",
-    };
 
     dictionary.allTokens.forEach((token) => {
-      if (token.path[0] === "sys" && categoryMap[token.path[1]]) {
-        const cat = categoryMap[token.path[1]];
+      if (
+        token.path[0] === "sys" &&
+        (token.path[1] === "light" || token.path[1] === "dark")
+      ) {
+        const mode = token.path[1];
+        const cat = `color-${mode}`;
         if (!sysTokens[cat]) sysTokens[cat] = {};
         const subPath = token.path.slice(2);
-        let current = sysTokens[cat];
-        for (let i = 0; i < subPath.length - 1; i++) {
-          if (!current[subPath[i]]) current[subPath[i]] = {};
-          current = current[subPath[i]];
-        }
-        // Check if the original value is a reference
-        const originalValue = token.original?.value || token.$value;
-        if (
-          typeof originalValue === "string" &&
-          originalValue.startsWith("{") &&
-          originalValue.endsWith("}")
-        ) {
-          // Store reference path along with resolved value
-          const refPath = originalValue.slice(1, -1);
-          current[subPath[subPath.length - 1]] = {
-            __ref: refPath,
-            value: token.value,
-          };
-        } else {
-          current[subPath[subPath.length - 1]] = token.value;
+        if (subPath[0] === "color") {
+          let current = sysTokens[cat];
+          for (let i = 1; i < subPath.length - 1; i++) {
+            const key = subPath[i];
+            if (!current[key]) current[key] = {};
+            current = current[key];
+          }
+          // Check if the original value is a reference
+          const originalValue = token.original?.value || token.$value;
+          if (
+            typeof originalValue === "string" &&
+            originalValue.startsWith("{") &&
+            originalValue.endsWith("}")
+          ) {
+            // Store reference path along with resolved value
+            const refPath = originalValue.slice(1, -1);
+            current[subPath[subPath.length - 1]] = {
+              __ref: refPath,
+              value: token.value,
+            };
+          } else {
+            current[subPath[subPath.length - 1]] = token.value;
+          }
         }
       }
     });
-
-    // Helper to extract non-color categories from a theme object
-    function extractBaseCategories(themeTokens) {
-      const base = {};
-      for (const [key, value] of Object.entries(themeTokens)) {
-        if (key !== "color") {
-          base[key] = value;
-        }
-      }
-      return base;
-    }
 
     let content = '@use "../functions" as fn;\n@use "./ref" as ref;\n\n';
     if (sysTokens["color-light"]) {

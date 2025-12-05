@@ -22,8 +22,8 @@ For packages/web-design:
   - all: aggregate all the above categories.
 
 - src/style/tokens/_sys.scss: System tokens
-  - color-light (from sys.light)
-  - color-dark (from sys.dark)
+  - color-light (from sys.light.color)
+  - color-dark (from sys.dark.color)
   - base: aggregate tokens other than color
 
 - src/style/tokens/_comp.scss: Component tokens, from `comp`
