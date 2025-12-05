@@ -120,7 +120,7 @@ StyleDictionary.registerFormat({
     const categoryMap = {
       color: "palette",
       space: "space",
-      shape: "shape",
+      radius: "radius",
       opacity: "opacity",
       layout: "layout",
       typo: "typo",

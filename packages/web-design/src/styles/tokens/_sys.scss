@@ -1,23 +1,49 @@
 $light: (
-  "base": #fbfcff,
   "color": (
-    "content": (
-      "base": #0b1220
+    "text": (
+      "base": #070707,
+      "muted": #5e5e5e,
+      "danger": #d12d3d,
+      "primary": #fbfcff
     ),
     "surface": (
-      "base": #fbfcff
+      "base": #f9f9f9,
+      "muted": #e2e2e2,
+      "subtle": #f9f9f9
+    ),
+    "border": (
+      "base": #303030,
+      "strong": #070707,
+      "subtle": #eeeeee,
+      "muted": #919191
+    ),
+    "primary": (
+      "base": #121928
     )
   )
 );
 
 $dark: (
-  "base": #111827,
   "color": (
-    "content": (
-      "base": #fbfcff
+    "text": (
+      "base": #f9f9f9,
+      "muted": #f9f9f9,
+      "danger": #d12d3d,
+      "primary": #0b1220
     ),
     "surface": (
-      "base": #111827
+      "base": #131313,
+      "muted": #131313,
+      "subtle": #131313
+    ),
+    "border": (
+      "base": #5e5e5e,
+      "strong": #c6c6c6,
+      "subtle": #5e5e5e,
+      "muted": #5e5e5e
+    ),
+    "primary": (
+      "base": #c6c6c6
     )
   )
 );
@@ -46,6 +72,64 @@ $font: (
       "font-stretch": "normal",
       "letter-spacing": 0,
       "line-height": 16,
+      "paragraph-indent": 0,
+      "paragraph-spacing": 0,
+      "text-case": "none"
+    ),
+    "sm": (
+      "font-size": 10,
+      "text-decoration": "none",
+      "font-family": "Roboto",
+      "font-weight": 700,
+      "font-style": "normal",
+      "font-stretch": "normal",
+      "letter-spacing": 0.7,
+      "line-height": 14,
+      "paragraph-indent": 0,
+      "paragraph-spacing": 0,
+      "text-case": "none"
+    )
+  ),
+  "title": (
+    "sm": (
+      "font-size": 22,
+      "text-decoration": "none",
+      "font-family": "Inter",
+      "font-weight": 400,
+      "font-style": "normal",
+      "font-stretch": "normal",
+      "letter-spacing": 0,
+      "line-height": 28,
+      "paragraph-indent": 0,
+      "paragraph-spacing": 0,
+      "text-case": "none"
+    )
+  ),
+  "body": (
+    "lg": (
+      "font-size": 18,
+      "text-decoration": "none",
+      "font-family": "Inter",
+      "font-weight": 400,
+      "font-style": "normal",
+      "font-stretch": "normal",
+      "letter-spacing": 0,
+      "line-height": 24,
+      "paragraph-indent": 0,
+      "paragraph-spacing": 0,
+      "text-case": "none"
+    )
+  ),
+  "headline": (
+    "lg": (
+      "font-size": 36,
+      "text-decoration": "none",
+      "font-family": "Inter",
+      "font-weight": 400,
+      "font-style": "normal",
+      "font-stretch": "normal",
+      "letter-spacing": 0,
+      "line-height": 48,
       "paragraph-indent": 0,
       "paragraph-spacing": 0,
       "text-case": "none"

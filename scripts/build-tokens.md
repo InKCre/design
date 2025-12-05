@@ -14,10 +14,11 @@ For packages/web-design:
 - src/style/tokens/_ref.scss: Reference/primitive tokens
   - palette (from ref.color)
   - space (from ref.space)
-  - shape (from ref.shape)
+  - radius (from ref.radius)
   - typo (from ref.typo)
-  - breakpoint (from ref.breakpoint)
   - elevation (from effect.elevation)
+  - opacity (from ref.opacity)
+  - breakpoint (from ref.breakpoint)
 
 - src/style/tokens/_sys.scss: System tokens
   - light (from sys.light)
