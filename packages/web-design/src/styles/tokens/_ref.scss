@@ -28,9 +28,10 @@ $elevation: (
 );
 
 $color: (
-  "brand": (
-    "0": #000000,
-    "10": #1b1b1b,
+  "neutral": (
+    "2": #070707,
+    "6": #131313,
+    "12": #1f1f1f,
     "20": #303030,
     "30": #474747,
     "40": #5e5e5e,
@@ -132,6 +133,64 @@ $font: (
       "paragraph-indent": 0,
       "paragraph-spacing": 0,
       "text-case": "none"
+    ),
+    "sm": (
+      "font-size": 10,
+      "text-decoration": "none",
+      "font-family": "Roboto",
+      "font-weight": 700,
+      "font-style": "normal",
+      "font-stretch": "normal",
+      "letter-spacing": 0.7,
+      "line-height": 14,
+      "paragraph-indent": 0,
+      "paragraph-spacing": 0,
+      "text-case": "none"
+    )
+  ),
+  "title": (
+    "sm": (
+      "font-size": 22,
+      "text-decoration": "none",
+      "font-family": "Inter",
+      "font-weight": 400,
+      "font-style": "normal",
+      "font-stretch": "normal",
+      "letter-spacing": 0,
+      "line-height": 28,
+      "paragraph-indent": 0,
+      "paragraph-spacing": 0,
+      "text-case": "none"
+    )
+  ),
+  "body": (
+    "lg": (
+      "font-size": 18,
+      "text-decoration": "none",
+      "font-family": "Inter",
+      "font-weight": 400,
+      "font-style": "normal",
+      "font-stretch": "normal",
+      "letter-spacing": 0,
+      "line-height": 24,
+      "paragraph-indent": 0,
+      "paragraph-spacing": 0,
+      "text-case": "none"
+    )
+  ),
+  "headline": (
+    "lg": (
+      "font-size": 36,
+      "text-decoration": "none",
+      "font-family": "Inter",
+      "font-weight": 400,
+      "font-style": "normal",
+      "font-stretch": "normal",
+      "letter-spacing": 0,
+      "line-height": 48,
+      "paragraph-indent": 0,
+      "paragraph-spacing": 0,
+      "text-case": "none"
     )
   )
 );
@@ -139,7 +198,7 @@ $font: (
 $all: (
   "elevation": $elevation,
   "color": $color,
-  "shape": $shape,
+  "radius": $radius,
   "space": $space,
   "typo": $typo,
   "breakpoint": $breakpoint,

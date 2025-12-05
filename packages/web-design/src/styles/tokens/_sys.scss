@@ -2,30 +2,54 @@
 @use "./ref" as ref;
 
 $color-light: (
-  "base": fn.map-deep-get(ref.$color, "neutral", "98"),
   "color": (
-    "content": (
-      "base": fn.map-deep-get(ref.$color, "neutral", "2")
+    "text": (
+      "base": fn.map-deep-get(ref.$color, "neutral", "2"),
+      "muted": fn.map-deep-get(ref.$color, "neutral", "40"),
+      "danger": fn.map-deep-get(ref.$color, "danger", "40"),
+      "primary": fn.map-deep-get(ref.$color, "brand", "98")
     ),
     "surface": (
-      "base": fn.map-deep-get(ref.$color, "neutral", "98")
+      "base": fn.map-deep-get(ref.$color, "neutral", "98"),
+      "muted": fn.map-deep-get(ref.$color, "neutral", "90"),
+      "subtle": fn.map-deep-get(ref.$color, "neutral", "98")
+    ),
+    "border": (
+      "base": fn.map-deep-get(ref.$color, "neutral", "20"),
+      "strong": fn.map-deep-get(ref.$color, "neutral", "2"),
+      "subtle": fn.map-deep-get(ref.$color, "neutral", "94"),
+      "muted": fn.map-deep-get(ref.$color, "neutral", "60")
+    ),
+    "primary": (
+      "base": fn.map-deep-get(ref.$color, "brand", "6")
     )
   )
 );
 
 $color-dark: (
-  "base": fn.map-deep-get(ref.$color, "neutral", "6"),
   "color": (
-    "content": (
-      "base": fn.map-deep-get(ref.$color, "neutral", "98")
+    "text": (
+      "base": fn.map-deep-get(ref.$color, "neutral", "98"),
+      "muted": fn.map-deep-get(ref.$color, "neutral", "98"),
+      "danger": fn.map-deep-get(ref.$color, "danger", "40"),
+      "primary": fn.map-deep-get(ref.$color, "brand", "2")
     ),
     "surface": (
-      "base": fn.map-deep-get(ref.$color, "neutral", "6")
+      "base": fn.map-deep-get(ref.$color, "neutral", "6"),
+      "muted": fn.map-deep-get(ref.$color, "neutral", "6"),
+      "subtle": fn.map-deep-get(ref.$color, "neutral", "6")
+    ),
+    "border": (
+      "base": fn.map-deep-get(ref.$color, "neutral", "40"),
+      "strong": fn.map-deep-get(ref.$color, "neutral", "80"),
+      "subtle": fn.map-deep-get(ref.$color, "neutral", "40"),
+      "muted": fn.map-deep-get(ref.$color, "neutral", "40")
+    ),
+    "primary": (
+      "base": fn.map-deep-get(ref.$color, "neutral", "80")
     )
   )
 );
 
-$base: (
-  "base": fn.map-deep-get(ref.$color, "neutral", "98")
-);
+$base: ();
 
