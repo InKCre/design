@@ -4,34 +4,26 @@
 @use "./functions" as fn;
 @forward "./mixins";
 
-// Consolidate reference primitives for CSS variable emission
-$ref-registry: (
-  palette: ref.$palette,
-  typo: ref.$typo,
-  space: ref.$space,
-  shape: ref.$shape,
-  elevation: ref.$elevation,
-  breakpoint: ref.$breakpoint
-);
+// Emit tokens as CSS variables for cross-layer consumption
 
-// Emit reference tokens as CSS variables for cross-layer consumption
+:root {
+  @include fn.emit-css-variables(ref.$all, "ref");
+  @include fn.emit-css-variables(sys.$base, "sys");
+  @include fn.emit-css-variables(comp.$all, "comp");
+}
+
 :root,
 html[data-theme="light"] {
   color-scheme: light;
-  @include fn.emit-css-variables($ref-registry, "ref");
-  @include fn.emit-css-variables(sys.$light);
+  @include fn.emit-css-variables(sys.$color-light);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]),
   html[data-theme="dark"] {
     color-scheme: dark;
-    @include fn.emit-css-variables(sys.$dark);
+    @include fn.emit-css-variables(sys.$color-dark);
   }
 }
 
-// Component token registration for future component-scoped overrides
-:root {
-  @include fn.emit-css-variables(comp.$component-tokens, "comp");
-}
 

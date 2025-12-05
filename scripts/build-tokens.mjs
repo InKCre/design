@@ -117,8 +117,9 @@ StyleDictionary.registerFormat({
   name: "scss/map-ref",
   format: ({ dictionary }) => {
     const refTokens = {};
+    const fontTokens = {};
     const categoryMap = {
-      color: "palette",
+      color: "color",
       space: "space",
       shape: "shape",
       opacity: "opacity",
@@ -148,6 +149,15 @@ StyleDictionary.registerFormat({
           current = current[subPath[i]];
         }
         current[subPath[subPath.length - 1]] = token.value;
+      } else if (token.path[0] === "font") {
+        // Font tokens go to ref
+        const subPath = token.path.slice(1);
+        let current = fontTokens;
+        for (let i = 0; i < subPath.length - 1; i++) {
+          if (!current[subPath[i]]) current[subPath[i]] = {};
+          current = current[subPath[i]];
+        }
+        current[subPath[subPath.length - 1]] = token.value;
       }
     });
 
@@ -162,18 +172,118 @@ StyleDictionary.registerFormat({
     for (const [category, tokens] of Object.entries(refTokens)) {
       content += `$${category}: ${objectToScssMap(tokens)};\n\n`;
     }
+    // Add font tokens
+    if (Object.keys(fontTokens).length > 0) {
+      content += `$font: ${objectToScssMap(fontTokens)};\n\n`;
+    } else {
+      content += `$font: ();\n\n`;
+    }
+
+    // Generate $all map that aggregates all ref maps
+    const allCategories = Object.keys(refTokens);
+    if (Object.keys(fontTokens).length > 0) {
+      allCategories.push("font");
+    }
+    if (allCategories.length > 0) {
+      const allEntries = allCategories
+        .map((cat) => `  "${cat}": $${cat}`)
+        .join(",\n");
+      content += `$all: (\n${allEntries}\n);\n`;
+    } else {
+      content += `$all: ();\n`;
+    }
+
     return content;
   },
 });
+
+// Helper function to convert ref token reference to map-deep-get call
+function refToMapDeepGet(refPath) {
+  // refPath is like "ref.color.neutral.98" -> map-deep-get(ref.$color, "neutral", "98")
+  const parts = refPath.split(".");
+  if (parts[0] !== "ref" || parts.length < 3) {
+    return null;
+  }
+
+  const refCategory = parts[1];
+  const categoryMap = {
+    color: "color",
+    space: "space",
+    shape: "shape",
+    opacity: "opacity",
+    layout: "layout",
+    typo: "typo",
+    breakpoint: "breakpoint",
+  };
+
+  const scssVar = categoryMap[refCategory];
+  if (!scssVar) {
+    return null;
+  }
+
+  const keyPath = parts
+    .slice(2)
+    .map((k) => `"${toKebabCase(k)}"`)
+    .join(", ");
+  return `fn.map-deep-get(ref.$${scssVar}, ${keyPath})`;
+}
+
+// Helper function to convert nested object to SCSS map string with reference support
+function objectToScssMapWithRefs(obj, indent = 0) {
+  const spaces = "  ".repeat(indent);
+  const nextSpaces = "  ".repeat(indent + 1);
+
+  if (typeof obj !== "object" || obj === null) {
+    return formatValueWithRef(obj);
+  }
+
+  const entries = Object.entries(obj);
+  if (entries.length === 0) {
+    return "()";
+  }
+
+  const lines = entries.map(([key, value]) => {
+    const scssKey = toKebabCase(key.replace(/[^a-zA-Z0-9_-]/g, "-"));
+    if (typeof value === "object" && value !== null && !Array.isArray(value)) {
+      // Check if this is a token object with __ref property
+      if (value.__ref) {
+        const mapDeepGet = refToMapDeepGet(value.__ref);
+        if (mapDeepGet) {
+          return `${nextSpaces}"${scssKey}": ${mapDeepGet}`;
+        }
+      }
+      return `${nextSpaces}"${scssKey}": ${objectToScssMapWithRefs(
+        value,
+        indent + 1
+      )}`;
+    }
+    return `${nextSpaces}"${scssKey}": ${formatValueWithRef(value)}`;
+  });
+
+  return `(\n${lines.join(",\n")}\n${spaces})`;
+}
+
+// Helper function to format values for SCSS with reference support
+function formatValueWithRef(value) {
+  if (value === null || value === undefined) {
+    return "null";
+  }
+  if (typeof value === "object" && value.__ref) {
+    const mapDeepGet = refToMapDeepGet(value.__ref);
+    if (mapDeepGet) {
+      return mapDeepGet;
+    }
+  }
+  return formatValue(value);
+}
 
 StyleDictionary.registerFormat({
   name: "scss/map-sys",
   format: ({ dictionary }) => {
     const sysTokens = {};
-    const fontTokens = {};
     const categoryMap = {
-      light: "light",
-      dark: "dark",
+      light: "color-light",
+      dark: "color-dark",
     };
 
     dictionary.allTokens.forEach((token) => {
@@ -186,27 +296,56 @@ StyleDictionary.registerFormat({
           if (!current[subPath[i]]) current[subPath[i]] = {};
           current = current[subPath[i]];
         }
-        current[subPath[subPath.length - 1]] = token.value;
-      } else if (token.path[0] === "font") {
-        const subPath = token.path.slice(1);
-        let current = fontTokens;
-        for (let i = 0; i < subPath.length - 1; i++) {
-          if (!current[subPath[i]]) current[subPath[i]] = {};
-          current = current[subPath[i]];
+        // Check if the original value is a reference
+        const originalValue = token.original?.value || token.$value;
+        if (
+          typeof originalValue === "string" &&
+          originalValue.startsWith("{") &&
+          originalValue.endsWith("}")
+        ) {
+          // Store reference path along with resolved value
+          const refPath = originalValue.slice(1, -1);
+          current[subPath[subPath.length - 1]] = {
+            __ref: refPath,
+            value: token.value,
+          };
+        } else {
+          current[subPath[subPath.length - 1]] = token.value;
         }
-        current[subPath[subPath.length - 1]] = token.value;
       }
     });
 
-    let content = "";
-    if (sysTokens.light) {
-      content += `$light: ${objectToScssMap(sysTokens.light)};\n\n`;
+    // Helper to extract non-color categories from a theme object
+    function extractBaseCategories(themeTokens) {
+      const base = {};
+      for (const [key, value] of Object.entries(themeTokens)) {
+        if (key !== "color") {
+          base[key] = value;
+        }
+      }
+      return base;
     }
-    if (sysTokens.dark) {
-      content += `$dark: ${objectToScssMap(sysTokens.dark)};\n\n`;
+
+    let content = '@use "../functions" as fn;\n@use "./ref" as ref;\n\n';
+    if (sysTokens["color-light"]) {
+      content += `$color-light: ${objectToScssMapWithRefs(
+        sysTokens["color-light"]
+      )};\n\n`;
     }
-    if (Object.keys(fontTokens).length > 0) {
-      content += `$font: ${objectToScssMap(fontTokens)};\n\n`;
+    if (sysTokens["color-dark"]) {
+      content += `$color-dark: ${objectToScssMapWithRefs(
+        sysTokens["color-dark"]
+      )};\n\n`;
+    }
+    // Generate $base map aggregating non-color categories from light theme
+    // (base categories are typically theme-independent)
+    const baseTokens = sysTokens["color-light"]
+      ? extractBaseCategories(sysTokens["color-light"])
+      : {};
+    if (Object.keys(baseTokens).length > 0) {
+      content += `$base: ${objectToScssMapWithRefs(baseTokens)};\n\n`;
+    } else {
+      content += `$base: ();\n\n`;
     }
     return content;
   },
@@ -219,22 +358,49 @@ StyleDictionary.registerFormat({
 
     dictionary.allTokens.forEach((token) => {
       if (token.path[0] === "comp") {
-        const subPath = token.path.slice(1);
-        let current = compTokens;
-        for (let i = 0; i < subPath.length - 1; i++) {
-          if (!current[subPath[i]]) current[subPath[i]] = {};
-          current = current[subPath[i]];
+        // First level after "comp" is the component name (e.g., "ink-button")
+        const componentName = token.path[1];
+        if (!componentName) return;
+
+        if (!compTokens[componentName]) compTokens[componentName] = {};
+
+        const subPath = token.path.slice(2);
+        if (subPath.length === 0) {
+          // Direct value on component level
+          compTokens[componentName] = token.value;
+        } else {
+          let current = compTokens[componentName];
+          for (let i = 0; i < subPath.length - 1; i++) {
+            if (!current[subPath[i]]) current[subPath[i]] = {};
+            current = current[subPath[i]];
+          }
+          current[subPath[subPath.length - 1]] = token.value;
         }
-        current[subPath[subPath.length - 1]] = token.value;
       }
     });
 
     let content = "";
-    if (Object.keys(compTokens).length > 0) {
-      content += `$component-tokens: ${objectToScssMap(compTokens)};\n`;
-    } else {
-      content += `$component-tokens: ();\n`;
+    const componentNames = [];
+
+    // Generate individual component variables at root level
+    for (const [componentName, tokens] of Object.entries(compTokens)) {
+      const scssVarName = toKebabCase(
+        componentName.replace(/[^a-zA-Z0-9_-]/g, "-")
+      );
+      componentNames.push(scssVarName);
+      content += `$${scssVarName}: ${objectToScssMap(tokens)};\n\n`;
     }
+
+    // Generate $all map that aggregates all component maps
+    if (componentNames.length > 0) {
+      const allEntries = componentNames
+        .map((name) => `  "${name}": $${name}`)
+        .join(",\n");
+      content += `$all: (\n${allEntries}\n);\n`;
+    } else {
+      content += `$all: ();\n`;
+    }
+
     return content;
   },
 });

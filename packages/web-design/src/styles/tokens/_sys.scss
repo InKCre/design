@@ -1,55 +1,31 @@
-$light: (
-  "base": #fbfcff,
+@use "../functions" as fn;
+@use "./ref" as ref;
+
+$color-light: (
+  "base": fn.map-deep-get(ref.$color, "neutral", "98"),
   "color": (
     "content": (
-      "base": #0b1220
+      "base": fn.map-deep-get(ref.$color, "neutral", "2")
     ),
     "surface": (
-      "base": #fbfcff
+      "base": fn.map-deep-get(ref.$color, "neutral", "98")
     )
   )
 );
 
-$dark: (
-  "base": #111827,
+$color-dark: (
+  "base": fn.map-deep-get(ref.$color, "neutral", "6"),
   "color": (
     "content": (
-      "base": #fbfcff
+      "base": fn.map-deep-get(ref.$color, "neutral", "98")
     ),
     "surface": (
-      "base": #111827
+      "base": fn.map-deep-get(ref.$color, "neutral", "6")
     )
   )
 );
 
-$font: (
-  "label": (
-    "lg": (
-      "font-size": 14,
-      "text-decoration": "none",
-      "font-family": "Inter",
-      "font-weight": 400,
-      "font-style": "normal",
-      "font-stretch": "normal",
-      "letter-spacing": 0,
-      "line-height": 16,
-      "paragraph-indent": 0,
-      "paragraph-spacing": 0,
-      "text-case": "none"
-    ),
-    "md": (
-      "font-size": 12,
-      "text-decoration": "none",
-      "font-family": "Inter",
-      "font-weight": 400,
-      "font-style": "normal",
-      "font-stretch": "normal",
-      "letter-spacing": 0,
-      "line-height": 16,
-      "paragraph-indent": 0,
-      "paragraph-spacing": 0,
-      "text-case": "none"
-    )
-  )
+$base: (
+  "base": fn.map-deep-get(ref.$color, "neutral", "98")
 );
 

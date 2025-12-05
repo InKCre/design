@@ -1,6 +1,6 @@
 # `build-tokens.mjs` Doc
 
-Transforms design tokens from JSON to SCSS format.
+Transforms design tokens from JSON (follows W3C DTCG) to SCSS format.
 
 Input:
 
@@ -12,20 +12,23 @@ Output:
 For packages/web-design:
 
 - src/style/tokens/_ref.scss: Reference/primitive tokens
-  - palette (from ref.color)
-  - space (from ref.space)
-  - shape (from ref.shape)
-  - typo (from ref.typo)
-  - breakpoint (from ref.breakpoint)
-  - elevation (from effect.elevation)
+  - color (from `ref.color`)
+  - space (from `ref.space`)
+  - shape (from `ref.shape`)
+  - typo (from `ref.typo`)
+  - font (from `typography`)
+  - breakpoint (from `ref.breakpoint`)
+  - elevation (from `effect.elevation`)
+  - all: aggregate all the above categories.
 
 - src/style/tokens/_sys.scss: System tokens
-  - light (from sys.light)
-  - dark (from sys.dark)
-  - font (from font)
+  - color-light (from sys.light)
+  - color-dark (from sys.dark)
+  - base: aggregate tokens other than color
 
-- src/style/tokens/_comp.scss: Component tokens
-  - component-tokens (from comp)
+- src/style/tokens/_comp.scss: Component tokens, from `comp`
+  - <comp-name> (from `comp.<comp-name>`)
+  - all: aggregate all components tokens
 
 Transforms
 

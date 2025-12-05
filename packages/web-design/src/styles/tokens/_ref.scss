@@ -27,7 +27,7 @@ $elevation: (
   )
 );
 
-$palette: (
+$color: (
   "brand": (
     "0": #000000,
     "10": #1b1b1b,
@@ -91,3 +91,45 @@ $opacity: ();
 
 $layout: ();
 
+$font: (
+  "label": (
+    "lg": (
+      "font-size": 14,
+      "text-decoration": "none",
+      "font-family": "Inter",
+      "font-weight": 400,
+      "font-style": "normal",
+      "font-stretch": "normal",
+      "letter-spacing": 0,
+      "line-height": 16,
+      "paragraph-indent": 0,
+      "paragraph-spacing": 0,
+      "text-case": "none"
+    ),
+    "md": (
+      "font-size": 12,
+      "text-decoration": "none",
+      "font-family": "Inter",
+      "font-weight": 400,
+      "font-style": "normal",
+      "font-stretch": "normal",
+      "letter-spacing": 0,
+      "line-height": 16,
+      "paragraph-indent": 0,
+      "paragraph-spacing": 0,
+      "text-case": "none"
+    )
+  )
+);
+
+$all: (
+  "elevation": $elevation,
+  "color": $color,
+  "shape": $shape,
+  "space": $space,
+  "typo": $typo,
+  "breakpoint": $breakpoint,
+  "opacity": $opacity,
+  "layout": $layout,
+  "font": $font
+);
