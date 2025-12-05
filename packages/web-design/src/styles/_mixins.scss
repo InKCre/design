@@ -2,11 +2,10 @@
 @use "./functions" as fn;
 
 @mixin apply-typo($token) {
-  font-family: fn.sys-var("type", $token, "family");
-  font-size: fn.sys-var("type", $token, "size");
-  font-weight: fn.sys-var("type", $token, "weight");
-  line-height: fn.sys-var("type", $token, "line-height");
-  letter-spacing: fn.sys-var("type", $token, "letter");
+  font-size: fn.sys-var("font", $token, "size");
+  font-weight: fn.sys-var("font", $token, "weight");
+  line-height: fn.sys-var("font", $token, "line-height");
+  letter-spacing: fn.sys-var("font", $token, "letter");
 }
 
 

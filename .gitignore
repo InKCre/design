@@ -13,3 +13,6 @@ tmp
 
 # build files
 *.tgz
+
+# logs
+debug.log

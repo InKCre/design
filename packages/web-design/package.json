@@ -16,10 +16,14 @@
       "sass": "./dist/styles/index.scss"
     },
     "./styles": {
-      "sass": "./dist/styles/index.scss"
+      "sass": "./dist/styles/index.scss",
+      "default": "./dist/styles/index.scss"
     },
     "./styles/functions": {
       "sass": "./dist/styles/_functions.scss"
+    },
+    "./styles/mixins": {
+      "sass": "./dist/styles/_mixins.scss"
     },
     "./tokens/*": {
       "sass": "./dist/styles/tokens/*.scss"
