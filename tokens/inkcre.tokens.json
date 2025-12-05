@@ -1042,7 +1042,7 @@
           "base": {
             "description": "",
             "type": "color",
-            "value": "{ref.color.neutral.98}",
+            "value": "{ref.color.neutral.100}",
             "extensions": {
               "org.lukasoppermann.figmaDesignTokens": {
                 "mode": "Light",
@@ -1160,25 +1160,6 @@
               }
             }
           }
-        },
-        "primary": {
-          "base": {
-            "description": "",
-            "type": "color",
-            "value": "{ref.color.brand.6}",
-            "extensions": {
-              "org.lukasoppermann.figmaDesignTokens": {
-                "mode": "Light",
-                "modeId": "21:0",
-                "collection": "sys",
-                "scopes": [
-                  "ALL_SCOPES"
-                ],
-                "variableId": "VariableID:94:19",
-                "exportKey": "variables"
-              }
-            }
-          }
         }
       }
     },
@@ -1258,7 +1239,7 @@
           "base": {
             "description": "",
             "type": "color",
-            "value": "{ref.color.neutral.6}",
+            "value": "{ref.color.neutral.30}",
             "extensions": {
               "org.lukasoppermann.figmaDesignTokens": {
                 "mode": "Dark",
@@ -1292,7 +1273,7 @@
           "subtle": {
             "description": "",
             "type": "color",
-            "value": "{ref.color.neutral.6}",
+            "value": "{ref.color.neutral.12}",
             "extensions": {
               "org.lukasoppermann.figmaDesignTokens": {
                 "mode": "Dark",
@@ -1372,25 +1353,6 @@
                   "ALL_SCOPES"
                 ],
                 "variableId": "VariableID:147:49",
-                "exportKey": "variables"
-              }
-            }
-          }
-        },
-        "primary": {
-          "base": {
-            "description": "",
-            "type": "color",
-            "value": "{ref.color.neutral.80}",
-            "extensions": {
-              "org.lukasoppermann.figmaDesignTokens": {
-                "mode": "Dark",
-                "modeId": "21:2",
-                "collection": "sys",
-                "scopes": [
-                  "ALL_SCOPES"
-                ],
-                "variableId": "VariableID:94:19",
                 "exportKey": "variables"
               }
             }
