@@ -2,16 +2,16 @@
 @use "./functions" as fn;
 
 @mixin apply-font($token, $mono: false) {
-  font-size: fn.sys-var("font", $token, "size");
-  font-weight: fn.sys-var("font", $token, "weight");
+  font-size: fn.sys-var("font", $token, "font-size");
+  font-weight: fn.sys-var("font", $token, "font-weight");
   line-height: fn.sys-var("font", $token, "line-height");
-  letter-spacing: fn.sys-var("font", $token, "letter");
+  letter-spacing: fn.sys-var("font", $token, "letter-spacing");
 
   @if $mono {
-    font-family: fn.ref-var("font", "family", "mono");
+    font-family: fn.ref-var("typo", "family", "mono");
   }
 }
 
 @mixin font-mono {
-  font-family: fn.ref-var("font", "family", "mono");
+  font-family: fn.ref-var("typo", "family", "mono");
 }

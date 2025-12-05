@@ -51,5 +51,14 @@ $color-dark: (
   )
 );
 
-$base: ();
+$base: (
+  "elevation": ref.$elevation,
+  "radius": ref.$radius,
+  "space": ref.$space,
+  "typo": ref.$typo,
+  "breakpoint": ref.$breakpoint,
+  "opacity": ref.$opacity,
+  "layout": ref.$layout,
+  "font": ref.$font
+);
 

@@ -45,14 +45,14 @@ function objectToScssMap(obj, indent = 0) {
     if (typeof value === "object" && value !== null && !Array.isArray(value)) {
       return `${nextSpaces}"${scssKey}": ${objectToScssMap(value, indent + 1)}`;
     }
-    return `${nextSpaces}"${scssKey}": ${formatValue(value)}`;
+    return `${nextSpaces}"${scssKey}": ${formatValue(value, scssKey)}`;
   });
 
   return `(\n${lines.join(",\n")}\n${spaces})`;
 }
 
 // Helper function to format values for SCSS
-function formatValue(value) {
+function formatValue(value, key) {
   if (value === null || value === undefined) {
     return "null";
   }
@@ -68,6 +68,10 @@ function formatValue(value) {
     return `"${value}"`;
   }
   if (typeof value === "number") {
+    // Add px for font-size and line-height
+    if (key === "font-size" || key === "line-height") {
+      return `${value}px`;
+    }
     return value.toString();
   }
   if (typeof value === "boolean") {
@@ -337,16 +341,17 @@ StyleDictionary.registerFormat({
         sysTokens["color-dark"]
       )};\n\n`;
     }
-    // Generate $base map aggregating non-color categories from light theme
-    // (base categories are typically theme-independent)
-    const baseTokens = sysTokens["color-light"]
-      ? extractBaseCategories(sysTokens["color-light"])
-      : {};
-    if (Object.keys(baseTokens).length > 0) {
-      content += `$base: ${objectToScssMapWithRefs(baseTokens)};\n\n`;
-    } else {
-      content += `$base: ();\n\n`;
-    }
+    // Generate $base map aggregating ref elevation, radius, space, typo, breakpoint, opacity, layout, and font
+    content += `$base: (
+  "elevation": ref.$elevation,
+  "radius": ref.$radius,
+  "space": ref.$space,
+  "typo": ref.$typo,
+  "breakpoint": ref.$breakpoint,
+  "opacity": ref.$opacity,
+  "layout": ref.$layout,
+  "font": ref.$font
+);\n\n`;
     return content;
   },
 });
