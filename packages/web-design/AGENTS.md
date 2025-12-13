@@ -8,16 +8,14 @@ This package provides a consistent design system and common components for InKCr
 - Internalization: vue-i18n
 - Packagae management: pnpm
 
-## Project Strucutre
+## Project Strucutre (Crucial Only)
 
 This project is a sub repo of `InKCre/design` workspace.
 
 ```
 src/
-├── components/         # Vue components
+├── components/         
 ├── styles/             # Design tokens in sass map and sass utilties
     └── tokens/         # Design token exports
-├── main.ts             # Development entry
-├── App.vue             # Development playground
-└── index.js            # Library entry point
+├── ...vite.config.ts, vitest.config.ts, histoire.config.ts, package.json
 ```

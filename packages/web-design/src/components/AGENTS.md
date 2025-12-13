@@ -4,10 +4,12 @@
 
 Each component has a folder (`compName/`) containing the following files:
 
-- `compName.md`: component documentation, [more](./AGENTS.comp-doc.md)
-- `compName.vue`: template, component specific logic, [more](./AGENTS.comp-vue.md)
-- `compName.ts`: component props, emits, models, types, constants, utilities, [detailed guide](./AGENTS.comp-ts.md)
-- `compName.scss`: component styles, [more](./AGENTS.comp-scss.md)
+- `compName.vue`: template, component specific logic, [guide](./AGENTS.comp-vue.md)
+- `compName.ts`: component props, emits, models, types, constants, utilities, [guide](./AGENTS.comp-ts.md)
+- `compName.scss`: component styles, [guide](./AGENTS.comp-scss.md)
+- `compName.story.mdx`: component documentation, [guide](./AGENTS.comp-doc.md)
+- `compName.test.ts`: component unit test
+- `compName.story.vue`: component (Histoire) story, [guide](./AGENTS.comp-story.md)
 
 ## Best Practices
 

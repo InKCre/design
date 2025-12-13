@@ -1,6 +1,6 @@
 # `compName.ts` guide
 
-## Template
+## Scaffold
 
 ```typescript
 import type { PropType } from "vue";

@@ -1,6 +1,6 @@
 # `compName.vue` guide
 
-## Template
+## Scaffold
 
 ```vue
 <script setup lang="ts">
