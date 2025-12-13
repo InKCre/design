@@ -4,6 +4,7 @@ import { makeStringProp } from "../../utils/vue-props";
 export const inkHeaderProps = {
   title: makeStringProp("InKCre"),
   pageTitle: makeStringProp<string | undefined>(undefined),
+  logoSrc: makeStringProp(""),
 };
 
 // --- Emits ---

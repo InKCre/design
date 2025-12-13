@@ -41,6 +41,7 @@
     "clean": "rimraf dist",
     "preview": "vite preview"
   },
+  "dependencies": {},
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.0",
     "cpr": "^3.0.1",
@@ -51,6 +52,40 @@
     "vue": "^3.4.0"
   },
   "peerDependencies": {
-    "vue": "^3.0.0"
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.0",
+    "dayjs": "^1.11.0",
+    "@vueuse/core": "^14.0.0",
+    "@codemirror/autocomplete": "^6.20.0",
+    "@codemirror/commands": "^6.10.0",
+    "@codemirror/lang-json": "^6.0.2",
+    "@codemirror/state": "^6.5.2",
+    "@codemirror/view": "^6.38.8"
+  },
+  "peerDependenciesMeta": {
+    "vue-router": {
+      "optional": true
+    },
+    "dayjs": {
+      "optional": true
+    },
+    "@vueuse/core": {
+      "optional": true
+    },
+    "@codemirror/autocomplete": {
+      "optional": true
+    },
+    "@codemirror/commands": {
+      "optional": true
+    },
+    "@codemirror/lang-json": {
+      "optional": true
+    },
+    "@codemirror/state": {
+      "optional": true
+    },
+    "@codemirror/view": {
+      "optional": true
+    }
   }
 }

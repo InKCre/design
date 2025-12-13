@@ -13,7 +13,17 @@ export default defineConfig({
       formats: ["es", "cjs"],
     },
     rollupOptions: {
-      external: [],
+      external: [
+        "vue",
+        "vue-router",
+        "@vueuse/core",
+        "@codemirror/state",
+        "@codemirror/view",
+        "@codemirror/autocomplete",
+        "@codemirror/commands",
+        "@codemirror/lang-json",
+        "dayjs",
+      ],
     },
     cssCodeSplit: false,
     outDir: "dist",
@@ -24,7 +34,9 @@ export default defineConfig({
       scss: {
         additionalData: (source, file) => {
           if (file.includes("src/components/")) {
-            return `@use "@inkcre/web-design/styles/mixins" as *;@use "@inkcre/web-design/styles/functions" as *;${source}`;
+            // Calculate relative path from component to styles directory
+            // All components are at src/components/X/X.scss
+            return `@use "../../styles/_mixins" as *;@use "../../styles/_functions" as *;${source}`;
           }
           return source;
         },

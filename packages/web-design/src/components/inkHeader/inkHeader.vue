@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { useRoute } from "vue-router";
+import { computed, getCurrentInstance } from "vue";
 import { inkHeaderProps, inkHeaderEmits } from "./inkHeader";
 
 const props = defineProps(inkHeaderProps);
 const emit = defineEmits(inkHeaderEmits);
 
-const route = useRoute();
+// Try to use vue-router if available
+const instance = getCurrentInstance();
+const router = instance?.appContext.config.globalProperties.$router;
+const route = instance?.appContext.config.globalProperties.$route;
 
 // --- computed ---
-const displayPageTitle = computed(() => props.pageTitle ?? route.name);
+const displayPageTitle = computed(() => props.pageTitle ?? route?.name);
 
 // --- methods ---
 const onMenuClick = () => {
@@ -25,8 +27,9 @@ const onTitleClick = () => {
   <header class="ink-header">
     <div class="ink-header__logo" @click="onTitleClick">
       <img
+        v-if="logoSrc"
         class="ink-header__logo-icon"
-        src="@/static/logo/32.svg"
+        :src="logoSrc"
         alt="InKCre Logo"
       />
       <span class="ink-header__logo-text">{{ title }}</span>
