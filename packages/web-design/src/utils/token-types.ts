@@ -1,0 +1,1 @@
+export type SizeItem = 'xs' | 'sm' | 'md' | 'lg' | 'xl';

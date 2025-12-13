@@ -1,1 +1,20 @@
-$all: ();
+$light: (
+  "switch": (
+    "track-bg": #070707,
+    "handle-bg": #f9f9f9,
+    "label-color": #070707
+  )
+);
+
+$dark: (
+  "switch": (
+    "track-bg": #f9f9f9,
+    "handle-bg": #070707,
+    "label-color": #f9f9f9
+  )
+);
+
+$all: (
+  "light": $light,
+  "dark": $dark
+);

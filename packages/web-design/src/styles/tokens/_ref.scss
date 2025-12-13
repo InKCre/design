@@ -2,27 +2,27 @@ $elevation: (
   "raised": (
     "low": (
       "shadow-type": "dropShadow",
-      "radius": 2,
+      "radius": 2px,
       "color": #0c1530,
-      "offset-x": 0,
-      "offset-y": 1,
-      "spread": 0
+      "offset-x": 0px,
+      "offset-y": 1px,
+      "spread": 0px
     ),
     "md": (
       "shadow-type": "dropShadow",
-      "radius": 20,
+      "radius": 20px,
       "color": #0c1530,
-      "offset-x": 0,
-      "offset-y": 6,
-      "spread": 0
+      "offset-x": 0px,
+      "offset-y": 6px,
+      "spread": 0px
     ),
     "high": (
       "shadow-type": "dropShadow",
-      "radius": 32,
+      "radius": 32px,
       "color": #0c1554,
-      "offset-x": 0,
-      "offset-y": 12,
-      "spread": 0
+      "offset-x": 0px,
+      "offset-y": 12px,
+      "spread": 0px
     )
   )
 );
@@ -49,8 +49,15 @@ $color: (
     "90": #d0f4f4
   ),
   "danger": (
-    "40": #d12d3d,
-    "90": #ffe5e8,
+    "10": #410008,
+    "30": #92001e,
+    "35": #a80324,
+    "40": #b9192f,
+    "60": #ff525c,
+    "65": #ff7073,
+    "70": #ff8889,
+    "80": #ffb3b1,
+    "90": #ffdad8,
     "98": #fff8f7
   ),
   "brand": (
@@ -82,7 +89,9 @@ $radius: (
 $space: (
   "sm": 8px,
   "md": 16px,
-  "lg": 32px
+  "lg": 32px,
+  "xs": 4px,
+  "xl": 56px
 );
 
 $typo: (
@@ -102,6 +111,22 @@ $opacity: (
   "muted": 0.72px,
   "medium": 0.84px,
   "strong": 0.92px
+);
+
+$size: (
+  "lg": 48px,
+  "md": 36px,
+  "sm": 24px,
+  "icon": (
+    "sm": 20px,
+    "md": 24px
+  ),
+  "iconfont": (
+    "sm": 8px,
+    "md": 12px
+  ),
+  "xl": 58px,
+  "xs": 18px
 );
 
 $layout: ();
@@ -146,6 +171,45 @@ $font: (
       "paragraph-indent": 0,
       "paragraph-spacing": 0,
       "text-case": "none"
+    ),
+    "lg-underlined": (
+      "font-size": 14px,
+      "text-decoration": "underline",
+      "font-family": "Inter",
+      "font-weight": 400,
+      "font-style": "normal",
+      "font-stretch": "normal",
+      "letter-spacing": 0,
+      "line-height": 16px,
+      "paragraph-indent": 0,
+      "paragraph-spacing": 0,
+      "text-case": "none"
+    ),
+    "lg-mono": (
+      "font-size": 14px,
+      "text-decoration": "none",
+      "font-family": "JetBrains Mono",
+      "font-weight": 400,
+      "font-style": "normal",
+      "font-stretch": "normal",
+      "letter-spacing": 0,
+      "line-height": 16px,
+      "paragraph-indent": 0,
+      "paragraph-spacing": 0,
+      "text-case": "none"
+    ),
+    "sm-mono": (
+      "font-size": 10px,
+      "text-decoration": "none",
+      "font-family": "JetBrains Mono",
+      "font-weight": 700,
+      "font-style": "normal",
+      "font-stretch": "normal",
+      "letter-spacing": 0.4,
+      "line-height": 14px,
+      "paragraph-indent": 0,
+      "paragraph-spacing": 0,
+      "text-case": "none"
     )
   ),
   "title": (
@@ -161,6 +225,19 @@ $font: (
       "paragraph-indent": 0,
       "paragraph-spacing": 0,
       "text-case": "none"
+    ),
+    "sm-mono": (
+      "font-size": 22px,
+      "text-decoration": "none",
+      "font-family": "IBM Plex Mono",
+      "font-weight": 400,
+      "font-style": "normal",
+      "font-stretch": "normal",
+      "letter-spacing": 0.66,
+      "line-height": 28px,
+      "paragraph-indent": 0,
+      "paragraph-spacing": 0,
+      "text-case": "none"
     )
   ),
   "body": (
@@ -168,6 +245,19 @@ $font: (
       "font-size": 18px,
       "text-decoration": "none",
       "font-family": "Inter",
+      "font-weight": 400,
+      "font-style": "normal",
+      "font-stretch": "normal",
+      "letter-spacing": 0,
+      "line-height": 24px,
+      "paragraph-indent": 0,
+      "paragraph-spacing": 0,
+      "text-case": "none"
+    ),
+    "lg-mono": (
+      "font-size": 18px,
+      "text-decoration": "none",
+      "font-family": "JetBrains Mono",
       "font-weight": 400,
       "font-style": "normal",
       "font-stretch": "normal",
@@ -203,6 +293,7 @@ $all: (
   "typo": $typo,
   "breakpoint": $breakpoint,
   "opacity": $opacity,
+  "size": $size,
   "layout": $layout,
   "font": $font
 );

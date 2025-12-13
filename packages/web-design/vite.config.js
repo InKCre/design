@@ -21,7 +21,14 @@ export default defineConfig({
 
   css: {
     preprocessorOptions: {
-      scss: {},
+      scss: {
+        additionalData: (source, file) => {
+          if (file.includes("src/components/")) {
+            return `@use "@inkcre/web-design/styles/mixins" as *;@use "@inkcre/web-design/styles/functions" as *;${source}`;
+          }
+          return source;
+        },
+      },
     },
   },
 

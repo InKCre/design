@@ -68,8 +68,15 @@ function formatValue(value, key) {
     return `"${value}"`;
   }
   if (typeof value === "number") {
-    // Add px for font-size and line-height
-    if (key === "font-size" || key === "line-height") {
+    // Add px for font-size, line-height, offset-x, offset-y, spread, radius
+    if (
+      key === "font-size" ||
+      key === "line-height" ||
+      key === "offset-x" ||
+      key === "offset-y" ||
+      key === "spread" ||
+      key === "radius"
+    ) {
       return `${value}px`;
     }
     return value.toString();
@@ -130,6 +137,7 @@ StyleDictionary.registerFormat({
       layout: "layout",
       typo: "typo",
       breakpoint: "breakpoint",
+      size: "size",
     };
 
     dictionary.allTokens.forEach((token) => {
@@ -342,6 +350,7 @@ StyleDictionary.registerFormat({
   "breakpoint": ref.$breakpoint,
   "opacity": ref.$opacity,
   "layout": ref.$layout,
+  "size": ref.$size,
   "font": ref.$font
 );\n\n`;
     return content;

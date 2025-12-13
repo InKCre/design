@@ -15,3 +15,19 @@
 @mixin font-mono {
   font-family: fn.ref-var("typo", "family", "mono");
 }
+
+@mixin apply-icon($size, $centered: false) {
+  font-size: fn.sys-var("size", "iconfont", $size);
+  
+  @if $centered {
+    height: fn.sys-var("size", "icon", $size);
+    width: fn.sys-var("size", "icon", $size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@mixin apply-elevation($level) {
+  box-shadow: fn.sys-var("elevation", "raised", $level, "offset-x") fn.sys-var("elevation", "raised", $level, "offset-y") fn.sys-var("elevation", "raised", $level, "radius") fn.sys-var("elevation", "raised", $level, "spread") fn.sys-var("elevation", "raised", $level, "color");
+}

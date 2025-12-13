@@ -14,7 +14,8 @@ For packages/web-design:
 - src/style/tokens/_ref.scss: Reference/primitive tokens
   - color (from `ref.color`)
   - space (from `ref.space`)
-  - shape (from `ref.shape`)
+  - radius (from `ref.radius`)
+  - size (from `ref.size`)
   - typo (from `ref.typo`)
   - font (from `typography`)
   - breakpoint (from `ref.breakpoint`)
