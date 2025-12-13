@@ -2,6 +2,16 @@
 
 This package uses [Histoire](https://histoire.dev/) for component playground/documentation and [Vitest](https://vitest.dev/) for unit testing.
 
+## Setup for Development
+
+Some components use optional peer dependencies. Install them for full functionality during development:
+
+```bash
+pnpm add -D @vueuse/core dayjs @codemirror/autocomplete @codemirror/commands @codemirror/lang-json @codemirror/state @codemirror/view vue-router
+```
+
+These are optional in production and consumers only need to install the ones they use.
+
 ## Component Playground (Histoire)
 
 Histoire provides an interactive playground for exploring and documenting components.
@@ -102,3 +112,4 @@ pnpm test --run
 # Build static documentation for deployment
 pnpm story:build
 ```
+
