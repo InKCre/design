@@ -28,6 +28,18 @@ app.use(InKCreWebDesign)
 @use "@inkcre/web-design/styles/functions" as *;
 ```
 
+```json
+// tsconfig.json
+{
+    "compilerOptions": {
+        "types": [
+            ...,
+            "@inkcre/web-design"  // add this
+        ]
+    }
+}
+```
+
 ## Features
 
 - Design tokens automatically generated from the main tokens file

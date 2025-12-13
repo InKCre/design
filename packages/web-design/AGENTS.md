@@ -8,6 +8,7 @@ This package provides a consistent design system and common components for InKCr
 - Internalization: vue-i18n
 - Story-driven tooling: [Histoire](https://histoire.dev)
 - Packagae management: pnpm
+- Release management: changeset
 
 ## Project Strucutre (Crucial Only)
 
@@ -20,3 +21,7 @@ src/
     └── tokens/         # Design token exports
 ├── vite.config.ts, vitest.config.ts, package.json, ...
 ```
+
+## Development
+
+After you made changes, run `pnpm run changeset` to summarize your changes.

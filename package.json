@@ -5,9 +5,16 @@
   "type": "module",
   "packageManager": "pnpm@10.22.0",
   "scripts": {
-    "build-tokens": "node scripts/build-tokens.mjs"
+    "build-tokens": "node scripts/build-tokens.mjs",
+    "changeset": "changeset",
+    "changeset:add": "changeset add",
+    "changeset:version": "changeset version",
+    "changeset:publish": "changeset publish",
+    "changeset:status": "changeset status",
+    "release": "changeset version && changeset publish"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.29.8",
     "sass": "^1.94.2",
     "style-dictionary": "^4.4.0"
   }
