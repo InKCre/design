@@ -4,37 +4,53 @@ import InkTooltip from "./inkTooltip.vue";
 
 <template>
   <Story
-    title="Feedback/Tooltip"
+    title="Feedback/Tooltip/[Semantic] Positions"
     :layout="{ type: 'grid', width: '200px' }"
   >
     <Variant title="Top">
-      <InkTooltip content="This is a tooltip" position="top">
+      <InkTooltip content="Tooltip on top" position="top">
         <button style="padding: 8px 16px; cursor: pointer;">
-          Hover me (Top)
+          Hover (Top)
         </button>
       </InkTooltip>
     </Variant>
 
     <Variant title="Bottom">
-      <InkTooltip content="Bottom tooltip" position="bottom">
+      <InkTooltip content="Tooltip on bottom" position="bottom">
         <button style="padding: 8px 16px; cursor: pointer;">
-          Hover me (Bottom)
+          Hover (Bottom)
         </button>
       </InkTooltip>
     </Variant>
 
     <Variant title="Left">
-      <InkTooltip content="Left tooltip" position="left">
+      <InkTooltip content="Tooltip on left" position="left">
         <button style="padding: 8px 16px; cursor: pointer;">
-          Hover me (Left)
+          Hover (Left)
         </button>
       </InkTooltip>
     </Variant>
 
     <Variant title="Right">
-      <InkTooltip content="Right tooltip" position="right">
+      <InkTooltip content="Tooltip on right" position="right">
         <button style="padding: 8px 16px; cursor: pointer;">
-          Hover me (Right)
+          Hover (Right)
+        </button>
+      </InkTooltip>
+    </Variant>
+  </Story>
+
+  <Story
+    title="Feedback/Tooltip/[Edge] Content Length"
+    :layout="{ type: 'single', iframe: false }"
+  >
+    <Variant title="Long Text">
+      <InkTooltip 
+        content="This is a very long tooltip text that should wrap appropriately and not break the layout"
+        position="top"
+      >
+        <button style="padding: 8px 16px; cursor: pointer;">
+          Hover for long text
         </button>
       </InkTooltip>
     </Variant>

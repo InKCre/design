@@ -5,10 +5,10 @@ import InkField from "./inkField.vue";
 
 <template>
   <Story
-    title="Forms/Field"
+    title="Forms/Field/[Semantic] Layouts"
     :layout="{ type: 'single', iframe: false }"
   >
-    <Variant title="Column Layout">
+    <Variant title="Column">
       <InkField
         label="Username"
         value="john.doe"
@@ -16,7 +16,7 @@ import InkField from "./inkField.vue";
       />
     </Variant>
 
-    <Variant title="Inline Layout">
+    <Variant title="Inline">
       <InkField
         label="Email"
         value="john@example.com"
@@ -24,29 +24,63 @@ import InkField from "./inkField.vue";
       />
     </Variant>
 
-    <Variant title="Row Layout">
+    <Variant title="Row">
       <InkField
         label="Status"
         value="Active"
         layout="row"
       />
     </Variant>
+  </Story>
 
-    <Variant title="Required Field">
+  <Story
+    title="Forms/Field/[State] Required"
+    :layout="{ type: 'single', iframe: false }"
+  >
+    <Variant title="Optional">
+      <InkField
+        label="Nickname"
+        value="Johnny"
+        layout="col"
+        :required="false"
+      />
+    </Variant>
+
+    <Variant title="Required">
       <InkField
         label="Password"
-        value="********"
+        value="••••••••"
         layout="col"
         :required="true"
       />
     </Variant>
+  </Story>
 
-    <Variant title="Editable (Inline)">
+  <Story
+    title="Forms/Field/[Edge] Content Length"
+    :layout="{ type: 'single', iframe: false }"
+  >
+    <Variant title="Very Long Label">
       <InkField
-        label="Bio"
-        value="Click to edit"
+        label="This is an extremely long field label that should not break the layout"
+        value="Short value"
+        layout="col"
+      />
+    </Variant>
+
+    <Variant title="Very Long Value">
+      <InkField
+        label="URL"
+        value="https://example.com/very/long/path/to/resource/that/should/not/break/layout"
         layout="inline"
-        :editable="true"
+      />
+    </Variant>
+
+    <Variant title="Empty Value">
+      <InkField
+        label="Optional Field"
+        value=""
+        layout="col"
       />
     </Variant>
   </Story>

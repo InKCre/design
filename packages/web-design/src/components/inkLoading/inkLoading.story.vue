@@ -4,10 +4,10 @@ import InkLoading from "./inkLoading.vue";
 
 <template>
   <Story
-    title="Feedback/Loading"
+    title="Feedback/Loading/[Semantic] Default"
     :layout="{ type: 'single', iframe: false }"
   >
-    <Variant title="Default">
+    <Variant title="Loading Indicator">
       <div style="padding: 40px; display: flex; justify-content: center;">
         <InkLoading />
       </div>

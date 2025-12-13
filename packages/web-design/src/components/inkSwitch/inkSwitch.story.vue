@@ -1,67 +1,66 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import InkSwitch from "./inkSwitch.vue";
+
+const switchMd = ref(false);
 </script>
 
 <template>
   <Story
-    title="Controls/Switch"
+    title="Controls/Switch/[Semantic] Sizes"
     :layout="{ type: 'grid', width: '200px' }"
   >
+    <Variant title="Extra Small">
+      <InkSwitch
+        v-model="switchMd"
+        size="xs"
+        label="Enable"
+      />
+    </Variant>
+
     <Variant title="Small">
-      <template #default>
-        <InkSwitch
-          v-model="switchSm"
-          size="sm"
-          label="Enable"
-        />
-        <p style="margin-top: 8px; font-size: 12px;">State: {{ switchSm }}</p>
-      </template>
+      <InkSwitch
+        v-model="switchMd"
+        size="sm"
+        label="Feature"
+      />
     </Variant>
 
     <Variant title="Medium">
-      <template #default>
-        <InkSwitch
-          v-model="switchMd"
-          size="md"
-          label="Feature"
-        />
-        <p style="margin-top: 8px; font-size: 12px;">State: {{ switchMd }}</p>
-      </template>
+      <InkSwitch
+        v-model="switchMd"
+        size="md"
+        label="Setting"
+      />
     </Variant>
 
     <Variant title="Large">
-      <template #default>
-        <InkSwitch
-          v-model="switchLg"
-          size="lg"
-          label="Setting"
-        />
-        <p style="margin-top: 8px; font-size: 12px;">State: {{ switchLg }}</p>
-      </template>
+      <InkSwitch
+        v-model="switchMd"
+        size="lg"
+        label="Option"
+      />
+    </Variant>
+  </Story>
+
+  <Story
+    title="Controls/Switch/[State] Toggle States"
+    :layout="{ type: 'grid', width: '200px' }"
+  >
+    <Variant title="Off">
+      <InkSwitch
+        modelValue="off"
+        size="md"
+        label="Disabled"
+      />
     </Variant>
 
-    <Variant title="Initially On">
-      <template #default>
-        <InkSwitch
-          v-model="switchOn"
-          size="md"
-          label="Active"
-        />
-      </template>
+    <Variant title="On">
+      <InkSwitch
+        modelValue="on"
+        size="md"
+        label="Enabled"
+      />
     </Variant>
   </Story>
 </template>
-
-<script lang="ts">
-export default {
-  data() {
-    return {
-      switchSm: false,
-      switchMd: false,
-      switchLg: false,
-      switchOn: true,
-    };
-  },
-};
-</script>
