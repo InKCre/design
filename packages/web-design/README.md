@@ -2,7 +2,7 @@
 
 A comprehensive design system built with Vite + Vue3, providing design tokens, components, and utilities for InKCre web applications.
 
-## 📦 Installation
+## Installation
 
 ```bash
 npm install @inkcre/web-design
@@ -10,23 +10,16 @@ npm install @inkcre/web-design
 pnpm add @inkcre/web-design
 ```
 
-## 🎨 Usage
+## Usage
 
-### Vue Plugin
-
-```javascript
+```typescript
+// main.ts
 import { createApp } from 'vue'
-import InKCreWebDesign from '@inkcre/web-design'
+import InKCreWebDesign from '@inkcre/web-design'  // optional
+import "@inkcre/web-design/styles" // must
 
 const app = createApp(App)
 app.use(InKCreWebDesign)
-```
-
-### Styles
-
-```ts
-// main.ts
-import "@inkcre/web-design/styles";
 ```
 
 ```scss

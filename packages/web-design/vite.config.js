@@ -1,32 +1,29 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
+import dts from "vite-plugin-dts";
 import { resolve } from "path";
 
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [vue(), dts({ rollupTypes: true })],
 
   build: {
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
       name: "InKCreWebDesign",
       fileName: "index",
-      formats: ["es", "cjs"],
+      formats: ["es"],
     },
-    rollupOptions: {
-      external: [
-        "vue",
-        "vue-router",
-        "@vueuse/core",
-        "@codemirror/state",
-        "@codemirror/view",
-        "@codemirror/autocomplete",
-        "@codemirror/commands",
-        "@codemirror/lang-json",
-        "dayjs",
-      ],
-    },
-    cssCodeSplit: false,
+    sourcemap: "inline",
     outDir: "dist",
+    rollupOptions: {
+      external: ["vue", "vue-router", "dayjs"],
+
+      output: {
+        globals: {
+          vue: "Vue",
+        },
+      },
+    },
   },
 
   css: {
@@ -34,9 +31,7 @@ export default defineConfig({
       scss: {
         additionalData: (source, file) => {
           if (file.includes("src/components/")) {
-            // Calculate relative path from component to styles directory
-            // All components are at src/components/X/X.scss
-            return `@use "../../styles/_mixins" as *;@use "../../styles/_functions" as *;${source}`;
+            return `@use "@inkcre/web-design/styles/mixins" as *;@use "@inkcre/web-design/styles/functions" as *;${source}`;
           }
           return source;
         },
