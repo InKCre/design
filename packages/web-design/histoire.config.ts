@@ -7,9 +7,9 @@ export default defineConfig({
   theme: {
     title: "InKCre Web Design",
     logo: {
-      square: "./public/logo.svg",
-      light: "./public/logo.svg",
-      dark: "./public/logo.svg",
+      square: "./src/logo.svg",
+      light: "./src/logo.svg",
+      dark: "./src/logo.svg",
     },
   },
   tree: {
