@@ -1,29 +1,66 @@
 # InkTextarea
 
+A multi-line text input component for forms.
+
 ## Rationale
 
-A textarea component for editing multi-line text.
+InkTextarea exists to allow users to input or display multi-line text, integrating with forms for consistent layout.
 
-## Goals
+Use it for comments, descriptions, or any multi-line text input; avoid using it for single-line inputs.
 
-Provide a consistent textarea field for forms.
+## Design Semantics
 
-## Specification
+### Concepts
 
-Displays an editable textarea or read-only formatted text. When used inside InkForm with a label, it automatically integrates with InkField for consistent field layout.
+- `editable`: whether the text can be edited.
+- `rows`: number of visible lines.
+- `placeholder`: hint text when empty.
 
-## Implementation
+### Visual / UX Meaning
 
-### Props
+- Editable: shows textarea for input.
+- Read-only: displays formatted text.
+- Integrates with InkField in forms for labeling.
 
-- `value` (`string`, `""`)：The textarea value
-- `editable` (`boolean`, `false`)：Whether the field is editable
-- `placeholder` (`string`, `""`)：Placeholder text
-- `rows` (`number`, `5`)：Number of visible rows
-- `prop` (`string`, `""`)：The property name for form binding
-- `label` (`string`, `""`)：The field label. When provided and inside InkForm, the component uses InkField internally
-- `layout` (`"inline" | "col" | "row"`, `"inline"`)：The field layout (only applies when inside InkForm with label). If not specified, inherits from InkForm's layout
+## Canonical Examples
 
-### Events
+- Basic editable textarea: For user input.
 
-- `update:value(value: string)`: Emitted when the textarea value changes
+  ```vue
+  <InkTextarea v-model="description" rows="4" />
+  ```
+
+- In form with label: Automatic field layout.
+
+  ```vue
+  <InkForm>
+    <InkTextarea label="Comments" v-model="comments" />
+  </InkForm>
+  ```
+
+- Read-only display: Showing text.
+
+  ```vue
+  <InkTextarea :value="bio" :editable="false" />
+  ```
+
+## Behavioral Contract
+
+- In editable mode: emits update:value on input.
+- In read-only: displays value as text.
+- When in form with label: uses InkField for layout.
+
+## Extension & Composition
+
+- Supports v-model for two-way binding.
+- Composes with InkForm for validation and layout.
+
+## Non-Goals
+
+- Single-line text input.
+- Rich text editing.
+
+## Implementation Notes
+
+- Uses reusable template for conditional rendering.
+- Injects form context for integration.

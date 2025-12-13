@@ -19,6 +19,8 @@ Stories must NOT be used for:
 - Acting as a playground or sandbox
 - Replacing documentation text
 
+Stories must be readable without explanatory text. If a Story needs explanation, it likely belongs in the doc instead.
+
 ## Best Practices
 
 Categorize variants into:
@@ -30,33 +32,12 @@ Categorize variants into:
 
 Titles must be descriptive, semantic, stable over time.
 
-## Relationship to Docs
-
-- `*.docs.mdx` explains why and how to use the component
-- `*.story.vue` ensures important states do not regress
-
-Stories must be readable without explanatory text.
-
-If a Story needs explanation, it likely belongs in Docs instead.
-
-## Relationship to Testing
-
-Stories should be written as if they are:
-
-- Visual snapshots
-- Golden masters
-- Future visual regression targets
-
-Assume that:
-
-> Any Story you write today will be relied upon by future maintainers.
-
-## Minimal Story Checklist
+## Minimal Checklist
 
 Before committing a `*.story.vue`, ensure:
 
-- [ ] At least one `[Semantic]` Story exists
-- [ ] At least one `[State]` or `[Edge]` Story exists
+- [ ] At least one cannonical variant exists
+- [ ] At least one state or edge variant exists
 - [ ] No exhaustive prop combinations are present
 - [ ] All Story titles communicate intent
 - [ ] All Variants represent meaningful states

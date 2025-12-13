@@ -1,40 +1,52 @@
 # InkDoubleCheck
 
-## Rationale
-
 Provides a confirmation mechanism for destructive or irreversible actions, preventing accidental clicks.
 
-## Goals
+## Rationale
 
-- Intercept default slot click events
-- Display a confirmation popup
-- Only execute the action after user confirmation
-- Provide customizable confirmation messages
+InkDoubleCheck exists to add a layer of confirmation for actions that could have significant consequences, such as deletions or irreversible changes. Use it when wrapping clickable elements that trigger such actions to avoid accidental executions. Do not use it for non-destructive actions or where confirmation is not necessary.
 
-## Specification
+## Design Semantics
 
-The component wraps any clickable element and intercepts its click event. When clicked, it opens a popup with a confirmation message. The original action is only executed after the user confirms.
+### Concepts
 
-## Implementation
+- `Confirmation Popup`: A modal dialog that appears on click, requiring user acknowledgment before proceeding.
 
-### Props
+### Visual / UX Meaning
 
-- `title` (`string`, `"Confirm Action"`): Title text for the confirmation popup
-- `message` (`string`, `"Are you sure you want to proceed?"`): Message text for the confirmation popup
-- `confirmText` (`string`, `"Confirm"`): Text for the confirm button
-- `cancelText` (`string`, `"Cancel"`): Text for the cancel button
+The component maintains the original clickable element's appearance until clicked. Upon click, a popup overlays with a title, message, and action buttons. The confirm button is emphasized to guide the user towards confirmation, while cancel allows dismissal. States include open (popup visible) and closed (default).
 
-### Events
+## Canonical Examples
 
-- `confirm()`: Emitted when user confirms the action
+- Basic confirmation for a delete button:
 
-### Slots
+  ```vue
+  <InkDoubleCheck @confirm="deleteItem">
+    <InkButton text="Delete" />
+  </InkDoubleCheck>
+  ```
 
-- `default`: The clickable element to wrap (e.g., a button)
+## Behavioral Contract
 
-### Behavior
+- Click events on the wrapped element are intercepted and do not propagate until confirmation.
+- The `confirm` event is emitted only after the user clicks the confirm button in the popup.
+- The popup closes on either confirm or cancel, resetting the component to its initial state.
+- No actions are performed if the popup is dismissed via cancel.
 
-1. Intercepts click events on the default slot content
-2. Opens a confirmation popup
-3. Emits `confirm` event only when user clicks the confirm button
-4. Closes popup on both confirm and cancel
+## Extension & Composition
+
+- Can be composed with any clickable component via the default slot.
+- Supports customization of popup text through props.
+- Not recommended for use inside forms where validation might conflict.
+
+## Non-Goals
+
+- Handling the actual destructive action logic.
+- Managing user permissions or authentication.
+- Providing advanced popup customization beyond text.
+
+## Implementation Notes
+
+- Uses a slot to wrap the clickable element and attaches event listeners.
+- Relies on a popup component for the confirmation dialog.
+- State management handles popup visibility and event emission.

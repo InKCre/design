@@ -1,132 +1,87 @@
-import { Story, Variant } from '@histoire/plugin-vue'
-import InkButton from './inkButton.vue'
+# InkButton
 
-# inkButton
+Just button, you can have text, icon here and provides different semantics in different sizes.
 
-> 提供一致的按钮交互和视觉反馈，统一操作入口的语义表达。
-> Provides consistent button interaction and visual feedback with unified semantic expression for actions.
+## Rationale
 
----
+InkButton exists to provide a consistent visual and interactive affordance for primary actions, secondary actions, and destructive actions across the product.
 
-## Usage Intent
-
-### Why this exists
-- 避免直接使用 `<button>` 标签导致的样式不一致
-- 通过语义化的 `type` 属性明确操作的重要性和风险等级
-- 减少重复的样式和交互逻辑
-
-### When to use
-- 任何需要用户触发操作的场景
-- 表单提交、确认、取消等标准操作
-- 需要明确区分主要和次要操作时
-
-### When NOT to use
-- 纯导航跳转（应使用链接或路由组件）
-- 需要复杂内部结构的按钮（考虑使用插槽或自定义组件）
-
----
+Use it for any single-click action that requires a compact button UI; avoid using it when a non-single-click workflow is needed (for example, file uploads with progress, or long-running background tasks that need a separate action component).
 
 ## Design Semantics
 
 ### Concepts
-- `subtle`: 低优先级操作，视觉上不抢眼 / Low priority action, visually subtle
-- `primary`: 主要操作，视觉突出 / Primary action, visually prominent
-- `danger`: 危险或不可逆操作，需要用户谨慎 / Destructive or irreversible action, requires caution
+
+- `type`: visual and purposeful variant of the button (`subtle`, `primary`, `danger`).
+- `size`: density of the control (`md`, `sm`).
+- `slot`: custom content (e.g., icon + label, label only).
 
 ### Visual / UX Meaning
-- **Subtle**: 适用于取消、返回等次要操作，用户可忽略
-- **Primary**: 适用于提交、确认等主要流程，引导用户注意
-- **Danger**: 适用于删除、清空等危险操作，警示用户风险
 
----
+- `subtle` (default): low emphasis, use for non-critical or contextual actions.
+- `primary`: main action in a section or modal; higher contrast to attract attention.
+- `danger`: destructive action that explains a potentially destructive outcome (e.g., delete).
+- `sm`: smaller footprint for compact toolbars; `md`: default size used in forms and actions.
 
 ## Canonical Examples
 
-> 以下示例是**规范用法**，不是完整参数排列组合。
+- Subtle (default): Used as the normal/secondary action.
 
-<Story title="Controls/Button/[Semantic] Variants">
-  <Variant title="Subtle">
-    <InkButton text="Cancel" type="subtle" />
-  </Variant>
+  ```vue
+  <InkButton text="Cancel" />
+  ```
 
-  <Variant title="Primary">
-    <InkButton text="Submit" type="primary" />
-  </Variant>
+- Primary: The primary action in a modal or a form footer.
 
-  <Variant title="Danger">
-    <InkButton text="Delete" type="danger" />
-  </Variant>
-</Story>
+  ```vue
+  <InkButton text="Save" type="primary" />
+  ```
 
-<Story title="Controls/Button/[Semantic] Sizes">
-  <Variant title="Medium (Default)">
-    <InkButton text="Medium Button" type="primary" size="md" />
-  </Variant>
+- Danger: Used for destructive actions where the user must confirm an operation.
 
-  <Variant title="Small">
-    <InkButton text="Small Button" type="primary" size="sm" />
-  </Variant>
-</Story>
+  ```vue
+  <InkButton text="Delete" type="danger" />
+  ```
 
----
+- Small size: Use in dense toolbars or where space is constrained.
+
+  ```vue
+  <InkButton text="Edit" size="sm" />
+  ```
+
+### Custom slot content (icon + label)
+
+The `slot` is supported for custom content; this is how you add icons or non-text children.
+
+```vue
+<InkButton type="primary">
+  <svg aria-hidden="true" width="16" height="16">...</svg>
+  <span>Save</span>
+  </InkButton>
+```
 
 ## Behavioral Contract
 
-> 这些是**使用者可以依赖的行为保证**。
-
-- 点击按钮时：
-  - ✅ 触发 `click` 事件
-  - ✅ 事件可被阻止传播
-- 按钮不会：
-  - ❌ 自动提交表单（除非在 `<form>` 内且 `type="submit"`）
-  - ❌ 阻止默认行为（由使用者控制）
-
----
-
-## Public API
-
-### Props
-- `text`: 按钮显示文本 / Button display text
-- `type`: 按钮语义类型 (`subtle` | `primary` | `danger`) / Button semantic type
-- `size`: 按钮尺寸 (`sm` | `md`) / Button size
-
-> 完整类型、默认值与可控项请参考下方自动生成的 API 表格。
-
-### Events
-- `click()`: 用户点击按钮时触发 / Emitted when button is clicked
-
----
-
-## Slots
-
-### default
-按钮的内容区域。如果提供插槽内容，将覆盖 `text` 属性。
-Button content area. Overrides `text` prop if provided.
-
----
+- In all variants, clicking the button emits a `click` event.
+- Click events are always emitted; the component does not internally debounce, block, or prevent repeated clicks.
+- The default values are: `text` = "Button Text", `type` = `subtle`, `size` = `md`.
+- The component uses a native `<button>` element, so it inherits browser keyboard accessibility (space/enter) and form behavior; consumers should be aware of the native `type` default behavior in forms and add an explicit `type` attribute where necessary to avoid accidental form submits.
 
 ## Extension & Composition
 
-- 可以在任何需要操作触发的地方使用
-- 支持通过插槽自定义内部结构（图标、徽章等）
-- 建议在同一视图中不超过一个 `primary` 按钮
-
----
+- The component is intentionally simple and is designed for composition via the `slot` and surrounding layout.
+- Accepts custom slot content for icons or complex inline labels (icon + text). The component does not provide a built-in `icon` prop; use the slot to place an icon element before or after the label.
+- Works well inside `FormItem` or other containers. Because it is a native `button`, it behaves like a regular HTML button in forms.
 
 ## Non-Goals
 
-> 以下内容**不属于该组件的职责范围**。
-
-- 不处理加载状态（应由父组件控制）
-- 不负责权限检查（应在外部处理）
-- 不承担路由导航（使用 `router-link` 或导航组件）
-
----
+- There is no built-in `disabled` or `loading` prop. Disabling or preventing repeated action should be handled by parent components or by a wrapper that manages state.
+- It does not provide variant-level keyboard shortcuts or automatic confirmation dialogs.
+- It does not manage long-running workflows, API states, or request lifecycle (for example, showing an internal spinner when an action is in-flight).
 
 ## Implementation Notes
 
-> ⚠️ 面向维护者，而非组件使用者。
-
-- 使用 CSS 类名组合实现变体和尺寸
-- 所有交互样式通过 SCSS 伪类实现
-- 依赖设计系统的 token（颜色、间距、字体）
+- Props: `text` (string, default "Button Text"), `type` (`subtle` | `primary` | `danger`, default `subtle`), `size` (`md` | `sm`, default `md`).
+- Emits: `click` (always true), implemented as a regular native `<button>` click event via `emit('click')`.
+- The `slot` is present and should be considered the source of truth for custom content; the `text` prop is a convenience when only a label is used.
+- Accessibility note for maintainers: the component omits an explicit `type` attribute on the underlying `<button>`, so by default in HTML forms the button will behave as `submit`. When used inside a form where submission is not intended, the caller should pass a `type="button"` attribute to avoid accidental form submits.
