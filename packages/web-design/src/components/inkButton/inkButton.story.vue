@@ -3,10 +3,8 @@ import InkButton from "./inkButton.vue";
 </script>
 
 <template>
-  <Story
-    title="Controls/Button/[Semantic] Variants"
-    :layout="{ type: 'grid', width: '100%' }"
-  >
+  <Story title="Controls/Button" :layout="{ type: 'grid', width: '100%' }">
+    <!-- [Semantic] Variants -->
     <Variant title="Subtle">
       <InkButton text="Subtle Button" type="subtle" />
     </Variant>
@@ -18,12 +16,8 @@ import InkButton from "./inkButton.vue";
     <Variant title="Danger">
       <InkButton text="Danger Button" type="danger" />
     </Variant>
-  </Story>
 
-  <Story
-    title="Controls/Button/[Semantic] Sizes"
-    :layout="{ type: 'grid', width: '100%' }"
-  >
+    <!-- [Semantic] Sizes -->
     <Variant title="Medium (Default)">
       <InkButton text="Medium Button" type="primary" size="md" />
     </Variant>
@@ -31,16 +25,12 @@ import InkButton from "./inkButton.vue";
     <Variant title="Small">
       <InkButton text="Small Button" type="primary" size="sm" />
     </Variant>
-  </Story>
 
-  <Story
-    title="Controls/Button/[Edge] Content Stress"
-    :layout="{ type: 'grid', width: '100%' }"
-  >
+    <!-- [Edge] Content Stress -->
     <Variant title="Very Long Text">
-      <InkButton 
-        text="This is an extremely long button text that should not break the layout completely" 
-        type="primary" 
+      <InkButton
+        text="This is an extremely long button text that should not break the layout completely"
+        type="primary"
       />
     </Variant>
 

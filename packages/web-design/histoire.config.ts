@@ -12,28 +12,4 @@ export default defineConfig({
       dark: "./src/logo.svg",
     },
   },
-  tree: {
-    groups: [
-      {
-        id: "top",
-        title: "",
-      },
-      {
-        id: "controls",
-        title: "Controls",
-      },
-      {
-        id: "forms",
-        title: "Forms",
-      },
-      {
-        id: "feedback",
-        title: "Feedback",
-      },
-      {
-        id: "specialized",
-        title: "Specialized",
-      },
-    ],
-  },
 });

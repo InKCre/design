@@ -6,10 +6,7 @@ const textValue = ref("");
 </script>
 
 <template>
-  <Story
-    title="Forms/Textarea/[Semantic] Basic"
-    :layout="{ type: 'single', iframe: false }"
-  >
+  <Story title="Forms/Textarea">
     <Variant title="Default">
       <InkTextarea
         v-model:value="textValue"
@@ -18,12 +15,7 @@ const textValue = ref("");
         layout="col"
       />
     </Variant>
-  </Story>
 
-  <Story
-    title="Forms/Textarea/[State] Required"
-    :layout="{ type: 'single', iframe: false }"
-  >
     <Variant title="Optional">
       <InkTextarea
         v-model:value="textValue"
@@ -43,26 +35,12 @@ const textValue = ref("");
         layout="col"
       />
     </Variant>
-  </Story>
 
-  <Story
-    title="Forms/Textarea/[Semantic] Row Size"
-    :layout="{ type: 'single', iframe: false }"
-  >
-    <Variant title="3 Rows">
+    <Variant title="Customize Rows">
       <InkTextarea
         v-model:value="textValue"
         label="Short Text"
-        :rows="3"
-        layout="col"
-      />
-    </Variant>
-
-    <Variant title="10 Rows">
-      <InkTextarea
-        v-model:value="textValue"
-        label="Long Text"
-        :rows="10"
+        :rows="6"
         layout="col"
       />
     </Variant>

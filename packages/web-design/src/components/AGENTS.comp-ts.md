@@ -1,5 +1,7 @@
 # `compName.ts` guide
 
+- `compName.ts` holds component props, emits, models, constants, types and utils. Read this file will enable the user to use this component.
+
 ## Scaffold
 
 ```typescript

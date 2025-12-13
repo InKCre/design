@@ -6,6 +6,7 @@ This package provides a consistent design system and common components for InKCr
 
 - Framework: Vue3 + TypeScript + Sass(scss) + Vite
 - Internalization: vue-i18n
+- Story-driven tooling: [Histoire](https://histoire.dev)
 - Packagae management: pnpm
 
 ## Project Strucutre (Crucial Only)
@@ -17,5 +18,5 @@ src/
 ├── components/         
 ├── styles/             # Design tokens in sass map and sass utilties
     └── tokens/         # Design token exports
-├── ...vite.config.ts, vitest.config.ts, histoire.config.ts, package.json
+├── vite.config.ts, vitest.config.ts, package.json, ...
 ```

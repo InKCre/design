@@ -6,10 +6,8 @@ const selectedDate = ref(null);
 </script>
 
 <template>
-  <Story
-    title="Forms/Picker/[Semantic] Date Selection"
-    :layout="{ type: 'single', iframe: false }"
-  >
+  <Story title="Forms/Picker" :layout="{ type: 'single', iframe: false }">
+    <!-- [Semantic] Date Selection -->
     <Variant title="Date Picker">
       <InkPicker
         v-model="selectedDate"
@@ -18,12 +16,8 @@ const selectedDate = ref(null);
         layout="col"
       />
     </Variant>
-  </Story>
 
-  <Story
-    title="Forms/Picker/[State] Required"
-    :layout="{ type: 'single', iframe: false }"
-  >
+    <!-- [State] Required -->
     <Variant title="Required Field">
       <InkPicker
         v-model="selectedDate"

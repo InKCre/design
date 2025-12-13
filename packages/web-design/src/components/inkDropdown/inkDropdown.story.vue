@@ -11,10 +11,8 @@ const options = [
 </script>
 
 <template>
-  <Story
-    title="Forms/Dropdown/[Semantic] Basic"
-    :layout="{ type: 'single', iframe: false }"
-  >
+  <Story title="Forms/Dropdown" :layout="{ type: 'single', iframe: false }">
+    <!-- [Semantic] Basic -->
     <Variant title="With Label">
       <InkDropdown
         v-model="selectedValue"
@@ -23,12 +21,8 @@ const options = [
         layout="col"
       />
     </Variant>
-  </Story>
 
-  <Story
-    title="Forms/Dropdown/[State] Required"
-    :layout="{ type: 'single', iframe: false }"
-  >
+    <!-- [State] Required -->
     <Variant title="Optional">
       <InkDropdown
         v-model="selectedValue"

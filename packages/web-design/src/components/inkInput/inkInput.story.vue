@@ -7,10 +7,8 @@ const requiredValue = ref("");
 </script>
 
 <template>
-  <Story
-    title="Forms/Input/[Semantic] With Label"
-    :layout="{ type: 'single', iframe: false }"
-  >
+  <Story title="Forms/Input" :layout="{ type: 'single', iframe: false }">
+    <!-- [Semantic] With Label -->
     <Variant title="Column Layout">
       <InkInput
         v-model="basicValue"
@@ -28,12 +26,8 @@ const requiredValue = ref("");
         layout="inline"
       />
     </Variant>
-  </Story>
 
-  <Story
-    title="Forms/Input/[State] Required"
-    :layout="{ type: 'single', iframe: false }"
-  >
+    <!-- [State] Required -->
     <Variant title="Optional">
       <InkInput
         v-model="basicValue"
@@ -53,12 +47,8 @@ const requiredValue = ref("");
         layout="col"
       />
     </Variant>
-  </Story>
 
-  <Story
-    title="Forms/Input/[Edge] Inline Edit Type"
-    :layout="{ type: 'single', iframe: false }"
-  >
+    <!-- [Edge] Inline Edit Type -->
     <Variant title="Inline Editable">
       <InkInput
         modelValue="Click to edit this text"
