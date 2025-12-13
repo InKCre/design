@@ -16,3 +16,10 @@ tmp
 
 # logs
 debug.log
+
+# test coverage
+coverage/
+.nyc_output/
+
+# histoire
+.histoire/
