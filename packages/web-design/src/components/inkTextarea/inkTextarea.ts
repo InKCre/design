@@ -2,13 +2,6 @@ import { makeStringProp, makeBooleanProp } from "../../utils/vue-props";
 import { formControlCommonProps } from "../inkForm/inkForm";
 
 // --- Types ---
-export interface JsonEditConfig {
-  enableIndentation?: boolean;
-  enableQuoteCompletion?: boolean;
-  enableCommaCompletion?: boolean;
-  indentSize?: number;
-}
-
 type FieldLayout = "inline" | "col" | "row";
 
 // --- Props ---

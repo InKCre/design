@@ -21,7 +21,7 @@
 
   &__message {
     @include apply-font(label-lg);
-    margin: 0 0 sys-var(space-lg) 0;
+    margin: 0 0 sys-var(space, lg) 0;
     color: sys-var(color, text, secondary);
   }
 
