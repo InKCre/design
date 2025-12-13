@@ -7,6 +7,8 @@ yarn.lock
 
 # IDE files
 .vscode/
+!.vscode/settings.example.json
+!.vsocde/launch.example.json
 
 # temp files
 tmp
@@ -16,3 +18,10 @@ tmp
 
 # logs
 debug.log
+
+# test coverage
+coverage/
+.nyc_output/
+
+# histoire
+.histoire/

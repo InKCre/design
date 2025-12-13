@@ -1,22 +1,29 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
+import dts from "vite-plugin-dts";
 import { resolve } from "path";
 
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [vue(), dts({ rollupTypes: true })],
 
   build: {
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
       name: "InKCreWebDesign",
       fileName: "index",
-      formats: ["es", "cjs"],
+      formats: ["es"],
     },
-    rollupOptions: {
-      external: [],
-    },
-    cssCodeSplit: false,
+    sourcemap: "inline",
     outDir: "dist",
+    rollupOptions: {
+      external: ["vue", "vue-router", "dayjs"],
+
+      output: {
+        globals: {
+          vue: "Vue",
+        },
+      },
+    },
   },
 
   css: {

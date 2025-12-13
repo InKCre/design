@@ -1,67 +1,83 @@
-# `compName.md` guide
+# `compName.docs.md` rulebook
 
 ## Best Practices
 
-- Readers are Coding Agents, pay attention to Token Efficiency.
-- Do not include actual code or usage examples.
-- Use concise and clear language.
+- Story-driven, tells what this component can do, what can't do.
+- Every story should be an executable specification, not demo.
+- Do not maintain API (props, emits) in document, Histoire will generate it from code.
+- Write for Coding Agents. Pay attention to Token Efficiency. Use simple and concise language.
 
-## Template
+## Scaffold
 
-````markdown
-# compName
+The words in `>` is what you (agent) need to follow, do NOT includes in the final document.
+
+````md
+# CompName
+
+> Simple description of the problem this component solves.
 
 ## Rationale
 
-Why do we need this component?
+> Explain Why this component exists. 
 
-## Goals
+> Define when to use and when not to use.
 
-The goals of the component (core functionality).
+## Design Semantics
 
-## Key Concepts
+### Concepts
 
-Key concepts of the component, mainly proper nouns such as business logic. (Only list them, see the `docs/` directory for details)
+> For example:
+> - `ConceptA`: one-sentence definition
+> - `ConceptB`
 
-## Specification
+### Visual / UX Meaning
 
-Refinement of the component goals, including content, UI/UX, behavior, etc.
+> The semantic differences between states / variants. 
+> What changes the user is expected to perceive
 
-## Implementation
+## Canonical Examples
 
-Details about the implementation of the component.
+> The examples represent canonical usage, not an exhaustive combination of all parameters. For example:
+> - Subtle(default): Used as the normal/secondary action.
+>   ```vue
+>   <InkButton text="Save" type="primary" />
+>   ```
+> 
 
-### Props
+## Behavioral Contract
 
-- `PropName` (`type`, `defaultVal`, [required])：Supplemental explanation
+> Behavioral guarantees consumers can rely on. For example:
+> - In `loading` state:
+>   - No primary events should be emitted
+>   - No repeated submissions should occur
+> - In `disabled` state:
+>   - No hover / active feedback
+> - State transitions should be idempotent
+> - No uncaught exceptions should be thrown
 
-### Events
+## Extension & Composition
 
-- `eventName(param: ParamType)`: Supplemental explanation
+> For example:
+> - Can be composed with `CompGroup` / `FormItem`
+> - Supports both controlled and uncontrolled usage
+> - Not recommended to nest inside high-frequency reflow containers
 
-### Models
+## Non-Goals
 
-- `modelValue` (`type`, `defaultVal`, [required])：Supplemental explanation
+> Explicitly out of scope for this component. For example:
+> - Handling permissions or authorization logic
+> - Data persistence
+> - Business workflow orchestration
 
-### Slots
+## Implementation Notes
 
-- `default`：supplemental explanation
-- `header`：supplemental explanation
-
-#### SlotName
-
-> 仅当插槽比较复杂时。
-
-### Methods
-
-#### `methodName(param: ParamType): ReturnType {}`
-
-Detailed explanation if needed.
-
-### Watchers
-
-- `props.propName`：explain callback behavior
-- `refValue`：explain callback behavior
-
-## Others
+> Notes for maintainers, for example:
+> - Internal state is managed via `useXXX`
+> - Relies on browser capabilities such as `ResizeObserver`
+> - Notes on handling SSR / non-DOM environments
+> Note do not repeat project level implementation notes.
 ````
+
+## References
+
+- [Histoire Docs Guide](https://histoire.dev/guide/vue3/docs.html)
