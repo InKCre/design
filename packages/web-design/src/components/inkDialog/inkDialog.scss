@@ -1,0 +1,124 @@
+.ink-dialog-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9;
+}
+
+.ink-dialog {
+  position: absolute;
+  z-index: 10;
+  background-color: sys-var(color, surface, base);
+  padding: sys-var(space, md);
+  max-height: 90vh;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  gap: sys-var(space, md);
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: sys-var(space, xs);
+  }
+
+  &__title {
+    @include apply-font(heading-md);
+    color: sys-var(color, text, base);
+    margin: 0;
+  }
+
+  &__subtitle {
+    @include apply-font(body-md);
+    color: sys-var(color, text, subtle);
+    margin: 0;
+  }
+
+  &__content {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: sys-var(space, sm);
+  }
+
+  &--center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &--left {
+    top: 50%;
+    left: sys-var(space, md);
+    transform: translateY(-50%);
+    max-width: calc(50vw - sys-var(space, md));
+  }
+
+  &--right {
+    top: 50%;
+    right: sys-var(space, md);
+    transform: translateY(-50%);
+    max-width: calc(50vw - sys-var(space, md));
+  }
+
+  &--top {
+    top: sys-var(space, md);
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: calc(100vw - 2 * sys-var(space, md));
+  }
+
+  &--bottom {
+    bottom: sys-var(space, md);
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: calc(100vw - 2 * sys-var(space, md));
+  }
+}
+
+.ink-dialog-fade-enter-active,
+.ink-dialog-fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.ink-dialog-fade-enter-from,
+.ink-dialog-fade-leave-to {
+  opacity: 0;
+}
+
+.ink-dialog-slide-enter-active,
+.ink-dialog-slide-leave-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.ink-dialog-slide-enter-from,
+.ink-dialog-slide-leave-to {
+  opacity: 0;
+
+  .ink-dialog--center {
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+
+  .ink-dialog--left {
+    transform: translateY(-50%) translateX(-20px);
+  }
+
+  .ink-dialog--right {
+    transform: translateY(-50%) translateX(20px);
+  }
+
+  .ink-dialog--top {
+    transform: translateX(-50%) translateY(-20px);
+  }
+
+  .ink-dialog--bottom {
+    transform: translateX(-50%) translateY(20px);
+  }
+}
