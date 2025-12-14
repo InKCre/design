@@ -13,8 +13,8 @@ const {
   execute,
 } = useAsyncState(
   async () => {
-    const v = props.modelValue;
-    return v instanceof Promise ? await v : v;
+    const value = props.modelValue;
+    return value instanceof Promise ? await value : value;
   },
   false,
   {
