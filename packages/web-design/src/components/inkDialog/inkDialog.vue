@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch, provide } from "vue";
+import { computed, watch, provide, readonly } from "vue";
 import { useAsyncState } from "@vueuse/core";
 import { inkDialogProps, inkDialogEmits, type DialogPosition } from "./inkDialog";
 import InkButton from "../inkButton/inkButton.vue";
@@ -40,7 +40,7 @@ const open = computed({
 const isLoading = computed(() => isDialogLoading.value);
 
 // Provide loading state to buttons via inject
-provide("isLoading", isLoading);
+provide("isLoading", readonly(isLoading));
 
 const positionClasses = computed(() => {
   const pos = props.position;

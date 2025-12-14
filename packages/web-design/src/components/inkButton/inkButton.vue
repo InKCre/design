@@ -1,13 +1,18 @@
 <script setup lang="ts">
-import { computed, inject } from "vue";
+import { computed, inject, type ComputedRef } from "vue";
 import { inkButtonProps, inkButtonEmits } from "./inkButton";
 
 const props = defineProps(inkButtonProps);
 const emit = defineEmits(inkButtonEmits);
 
-const injectedIsLoading = inject<boolean>("isLoading", false);
+const injectedIsLoading = inject<ComputedRef<boolean> | boolean>("isLoading", false);
 
-const isLoading = computed(() => props.isLoading || injectedIsLoading);
+const isLoading = computed(() => {
+  if (typeof injectedIsLoading === 'boolean') {
+    return props.isLoading || injectedIsLoading;
+  }
+  return props.isLoading || injectedIsLoading.value;
+});
 
 const buttonClass = computed(() => [
   "ink-button",
