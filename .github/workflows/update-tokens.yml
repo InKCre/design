@@ -11,38 +11,38 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
+
       - name: Create tokens directory
         run: mkdir -p tokens
-      
+
       - name: Create JSON from request body
         id: create-json
         uses: jsdaniell/create-json@v1.2.3
         with:
           name: ${{ github.event.client_payload.filename }}
           json: ${{ github.event.client_payload.tokens }}
-          dir: 'tokens'
-      
+          dir: "tokens"
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-      
+          node-version: "20"
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10.22.0
-      
+          version: 10.25.0
+
       - name: Install dependencies
         run: pnpm install
-      
+
       - name: Transform tokens
         run: pnpm run build-tokens tokens/${{ github.event.client_payload.filename }}
-      
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
