@@ -9,6 +9,10 @@ import { EditorState, Compartment } from "@codemirror/state";
 import { json } from "@codemirror/lang-json";
 import { defaultKeymap, indentWithTab } from "@codemirror/commands";
 import { closeBrackets, closeBracketsKeymap } from "@codemirror/autocomplete";
+import { jsonService } from "./jsonSchemaService";
+import { linter } from "@codemirror/lint";
+import { autocompletion } from "@codemirror/autocomplete";
+import { TextDocument } from "vscode-json-languageservice";
 
 const props = defineProps(inkJsonEditorProps);
 const emit = defineEmits(inkJsonEditorEmits);
@@ -23,7 +27,93 @@ const editorRef = ref<HTMLDivElement>();
 let editorView: EditorView | null = null;
 const editableCompartment = new Compartment();
 
+const jsonSchemaLinter = linter(async (view) => {
+  if (!props.schema) return [];
+
+  const text = view.state.doc.toString();
+
+  const doc = TextDocument.create(props.schemaUri, "json", 0, text);
+  const jsonDocument = jsonService.parseJSONDocument(doc);
+
+  const diagnostics = await jsonService.doValidation(doc, jsonDocument);
+
+  return diagnostics.map((d) => {
+    const from = view.state.doc.line(d.range.start.line + 1).from;
+    const to = view.state.doc.line(d.range.end.line + 1).to;
+
+    return {
+      from,
+      to,
+      severity: d.severity === 1 ? "error" : "warning",
+      message: d.message,
+    };
+  });
+});
+
+const jsonSchemaCompletion = autocompletion({
+  override: [
+    async (ctx) => {
+      if (!props.schema) return null;
+
+      try {
+        const text = ctx.state.doc.toString();
+
+        const textDocument = TextDocument.create(
+          props.schemaUri,
+          "json",
+          0,
+          text
+        );
+
+        const jsonDocument = jsonService.parseJSONDocument(textDocument);
+
+        const position = textDocument.positionAt(ctx.pos);
+
+        const completion = await jsonService.doComplete(
+          textDocument,
+          position,
+          jsonDocument
+        );
+
+        return {
+          from: ctx.pos,
+          options: completion
+            ? completion.items.map((item) => ({
+                label: item.label,
+                type:
+                  item.kind === 10
+                    ? "property"
+                    : item.kind === 12
+                    ? "enum"
+                    : "value",
+                detail: item.detail,
+                info: item.documentation,
+              }))
+            : [],
+        };
+      } catch (err) {
+        console.warn("[InkJsonEditor] JSON Schema completion error", err);
+        return null;
+      }
+    },
+  ],
+});
+
 // --- methods ---
+const configureSchema = () => {
+  if (!props.schema) return;
+
+  jsonService.configure({
+    schemas: [
+      {
+        uri: props.schemaUri,
+        fileMatch: ["*"],
+        schema: props.schema,
+      },
+    ],
+  });
+};
+
 const createEditor = () => {
   if (!editorRef.value) return;
 
@@ -31,6 +121,10 @@ const createEditor = () => {
     doc: props.modelValue,
     extensions: [
       json(),
+      // JSON Schema support
+      jsonSchemaLinter,
+      jsonSchemaCompletion,
+      // JSON Schema support end
       closeBrackets(),
       keymap.of(closeBracketsKeymap),
       keymap.of([...defaultKeymap, indentWithTab]),
@@ -73,6 +167,7 @@ const updateEditorValue = (newValue: string) => {
 };
 
 onMounted(() => {
+  configureSchema();
   createEditor();
 });
 

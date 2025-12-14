@@ -2,20 +2,42 @@
 import { ref } from "vue";
 import InkJsonEditor from "./inkJsonEditor.vue";
 
-const jsonData = ref('{\n  "name": "InKCre",\n  "type": "organization"\n}');
+const jsonData = ref(
+  JSON.stringify(
+    {
+      name: "InKCre Design System",
+      version: "1.0.0",
+      components: ["inkButton", "inkForm", "inkLoading", "inkJsonEditor"],
+    },
+    null,
+    2
+  )
+);
+
+const jsonSchema = ref({
+  type: "object",
+  properties: {
+    name: { type: "string" },
+    version: { type: "string" },
+    components: {
+      type: "array",
+      items: { type: "string" },
+    },
+  },
+  required: ["name", "version", "components"],
+});
 </script>
 
 <template>
   <Story
-    title="Specialized/JsonEditor/[Semantic] Basic"
-    :layout="{ type: 'single', iframe: false }"
+    title="Specialized/JsonEditor"
+    :layout="{ iframe: false, type: 'single' }"
   >
-    <Variant title="JSON Editor">
-      <InkJsonEditor
-        v-model:value="jsonData"
-        label="Configuration"
-        layout="col"
-      />
+    <Variant title="Basic">
+      <InkJsonEditor v-model="jsonData" />
+    </Variant>
+    <Variant title="JSON Schema">
+      <InkJsonEditor v-model="jsonData" :schema="jsonSchema" />
     </Variant>
   </Story>
 </template>

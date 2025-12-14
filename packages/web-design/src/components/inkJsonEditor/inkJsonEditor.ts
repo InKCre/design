@@ -1,13 +1,21 @@
-import { makeStringProp, makeNumberProp } from "../../utils/vue-props";
+import {
+  makeStringProp,
+  makeNumberProp,
+  makeObjectProp,
+} from "../../utils/vue-props";
 import { formControlCommonProps } from "../inkForm/inkForm";
 
 // --- Props ---
 export const inkJsonEditorProps = {
   ...formControlCommonProps,
-  // Ensured to be a valid JSON string
+  /** Ensured to be a valid JSON string
+   */
   modelValue: makeStringProp(""),
   placeholder: makeStringProp(""),
   rows: makeNumberProp(5),
+  // --- JSON Schema features ---
+  schema: makeObjectProp(),
+  schemaUri: makeStringProp("inkcre://schema.json"),
 } as const;
 
 // --- Emits ---

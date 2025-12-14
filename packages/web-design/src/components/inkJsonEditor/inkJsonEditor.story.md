@@ -33,6 +33,7 @@ Displays an editable textarea optimized for JSON editing or read-only formatted 
 - **Tab/Shift+Tab**: Add or remove 2-space indentation on the current line
 - **Quote auto-completion**: Typing `"` or `'` automatically adds the closing quote and places cursor between them
 - **Comma completion**: Automatically suggests comma placement after closing braces in appropriate contexts
+- **JSON Schema**: Provided by `vscode-json-languageservice`
 
 ## Others
 

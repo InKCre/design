@@ -15,14 +15,9 @@ Each component has a folder (`compName/`) containing the following files:
 
 - Single Responsibility Principle
 - High Cohesion and Low Coupling
-- Easy to Test and Maintain
 - Clear and consistent API
 - Avoid prop drilling
-- Proper use of provide/inject
-
-### Interface
-
-- if prop `modelValue` is mutable, and the component tends to be state less, name it `value` and do not emit `update:value`
+- Easy to Test and Maintain
 
 ### Naming
 

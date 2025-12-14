@@ -4,10 +4,10 @@ import InkDatetimePickerView from "./inkDatetimePickerView.vue";
 
 <template>
   <Story
-    title="Specialized/DatetimePickerView/[Semantic] Views"
+    title="Specialized/DatetimePickerView"
     :layout="{ type: 'single', iframe: false }"
   >
-    <Variant title="Date View">
+    <Variant title="Basic">
       <InkDatetimePickerView type="date" />
     </Variant>
   </Story>

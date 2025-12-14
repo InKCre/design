@@ -1,2 +1,4 @@
 - [ ] useNamespace
-- [ ] Deploy historie
+- [ ] Auto release
+- [x] Auto publish
+- [ ] styles 放到 src 外边？

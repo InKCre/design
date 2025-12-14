@@ -39,7 +39,7 @@ export const makeStringProp = <T>(defaultVal?: T) => ({
   default: defaultVal,
 });
 
-export const makeObjectProp = <T>(defaultVal: T) => ({
+export const makeObjectProp = <T = object>(defaultVal?: T) => ({
   type: Object as PropType<T>,
   default: () => defaultVal,
 });
