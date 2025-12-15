@@ -26,6 +26,19 @@ import InkButton from "./inkButton.vue";
       <InkButton text="Small Button" type="primary" size="sm" />
     </Variant>
 
+    <!-- [State] Loading -->
+    <Variant title="Loading State - Subtle">
+      <InkButton text="Loading Button" type="subtle" :isLoading="true" />
+    </Variant>
+
+    <Variant title="Loading State - Primary">
+      <InkButton text="Loading Button" type="primary" :isLoading="true" />
+    </Variant>
+
+    <Variant title="Loading State - Danger">
+      <InkButton text="Loading Button" type="danger" :isLoading="true" />
+    </Variant>
+
     <!-- [Edge] Content Stress -->
     <Variant title="Very Long Text">
       <InkButton

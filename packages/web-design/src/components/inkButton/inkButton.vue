@@ -30,10 +30,12 @@ const handleClick = () => {
 
 <template>
   <button :class="buttonClass" :disabled="isLoading" @click="handleClick">
-    <span v-if="isLoading" class="i-mdi-loading animate-spin ink-button__spinner"></span>
-    <slot v-else>
+    <slot>
       <span>{{ text }}</span>
     </slot>
+    <span v-if="isLoading" class="ink-button__loading-overlay">
+      <span class="i-mdi-loading animate-spin"></span>
+    </span>
   </button>
 </template>
 
