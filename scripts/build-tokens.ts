@@ -18,7 +18,7 @@ const __dirname = dirname(__filename);
 // ============================================================================
 
 const DEFAULT_TOKEN_FILE = "tokens/inkcre.tokens.json";
-const OUTPUT_DIR = "packages/web-design/src/styles/tokens";
+const OUTPUT_DIR = "packages/web-design/styles/tokens";
 
 // ============================================================================
 // Utility Functions
