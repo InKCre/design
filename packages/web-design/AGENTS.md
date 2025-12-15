@@ -4,11 +4,12 @@ This package provides a consistent design system and common components for InKCr
 
 ## Tech Stacks
 
-- Framework: Vue3 + TypeScript + Sass(scss) + Vite
+- Framework: Vue3 + TypeScript + Vite
+- Styles: Sass(scss) + UnoCSS (iconfont only)
 - Internalization: vue-i18n
 - Story-driven tooling: [Histoire](https://histoire.dev)
+- Automate test: Vitest
 - Packagae management: pnpm
-- Release management: changeset
 
 ## Project Strucutre (Crucial Only)
 

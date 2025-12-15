@@ -40,6 +40,17 @@ app.use(InKCreWebDesign)
 }
 ```
 
+```ts
+// uno.config.ts
+export default defineConfig({
+    ...,
+    safelist: [
+        'i-mdi-menu',
+        'i-mdi-loading'
+    ]
+})
+```
+
 ## Features
 
 - Design tokens automatically generated from the main tokens file
