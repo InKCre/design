@@ -1,12 +1,12 @@
 @keyframes ink-loading-pulse {
   0% {
-    background-color: ref-var(color, neutral, 50);
+    opacity: 1;
   }
   50% {
-    background-color: sys-var(color, neutral, 60);
+    opacity: 0.4;
   }
   100% {
-    background-color: ref-var(color, neutral, 80);
+    opacity: 0.8;
   }
 }
 
@@ -16,18 +16,21 @@
   gap: sys-var(space, xs);
 
   &__block {
-    animation: ink-loading-pulse 1.5s ease-in-out infinite;
+    animation: ink-loading-pulse 0.9s ease-in-out infinite;
 
     &--1 {
+      background-color: ref-var(color, neutral, 80);
       animation-delay: 0s;
     }
 
     &--2 {
+      background-color: ref-var(color, neutral, 70);
       animation-delay: 0.3s;
     }
 
     &--3 {
-      animation-delay: 0.6s;
+      background-color: ref-var(color, neutral, 80);
+      animation-delay: 0.5s;
     }
   }
 
