@@ -4,7 +4,7 @@
 
 - Story-driven, tells what this component can do, what can't do.
 - Every story should be an executable specification, not demo.
-- Do not maintain API (props, emits) in document, Histoire will generate it from code.
+- Maintain API (props, emits) in the code, not document.
 - Write for Coding Agents. Pay attention to Token Efficiency. Use simple and concise language.
 
 ## Scaffold

@@ -5,9 +5,10 @@ package-lock.json
 yarn.lock
 
 # IDE files
-.vscode/
-!.vscode/settings.example.json
-!.vsocde/launch.example.json
+.vscode/*
+!.vscode/*.example.jsonc
+!.vscode/*.code-snippets
+!.vscode/extensions.json
 
 # temp files
 tmp

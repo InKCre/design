@@ -1,0 +1,16 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build web-design",
+            "type": "shell",
+            "command": "pnpm",
+            "args": [
+                "--filter",
+                "web-design",
+                "build"
+            ],
+            "group": "build"
+        }
+    ]
+}

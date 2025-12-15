@@ -14,23 +14,29 @@ import { makeStringProp } from "@/utils/props";  // use utils/vue-props.ts
 
 // --- Props ---
 export const compNameProps = {
+  /** Key notes */
   propName: makeStringProp<"option1" | "option2">("option1"),
+  /** Key notes */
   requiredProp: {
     type: Object as PropType<SomeInterface>,
     required: true,
-  },
+  }
 };
-
-// --- Models ---
-// If mutable, and the component tends to be state-less, use prop `value` rather than model.
 
 // --- Emits ---
 export const compNameEmits = {
+  /** Key notes */
   eventName: (param: ParamType) => true;
 };
 
 // --- Utilities ---
+/** Key notes */
 export function helperFunction() {
   // ...
 }
 ```
+
+## Best Practices
+
+- If model is mutable (eg. object, array), AND the component tends to be state-less, use prop rather than a model.
+- It's suggested to use `defineModel` is `compName.vue`.

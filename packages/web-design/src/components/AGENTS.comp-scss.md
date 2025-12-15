@@ -23,5 +23,5 @@ Never use reference tokens directly.
 
 ## Use icons
 
-- You can use icon by adding class `i-mdi-<icon-name>`.
+- You can use icon by adding class `i-mdi-<icon-name>`. (add to README.md uno.config.ts safelist)
 - Configure icon size and layout using `pu-icon` mixin.

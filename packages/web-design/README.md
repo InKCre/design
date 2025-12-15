@@ -46,7 +46,11 @@ export default defineConfig({
     ...,
     safelist: [
         'i-mdi-menu',
-        'i-mdi-loading'
+        'i-mdi-loading',
+        i-mdi-refresh,
+        'i-mdi-chevron-right',
+        'i-mdi-chevron-down',
+        'animate-spin'
     ]
 })
 ```
