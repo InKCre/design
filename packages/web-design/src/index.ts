@@ -6,6 +6,7 @@ import "./styles/index.scss";
 import InkButton from "./components/inkButton/inkButton.vue";
 import InkHeader from "./components/inkHeader/inkHeader.vue";
 import InkDatetimePickerView from "./components/inkDatetimePickerView/inkDatetimePickerView.vue";
+import InkDialog from "./components/inkDialog/inkDialog.vue";
 import InkDoubleCheck from "./components/inkDoubleCheck/inkDoubleCheck.vue";
 import InkDropdown from "./components/inkDropdown/inkDropdown.vue";
 import InkField from "./components/inkField/inkField.vue";
@@ -25,6 +26,7 @@ export default {
     app.component("InkButton", InkButton);
     app.component("InkHeader", InkHeader);
     app.component("InkDatetimePickerView", InkDatetimePickerView);
+    app.component("InkDialog", InkDialog);
     app.component("InkDoubleCheck", InkDoubleCheck);
     app.component("InkDropdown", InkDropdown);
     app.component("InkField", InkField);
@@ -44,6 +46,7 @@ export {
   InkButton,
   InkHeader,
   InkDatetimePickerView,
+  InkDialog,
   InkDoubleCheck,
   InkDropdown,
   InkField,

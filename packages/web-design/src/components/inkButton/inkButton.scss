@@ -9,6 +9,29 @@
   border: none;
   background-color: transparent;
   color: sys-var(color, text, base);
+  position: relative;
+
+  &__loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: inherit;
+    opacity: sys-var(opacity, strong);
+    @include apply-icon(lg);
+  }
+
+  &--loading {
+    cursor: not-allowed;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 
   // Size variants
   &--md {

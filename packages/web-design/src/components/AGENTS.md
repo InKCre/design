@@ -1,4 +1,4 @@
-# `@inkcre/web-design` components coding guide
+# `packages/web-design/components` coding guide
 
 ## File Structure
 
@@ -29,3 +29,11 @@ Each component has a folder (`compName/`) containing the following files:
 - Graceful degradation
 - User-friendly error messages
 - Logging
+
+## Task Checklist
+
+- [ ] Update `compName.story.md` to plan the changes
+- [ ] Ensure type-safety (avoid `any`, `unknown`)
+- [ ] Update `compName.test.ts` and pass the test
+- [ ] Update `compName.story.vue`
+- [ ] Ensure code match `compName.story.md`
