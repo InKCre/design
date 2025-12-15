@@ -61,6 +61,9 @@
   },
   "devDependencies": {
     "@histoire/plugin-vue": "1.0.0-alpha.5",
+    "@iconify-json/mdi": "^1.2.3",
+    "@unocss/preset-icons": "^66.5.10",
+    "@unocss/preset-wind3": "^66.5.10",
     "@vitejs/plugin-vue": "^6.0.3",
     "@vitest/coverage-v8": "^4.0.15",
     "@vitest/ui": "^4.0.15",
@@ -73,6 +76,7 @@
     "rimraf": "^6.0.1",
     "sass": "^1.94.2",
     "style-dictionary": "^4.0.0",
+    "unocss": "^66.5.10",
     "vite": "^7.2.7",
     "vite-plugin-dts": "^4.5.4",
     "vitest": "^4.0.15",
@@ -83,14 +87,13 @@
     "@codemirror/autocomplete": "^6.20.0",
     "@codemirror/commands": "^6.10.0",
     "@codemirror/lang-json": "^6.0.2",
+    "@codemirror/lint": "^6.9.2",
     "@codemirror/state": "^6.5.2",
     "@codemirror/view": "^6.38.8",
-    "@codemirror/lint": "^6.9.2",
+    "@vueuse/core": "^14.0.0",
+    "dayjs": "^1.11.0",
     "vscode-json-languageservice": "^5.6.4",
     "vue": "^3.0.0",
-    "vue-router": "^4.0.0",
-    "@vueuse/core": "^14.0.0",
-    "dayjs": "^1.11.0"
-  },
-  "dependencies": {}
+    "vue-router": "^4.0.0"
+  }
 }

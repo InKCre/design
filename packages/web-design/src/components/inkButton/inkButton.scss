@@ -21,7 +21,8 @@
     align-items: center;
     justify-content: center;
     background-color: inherit;
-    opacity: 0.95;
+    opacity: sys-var(opacity, strong);
+    @include apply-icon(lg);
   }
 
   &--loading {

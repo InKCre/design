@@ -356,6 +356,10 @@
         "md": {
           "type": "dimension",
           "value": 24
+        },
+        "lg": {
+          "type": "dimension",
+          "value": 36
         }
       },
       "iconfont": {
@@ -366,6 +370,10 @@
         "md": {
           "type": "dimension",
           "value": 12
+        },
+        "lg": {
+          "type": "dimension",
+          "value": 18
         }
       },
       "xl": {

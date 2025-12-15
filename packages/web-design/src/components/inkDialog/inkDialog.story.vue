@@ -25,12 +25,13 @@ const handleLoadingConfirm = () => {
 </script>
 
 <template>
-  <Story
-    title="Feedback/Dialog/[Semantic] Basic"
-    :layout="{ type: 'single', iframe: false }"
-  >
-    <Variant title="Basic Dialog">
-      <InkButton text="Open Dialog" type="primary" @click="basicDialog = true" />
+  <Story title="Feedback/Dialog" :layout="{ type: 'single', iframe: false }">
+    <Variant title="Basic">
+      <InkButton
+        text="Open Dialog"
+        type="primary"
+        @click="basicDialog = true"
+      />
       <InkDialog
         v-model="basicDialog"
         title="Dialog Title"
@@ -40,17 +41,18 @@ const handleLoadingConfirm = () => {
       </InkDialog>
     </Variant>
 
-    <Variant title="Dialog with Custom Slots">
-      <InkButton text="Open Dialog" type="primary" @click="withSlotsDialog = true" />
-      <InkDialog
-        v-model="withSlotsDialog"
-        title="Custom Dialog"
-      >
+    <Variant title="with Custom Slots">
+      <InkButton
+        text="Open Dialog"
+        type="primary"
+        @click="withSlotsDialog = true"
+      />
+      <InkDialog v-model="withSlotsDialog" title="Custom Dialog">
         <template #default="{ cancel, confirm, isLoading }">
-          <div style="padding: 20px;">
+          <div style="padding: 20px">
             <p>Are you sure you want to proceed?</p>
             <p v-if="isLoading">Processing...</p>
-            <div style="display: flex; gap: 10px; margin-top: 10px;">
+            <div style="display: flex; gap: 10px; margin-top: 10px">
               <InkButton text="No" type="subtle" @click="cancel" />
               <InkButton text="Yes" type="primary" @click="confirm" />
             </div>
@@ -59,8 +61,12 @@ const handleLoadingConfirm = () => {
       </InkDialog>
     </Variant>
 
-    <Variant title="Async Dialog (Promise)">
-      <InkButton text="Open Async Dialog" type="primary" @click="asyncDialog = true" />
+    <Variant title="Async">
+      <InkButton
+        text="Open Async Dialog"
+        type="primary"
+        @click="asyncDialog = true"
+      />
       <InkDialog
         v-model="asyncDialog"
         title="Async Dialog"
@@ -71,8 +77,12 @@ const handleLoadingConfirm = () => {
       </InkDialog>
     </Variant>
 
-    <Variant title="Dialog Without Cancel">
-      <InkButton text="Open Dialog" type="primary" @click="loadingDialog = true" />
+    <Variant title="Without Cancel">
+      <InkButton
+        text="Open Dialog"
+        type="primary"
+        @click="loadingDialog = true"
+      />
       <InkDialog
         v-model="loadingDialog"
         title="Confirm Action"

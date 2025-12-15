@@ -5,10 +5,13 @@ import { inkButtonProps, inkButtonEmits } from "./inkButton";
 const props = defineProps(inkButtonProps);
 const emit = defineEmits(inkButtonEmits);
 
-const injectedIsLoading = inject<ComputedRef<boolean> | boolean>("isLoading", false);
+const injectedIsLoading = inject<ComputedRef<boolean> | boolean>(
+  "isLoading",
+  false
+);
 
 const isLoading = computed(() => {
-  if (typeof injectedIsLoading === 'boolean') {
+  if (typeof injectedIsLoading === "boolean") {
     return props.isLoading || injectedIsLoading;
   }
   return props.isLoading || injectedIsLoading.value;
@@ -23,7 +26,7 @@ const buttonClass = computed(() => [
 
 const handleClick = () => {
   if (!isLoading.value) {
-    emit('click');
+    emit("click");
   }
 };
 </script>
@@ -33,9 +36,9 @@ const handleClick = () => {
     <slot>
       <span>{{ text }}</span>
     </slot>
-    <span v-if="isLoading" class="ink-button__loading-overlay">
-      <span class="i-mdi-loading animate-spin"></span>
-    </span>
+    <div v-if="isLoading" class="ink-button__loading-overlay">
+      <span class="i-mdi-loading animate-spin" />
+    </div>
   </button>
 </template>
 
