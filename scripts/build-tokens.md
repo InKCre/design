@@ -2,12 +2,12 @@
 
 Transforms design tokens from JSON (follows W3C DTCG) to SCSS format.
 
-Input:
+## Input
 
 - Default: inkcre.tokens.json
 - Optional: Custom path via command line argument
 
-Output:
+## Output
 
 For packages/web-design:
 
@@ -31,18 +31,23 @@ For packages/web-design:
   - <comp-name> (from `comp.<comp-name>`)
   - all: aggregate all components tokens
 
-Transforms
+## Transforms
 
 - attribute/kebab-path: Converts token paths to kebab-case
 - color/hex-no-alpha: Removes alpha channel from hex colors
-- size/px: Adds px unit to dimension tokens
+- size/px: Adds px unit to dimension tokens (except `opacity`)
 
-Token naming
+## Token naming
 
 - camelCase converted to kebab-case
 - Special characters replaced with hyphens
 - All paths normalized to lowercase
 
-Usage
-npm run build-tokens
-node scripts/build-tokens.mjs [custom-tokens.json]
+## Usage
+
+- `npm run build-tokens`
+- or `node scripts/build-tokens.mjs [custom-tokens.json]`
+
+## Development
+
+Based on Style Dictionary, read [API reference here](https://styledictionary.com/reference/api/)
