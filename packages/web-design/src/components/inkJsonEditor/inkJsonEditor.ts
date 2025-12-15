@@ -12,6 +12,9 @@ export const inkJsonEditorProps = {
    */
   modelValue: makeStringProp(""),
   placeholder: makeStringProp(""),
+  /**
+   * the number of visible text rows, affecting the fixed height
+   */
   rows: makeNumberProp(5),
   // --- JSON Schema features ---
   schema: makeObjectProp(),

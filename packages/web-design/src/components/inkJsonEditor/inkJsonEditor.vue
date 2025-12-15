@@ -52,6 +52,7 @@ const jsonSchemaLinter = linter(async (view) => {
 
 const jsonSchemaCompletion = autocompletion({
   override: [
+    // @ts-ignore
     async (ctx) => {
       if (!props.schema) return null;
 
@@ -99,6 +100,14 @@ const jsonSchemaCompletion = autocompletion({
   ],
 });
 
+// computed
+
+const rootStyles = computed(() => {
+  return {
+    height: `calc(${props.rows * 1.2}em + var(--sys-space-sm) * 2)`,
+  };
+});
+
 // --- methods ---
 const configureSchema = () => {
   if (!props.schema) return;
@@ -135,16 +144,6 @@ const createEditor = () => {
           emit("update:modelValue", update.state.doc.toString());
         }
       }),
-      // Basic styling
-      EditorView.theme({
-        "&": {
-          height: "auto",
-          minHeight: `${props.rows * 1.4}em`, // Approximate
-        },
-        ".cm-scroller": {
-          fontFamily: '"Monaco", "Courier New", monospace',
-        },
-      }),
     ],
   });
 
@@ -172,9 +171,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  if (editorView) {
-    editorView.destroy();
-  }
+  editorView?.destroy();
 });
 
 watch(
@@ -204,7 +201,7 @@ const [DefineJsonEditor, ReuseJsonEditor] = createReusableTemplate();
 
 <template>
   <DefineJsonEditor>
-    <div class="ink-json-editor">
+    <div class="ink-json-editor" :style="rootStyles">
       <div
         ref="editorRef"
         :class="[

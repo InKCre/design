@@ -1,23 +1,22 @@
 .ink-json-editor {
-  width: 100%;
-  box-sizing: border-box;
+  border: 1px solid sys-var(color, border, subtle);
+  transition: border-color 0.15s ease;
+  padding: sys-var(space, sm);
+  line-height: 1.2 !important;
 
   &__editor {
-    border: 1px solid sys-var(color, border, subtle);
+    height: 100%;
+    box-sizing: border-box;
 
     :deep(.cm-editor) {
       border: none;
       outline: none;
+      height: 100%;
     }
 
     :deep(.cm-scroller) {
       font-family: "Monaco", "Courier New", monospace;
       @include apply-font(label-lg);
-      padding: sys-var(space, sm);
-    }
-
-    :deep(.cm-focused) {
-      border-color: sys-var(color, border, active);
     }
 
     &--readonly {
@@ -25,5 +24,9 @@
         background: sys-var(color, background, secondary);
       }
     }
+  }
+
+  &:focus-within {
+    border-color: sys-var(color, border, base);
   }
 }

@@ -1,40 +1,75 @@
 # InkJsonEditor
 
-## Rationale
-
 A specialized textarea component for editing JSON with enhanced editing features.
 
-## Goals
+## Rationale
 
-Provide a consistent JSON editor field for forms with smart indentation, quote completion, and comma completion to streamline JSON configuration editing.
+InkJsonEditor exists to provide a consistent JSON editor field for forms with smart indentation, quote completion, and comma completion to streamline JSON configuration editing.
 
-## Specification
+Use it for editing JSON strings in forms; avoid using it for general text editing or non-JSON content.
 
-Displays an editable textarea optimized for JSON editing or read-only formatted text. Provides smart editing features to streamline JSON configuration editing. When used inside InkForm with a label, it automatically integrates with InkField for consistent field layout.
+## Design Semantics
 
-## Implementation
+### Concepts
 
-### Props
+### Visual / UX Meaning
 
-- `value` (`string`, `""`)：The textarea value
-- `editable` (`boolean`, `true`)：Whether the field is editable
-- `placeholder` (`string`, `""`)：Placeholder text
-- `rows` (`number`, `5`)：Number of visible rows
-- `prop` (`string`, `""`)：The property name for form binding
-- `label` (`string`, `""`)：The field label. When provided and inside InkForm, the component uses InkField internally
-- `layout` (`"inline" | "col" | "row"`, `"inline"`)：The field layout (only applies when inside InkForm with label). If not specified, inherits from InkForm's layout
+- Editable mode: displays a textarea with JSON editing features
+- Read-only mode: displays formatted JSON text
 
-### Events
+## Canonical Examples
 
-- `update:value(value: string)`: Emitted when the textarea value changes
+- Basic editable JSON editor:
 
-### JSON Edit Features
+  ```html
+  <InkJsonEditor v-model="{}" />
+  ```
 
-- **Tab/Shift+Tab**: Add or remove 2-space indentation on the current line
-- **Quote auto-completion**: Typing `"` or `'` automatically adds the closing quote and places cursor between them
-- **Comma completion**: Automatically suggests comma placement after closing braces in appropriate contexts
-- **JSON Schema**: Provided by `vscode-json-languageservice`
+- With label inside form:
 
-## Others
+  ```html
+  <InkField label="Configuration">
+    <InkJsonEditor v-model="{}" />
+  </InkField>
+  ```
 
-现在还不是造轮子，学习的时候，要先把产品搞上线先；用成熟的轮子就好：Code Mirror 6
+- Read-only display:
+
+  ```html
+  <InkJsonEditor :editable="false" v-model='{"key": "value"}' />
+  ```
+
+- Json Schema:
+
+  ```html
+  <InkJsonEditor v-model='{"key": "value"}' schema='{"type": "object", "properties": {...}}'  />
+  ```
+
+## Behavioral Contract
+
+- Use modelValue
+- Supports keyboard shortcuts: Tab/Shift+Tab for indentation, quote auto-completion, comma completion
+- Uses JSON schema validation via `vscode-json-languageservice`
+- When `editable` is false, no input is allowed
+
+## Extension & Composition
+
+- Integrates with InkForm and InkField for consistent form layout
+- Can be used standalone or within forms
+- Supports custom layouts via `layout` prop
+
+## Non-Goals
+
+- General text editing (only optimized for JSON)
+- Data validation beyond JSON syntax
+- File upload or external JSON loading
+
+## Implementation Notes
+
+- Built on Code Mirror 6 for advanced editing features
+- Height is fixed to `rows * 1.2em + space-sm * 2` and so set `line-height: 1.2 !important`
+- JSON edit features: tab indentation, quote completion, comma completion, JSON schema support (vscode-json-languageservice)
+
+### Other
+
+It's not time to reinvent the wheel yet; when learning, prioritize getting the product online first; use mature libraries like Code Mirror 6
