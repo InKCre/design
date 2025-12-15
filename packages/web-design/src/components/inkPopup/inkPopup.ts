@@ -1,4 +1,4 @@
-import { makeStringProp, makeBooleanProp } from "../../utils/vue-props";
+import { makeBooleanProp } from "../../utils/vue-props";
 import type { PropType } from "vue";
 
 // --- Types ---
@@ -12,7 +12,6 @@ export type PopupPosition =
 
 // --- Props ---
 export const inkPopupProps = {
-  open: makeBooleanProp(false),
   position: {
     type: [String, Array] as PropType<PopupPosition>,
     default: "center",
@@ -22,5 +21,5 @@ export const inkPopupProps = {
 
 // --- Emits ---
 export const inkPopupEmits = {
-  "update:open": (value: boolean) => typeof value === "boolean",
+  "scrim-click": () => true,
 } as const;

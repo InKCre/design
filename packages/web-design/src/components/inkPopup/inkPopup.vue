@@ -36,6 +36,7 @@ const onScrimClick = () => {
   if (props.closeOnScrim) {
     open.value = false;
   }
+  emit("scrim-click");
 };
 </script>
 

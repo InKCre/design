@@ -14,6 +14,7 @@ declare module "vue" {
     InkLoading: typeof import("./index")["InkLoading"];
     InkPicker: typeof import("./index")["InkPicker"];
     InkPopup: typeof import("./index")["InkPopup"];
+    InkDialog: typeof import("./index")["InkDialog"];
     InkSwitch: typeof import("./index")["InkSwitch"];
     InkTextarea: typeof import("./index")["InkTextarea"];
     InkTooltip: typeof import("./index")["InkTooltip"];
