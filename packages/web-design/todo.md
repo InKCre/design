@@ -1,6 +1,7 @@
 - [ ] useNamespace
-- [ ] Auto release
+- [x] Auto release
 - [x] Auto publish
-- [ ] styles 放到 src 外边？
+- [x] styles 放到 src 外边？
 - [ ] 编写单元测试
 - [ ] 更新 story 的结构
+- [ ] InkHeader pageTitle 和 menu
