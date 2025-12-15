@@ -1,6 +1,6 @@
 import type { App } from "vue";
 
-import "./styles/index.scss";
+import "../styles/index.scss";
 
 // Import components for global registration
 import InkButton from "./components/inkButton/inkButton.vue";
