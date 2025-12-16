@@ -60,3 +60,7 @@ export {
   InkTextarea,
   InkTooltip,
 };
+
+// Others
+
+export { INK_ROUTER_KEY } from "./router";

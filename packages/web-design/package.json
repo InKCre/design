@@ -16,7 +16,7 @@
       "import": "./dist/index.js",
       "sass": "./styles/index.scss",
       "style": "./dist/index.css",
-      "types": "./dist/components.d.ts",
+      "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
     "./styles": {

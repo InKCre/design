@@ -1,5 +1,6 @@
 import type { GlobalComponents } from "vue";
 
+// components
 declare module "vue" {
   export interface GlobalComponents {
     InkButton: typeof import("./index")["InkButton"];
@@ -20,3 +21,6 @@ declare module "vue" {
     InkTooltip: typeof import("./index")["InkTooltip"];
   }
 }
+
+// others
+export type { InkRouter } from "./router";

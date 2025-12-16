@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { computed, getCurrentInstance } from "vue";
+import { computed, inject } from "vue";
 import { inkHeaderProps, inkHeaderEmits } from "./inkHeader";
+import { useOptionalRouter } from "../../router";
 
 const props = defineProps(inkHeaderProps);
 const emit = defineEmits(inkHeaderEmits);
 
-// Try to use vue-router if available
-const instance = getCurrentInstance();
-const router = instance?.appContext.config.globalProperties.$router;
-const route = instance?.appContext.config.globalProperties.$route;
+const router = useOptionalRouter();
 
 // --- computed ---
-const displayPageTitle = computed(() => props.pageTitle ?? route?.name);
+const displayPageTitle = computed(
+  () => props.pageTitle ?? router?.currentName.value
+);
 
 // --- methods ---
 const onMenuClick = () => {

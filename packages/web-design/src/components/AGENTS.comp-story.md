@@ -41,3 +41,7 @@ Before committing a `*.story.vue`, ensure:
 - [ ] No exhaustive prop combinations are present
 - [ ] All Story titles communicate intent
 - [ ] All Variants represent meaningful states
+
+## Other Notes
+
+- Cannot use provide/inject in story, use it in `histoire.setup.ts`

@@ -55,6 +55,41 @@ export default defineConfig({
 })
 ```
 
+### Use routing
+
+InkHeader and some other components relies on your router abilities.
+
+```ts
+// your-router.ts
+import { computed } from "vue";
+import type { Router, RouteLocationNormalizedLoaded } from "vue-router";
+import type { InkRouter } from "@inkcre/web-design";
+
+export function createInkRouterAdapter(
+  router: Router,
+  route: RouteLocationNormalizedLoaded
+): InkRouter {
+  return {
+    currentPath: computed(() => route.path),
+    currentName: computed(() => route.name),
+  };
+}
+```
+
+```ts
+// App.vue
+<script lang="ts" setup>
+import { INK_ROUTER_KEY } from "@inkcre/web-design";
+import { createInkRouterAdapter } from "./your-router.ts";
+import { useRoute } from "vue-router";
+
+provide(
+  INK_ROUTER_KEY,
+  createInkRouterAdapter(router, useRoute())
+);
+</script>
+```
+
 ## Features
 
 - Design tokens automatically generated from the main tokens file

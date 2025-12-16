@@ -3,18 +3,24 @@ import InkHeader from "./inkHeader.vue";
 </script>
 
 <template>
-  <Story title="Controls/Header" :layout="{ type: 'single', iframe: true }">
-    <!-- [Semantic] Default -->
-    <Variant title="Basic Header">
+  <Story title="Controls/Header" :layout="{ type: 'single', iframe: false }">
+    <Variant title="Basic">
       <InkHeader title="InKCre" pageTitle="Dashboard" />
     </Variant>
 
-    <!-- [State] With Logo -->
     <Variant title="With Logo">
-      <InkHeader title="InKCre" logoSrc="./src/logo.svg" />
+      <InkHeader
+        title="InKCre"
+        logoSrc="./src/logo.svg"
+        pageTitle="Dashboard"
+      />
     </Variant>
 
     <Variant title="Without Logo">
+      <InkHeader title="InKCre" pageTitle="Dashboard" />
+    </Variant>
+
+    <Variant title="Auto Page Title">
       <InkHeader title="InKCre" />
     </Variant>
   </Story>
