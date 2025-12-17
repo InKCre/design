@@ -2,6 +2,7 @@ import { defineConfig } from "histoire";
 import { HstVue } from "@histoire/plugin-vue";
 import { resolve } from "path";
 import { readFileSync, writeFileSync } from "fs";
+import { visualizer } from "rollup-plugin-visualizer";
 import type { Plugin } from "vite";
 
 const cdnModules = {
@@ -108,12 +109,18 @@ export default defineConfig({
     },
   },
   vite: {
-    plugins: [cdnExternalsPlugin()],
-    resolve: {
-      alias: {
-        '@': resolve(__dirname, 'src'),
-        '@inkcre/web-design/styles': resolve(__dirname, 'styles'),
-      },
-    },
-  },
+    plugins: [
+      visualizer({
+        open: true,
+        gzipSize: true,
+        brotliSize: true
+      }),
+      cdnExternalsPlugin()
+    ],
+    build: {
+      sourcemap: false,
+      minify: 'terser',
+      cssMinify: true
+    }
+  }
 });

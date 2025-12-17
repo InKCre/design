@@ -15,6 +15,7 @@ tmp
 
 # build files
 *.tgz
+stats.html
 
 # logs
 debug.log
