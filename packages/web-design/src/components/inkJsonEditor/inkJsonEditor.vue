@@ -109,8 +109,22 @@ const rootStyles = computed(() => {
 });
 
 // --- methods ---
+const forceLintRefresh = () => {
+  if (editorView) {
+    // Trigger lint refresh by dispatching an empty change
+    editorView.dispatch({
+      changes: { from: 0, insert: "" },
+    });
+  }
+};
+
 const configureSchema = () => {
-  if (!props.schema) return;
+  if (!props.schema) {
+    jsonService.configure({
+      schemas: [],
+    });
+    return;
+  }
 
   jsonService.configure({
     schemas: [
@@ -194,6 +208,15 @@ watch(
       });
     }
   }
+);
+
+watch(
+  () => props.schema,
+  () => {
+    configureSchema();
+    forceLintRefresh();
+  },
+  { deep: true }
 );
 
 const [DefineJsonEditor, ReuseJsonEditor] = createReusableTemplate();
