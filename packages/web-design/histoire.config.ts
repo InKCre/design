@@ -12,6 +12,11 @@ const cdnModules = {
   '@codemirror/autocomplete': 'https://esm.sh/@codemirror/autocomplete@6.20.0',
   '@codemirror/lint': 'https://esm.sh/@codemirror/lint@6.9.2',
   'vscode-json-languageservice': 'https://esm.sh/vscode-json-languageservice@5.6.4',
+  // Also externalize Vue and related libraries
+  'vue': 'https://esm.sh/vue@3.5.25',
+  'vue-router': 'https://esm.sh/vue-router@4.6.4',
+  '@vueuse/core': 'https://esm.sh/@vueuse/core@14.1.0',
+  'dayjs': 'https://esm.sh/dayjs@1.11.19',
 };
 
 const cdnExternalsPlugin = (): Plugin => {
@@ -106,6 +111,18 @@ export default defineConfig({
       alias: {
         '@': resolve(__dirname, 'src'),
         '@inkcre/web-design/styles': resolve(__dirname, 'styles'),
+      },
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            // Try to split Shiki into a separate chunk that can be lazy-loaded
+            if (id.includes('shiki') || id.includes('@shikijs')) {
+              return 'shiki';
+            }
+          },
+        },
       },
     },
   },
