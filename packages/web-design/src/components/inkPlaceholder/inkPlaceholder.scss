@@ -9,7 +9,7 @@
   color: sys-var(color, text, subtle);
 
   &__illustration {
-    @include apply-icon(xl, centered);
+    @include apply-icon(xl, true);
     color: sys-var(color, text, subtle);
   }
 

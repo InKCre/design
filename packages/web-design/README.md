@@ -50,6 +50,8 @@ export default defineConfig({
         i-mdi-refresh,
         'i-mdi-chevron-right',
         'i-mdi-chevron-down',
+        'i-mdi-alert-circle-outline',
+        'i-mdi-inbox-outline',
         'animate-spin'
     ]
 })
