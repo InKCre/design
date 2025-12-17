@@ -196,6 +196,13 @@ watch(
   }
 );
 
+watch(
+  () => props.schema,
+  () => {
+    configureSchema();
+  }
+);
+
 const [DefineJsonEditor, ReuseJsonEditor] = createReusableTemplate();
 </script>
 
