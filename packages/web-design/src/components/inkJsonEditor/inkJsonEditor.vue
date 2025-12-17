@@ -109,8 +109,21 @@ const rootStyles = computed(() => {
 });
 
 // --- methods ---
+const forceLintRefresh = () => {
+  if (editorView) {
+    editorView.dispatch({
+      changes: { from: 0, insert: "" },
+    });
+  }
+};
+
 const configureSchema = () => {
-  if (!props.schema) return;
+  if (!props.schema) {
+    jsonService.configure({
+      schemas: [],
+    });
+    return;
+  }
 
   jsonService.configure({
     schemas: [
@@ -200,7 +213,9 @@ watch(
   () => props.schema,
   () => {
     configureSchema();
-  }
+    forceLintRefresh();
+  },
+  { deep: true }
 );
 
 const [DefineJsonEditor, ReuseJsonEditor] = createReusableTemplate();

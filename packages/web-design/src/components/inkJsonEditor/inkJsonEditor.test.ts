@@ -102,6 +102,35 @@ describe("InkJsonEditor", () => {
 
     await nextTick();
 
-    expect(jsonService.configure).not.toHaveBeenCalled();
+    expect(jsonService.configure).toHaveBeenCalledWith({
+      schemas: [],
+    });
+  });
+
+  it("clears schema configuration when schema prop becomes undefined", async () => {
+    const initialSchema = {
+      type: "object",
+      properties: {
+        name: { type: "string" },
+      },
+    };
+
+    const wrapper = mount(InkJsonEditor, {
+      props: {
+        modelValue: "{}",
+        schema: initialSchema,
+        schemaUri: "test://schema.json",
+      },
+    });
+
+    await nextTick();
+    vi.clearAllMocks();
+
+    await wrapper.setProps({ schema: undefined });
+    await nextTick();
+
+    expect(jsonService.configure).toHaveBeenCalledWith({
+      schemas: [],
+    });
   });
 });
