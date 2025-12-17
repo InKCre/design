@@ -15,6 +15,7 @@ import InkInput from "./components/inkInput/inkInput.vue";
 import InkJsonEditor from "./components/inkJsonEditor/inkJsonEditor.vue";
 import InkLoading from "./components/inkLoading/inkLoading.vue";
 import InkPicker from "./components/inkPicker/inkPicker.vue";
+import InkPlaceholder from "./components/inkPlaceholder/inkPlaceholder.vue";
 import InkPopup from "./components/inkPopup/inkPopup.vue";
 import InkSwitch from "./components/inkSwitch/inkSwitch.vue";
 import InkTextarea from "./components/inkTextarea/inkTextarea.vue";
@@ -35,6 +36,7 @@ export default {
     app.component("InkJsonEditor", InkJsonEditor);
     app.component("InkLoading", InkLoading);
     app.component("InkPicker", InkPicker);
+    app.component("InkPlaceholder", InkPlaceholder);
     app.component("InkPopup", InkPopup);
     app.component("InkSwitch", InkSwitch);
     app.component("InkTextarea", InkTextarea);
@@ -55,6 +57,7 @@ export {
   InkJsonEditor,
   InkLoading,
   InkPicker,
+  InkPlaceholder,
   InkPopup,
   InkSwitch,
   InkTextarea,
