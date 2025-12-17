@@ -38,10 +38,4 @@
       color: sys-var(color, text, danger);
     }
   }
-
-  &--empty {
-    .ink-placeholder__illustration {
-      color: sys-var(color, text, subtle);
-    }
-  }
 }
