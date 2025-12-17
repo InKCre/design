@@ -97,6 +97,72 @@ const cdnExternalsPlugin = (): Plugin => {
   };
 };
 
+/**
+ * Vite plugin to filter Shiki.js languages to only include the ones we need
+ * This reduces the bundle size by excluding unused language grammars (~7MB savings)
+ */
+const shikiLanguageFilterPlugin = (): Plugin => {
+  // Languages we want to keep - only what's needed for our documentation
+  const allowedLanguages = new Set([
+    'javascript', 'js',
+    'typescript', 'ts',
+    'vue', 'vue-html',
+    'html',
+    'css', 'scss', 'sass', 'less', 'postcss',
+    'json', 'jsonc',
+    'markdown', 'md', 'mdx',
+    'jsx', 'tsx',
+  ]);
+
+  return {
+    name: 'shiki-language-filter',
+    enforce: 'pre',
+    
+    resolveId(id, importer) {
+      // Intercept ALL Shiki language imports - both static and dynamic
+      // Pattern: node_modules/shiki/dist/langs/*.mjs or @shikijs/langs/*.mjs
+      if ((id.includes('shiki') || id.includes('@shikijs')) && id.includes('/langs/')) {
+        // Extract language name from various patterns:
+        // - /langs/javascript.mjs
+        // - /langs/typescript
+        // - @shikijs/langs/python.mjs
+        const langMatch = id.match(/\/langs\/([^/.]+)/);
+        
+        if (langMatch) {
+          const langName = langMatch[1].toLowerCase();
+          
+          // Check if this language is in our allowed list
+          const isAllowed = allowedLanguages.has(langName) || 
+                           Array.from(allowedLanguages).some(allowed => 
+                             langName.includes(allowed) || allowed.includes(langName)
+                           );
+          
+          if (!isAllowed) {
+            // Return a virtual empty module for excluded languages
+            console.log(`[Shiki] ✗ Excluding: ${langName}`);
+            return '\0shiki-excluded:' + langName;
+          } else {
+            console.log(`[Shiki] ✓ Including: ${langName}`);
+          }
+        }
+      }
+      return null;
+    },
+    
+    load(id) {
+      // Provide empty exports for excluded language modules
+      if (id.startsWith('\0shiki-excluded:')) {
+        return `
+// Excluded Shiki language: ${id.replace('\0shiki-excluded:', '')}
+export default {};
+export const lang = {};
+        `;
+      }
+      return null;
+    },
+  };
+};
+
 export default defineConfig({
   plugins: [HstVue()],
   setupFile: "./src/histoire.setup.ts",
@@ -115,6 +181,7 @@ export default defineConfig({
         gzipSize: true,
         brotliSize: true
       }),
+      shikiLanguageFilterPlugin(),
       cdnExternalsPlugin()
     ],
     build: {
