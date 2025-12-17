@@ -4,6 +4,7 @@ import { resolve } from "path";
 import { readFileSync, writeFileSync } from "fs";
 import { visualizer } from "rollup-plugin-visualizer";
 import type { Plugin } from "vite";
+import MarkdownIt from "markdown-it";
 
 const cdnModules = {
   '@codemirror/view': 'https://esm.sh/@codemirror/view@6.38.8',
@@ -109,7 +110,9 @@ const excludeShikiPlugin = (): Plugin => {
     resolveId(id) {
       // Block all Shiki-related imports
       if (id.includes('shiki') || id.includes('@shikijs')) {
-        console.log(`[Exclude Shiki] Blocking: ${id}`);
+        if (process.env.NODE_ENV !== 'production') {
+          console.log(`[Exclude Shiki] Blocking: ${id}`);
+        }
         return '\0shiki-excluded';
       }
       return null;
@@ -144,14 +147,12 @@ export default defineConfig({
   // Configure markdown rendering without Shiki syntax highlighting
   // This completely removes Shiki from the bundle (~5MB savings)
   markdown: (env) => {
-    // Import markdown-it without Shiki
-    const MarkdownIt = require('markdown-it');
+    // Use markdown-it without any Shiki or syntax highlighting plugins
     const md = new MarkdownIt({
       html: true,
       linkify: true,
       typographer: true,
     });
-    // Don't register any Shiki or syntax highlighting plugins
     // Code blocks will render as plain <pre><code>...</code></pre>
     return md;
   },
