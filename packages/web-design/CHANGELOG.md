@@ -1,5 +1,11 @@
 # @inkcre/web-design
 
+## 1.1.2
+
+### Patch Changes
+
+- 9aa3cae: Fix inkJsonEditor to react to schema changes. Added a watcher for the schema prop to reconfigure JSON validation and autocomplete when the schema updates.
+
 ## 1.1.1
 
 ### Patch Changes
