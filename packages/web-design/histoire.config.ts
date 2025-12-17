@@ -37,11 +37,13 @@ const cdnExternalsPlugin = (): Plugin => {
     },
     
     load(id) {
-      if (isBuild && (id.startsWith('\0@codemirror/') || id.startsWith('\0vscode-json-languageservice'))) {
+      if (isBuild && id.startsWith('\0')) {
         const originalId = id.slice(1);
-        const cdnUrl = cdnModules[originalId as keyof typeof cdnModules];
-        // Return a proxy module that imports from CDN
-        return `export * from '${cdnUrl}';`;
+        if (originalId in cdnModules) {
+          const cdnUrl = cdnModules[originalId as keyof typeof cdnModules];
+          // Return a proxy module that imports from CDN
+          return `export * from '${cdnUrl}';`;
+        }
       }
       return null;
     },
@@ -50,23 +52,32 @@ const cdnExternalsPlugin = (): Plugin => {
       if (isBuild && !htmlTransformed) {
         try {
           const htmlPath = resolve(outDir, 'index.html');
+          
+          // Check if file exists
+          try {
+            readFileSync(htmlPath, 'utf-8');
+          } catch {
+            // HTML file doesn't exist yet, skip transformation
+            return;
+          }
+          
           let html = readFileSync(htmlPath, 'utf-8');
           
-          // Check if import map already exists
-          if (html.includes('type="importmap"')) {
+          // Check if import map already exists using regex
+          if (/<script[^>]*type=["']importmap["'][^>]*>/i.test(html)) {
             htmlTransformed = true;
             return;
           }
           
-          const importMapScript = `  <script type="importmap">
-    {
-      "imports": {
-${Object.entries(cdnModules).map(([name, url]) => `        "${name}": "${url}"`).join(',\n')}
-      }
-    }
-  </script>
-`;
-          html = html.replace('</head>', importMapScript + '</head>');
+          // Create import map with proper JSON serialization
+          const importMap = {
+            imports: Object.fromEntries(
+              Object.entries(cdnModules).map(([name, url]) => [name, url])
+            )
+          };
+          const importMapScript = `  <script type="importmap">\n${JSON.stringify(importMap, null, 4)}\n  </script>\n`;
+          
+          html = html.replace(/<\/head>/i, importMapScript + '</head>');
           writeFileSync(htmlPath, html);
           htmlTransformed = true;
           console.log('[CDN] Added import map to HTML');
