@@ -1,5 +1,12 @@
 # @inkcre/web-design
 
+## 1.1.3
+
+### Patch Changes
+
+- 467753c: Optimize histoire build size of web-design package (33mb -> 1.2mb)
+- c663933: Add inkPlaceholder component for empty and error states
+
 ## 1.1.2
 
 ### Patch Changes
