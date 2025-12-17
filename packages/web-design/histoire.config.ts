@@ -98,82 +98,31 @@ const cdnExternalsPlugin = (): Plugin => {
 };
 
 /**
- * Vite plugin to filter Shiki.js languages to only include the ones we need
- * This reduces the bundle size by excluding unused language grammars (~7MB savings)
+ * Vite plugin to completely exclude Shiki from the bundle
+ * This prevents any Shiki imports, reducing bundle size significantly
  */
-const shikiLanguageFilterPlugin = (): Plugin => {
-  const VIRTUAL_MODULE_PREFIX = '\0shiki-excluded:';
-  const SHIKI_LANGS_PATTERN = /\/langs\//;
-  
-  // Languages we want to keep - only what's needed for our documentation
-  const allowedLanguages = new Set([
-    'javascript', 'js',
-    'typescript', 'ts',
-    'vue', 'vue-html',
-    'html',
-    'css', 'scss', 'sass', 'less', 'postcss',
-    'json', 'jsonc',
-    'markdown', 'md', 'mdx',
-    'jsx', 'tsx',
-  ]);
-
-  // Pre-compute partial matches for efficiency
-  const allowedPartialMatches = new Set([
-    'javascript', 'typescript', 'vue', 'html', 'css', 
-    'json', 'markdown', 'jsx', 'tsx', 'js', 'ts', 'md'
-  ]);
-
-  const isLanguageAllowed = (langName: string): boolean => {
-    const normalized = langName.toLowerCase();
-    // Fast path: exact match
-    if (allowedLanguages.has(normalized)) return true;
-    // Slower path: partial match
-    return Array.from(allowedPartialMatches).some(allowed => 
-      normalized.includes(allowed) || allowed.includes(normalized)
-    );
-  };
-
+const excludeShikiPlugin = (): Plugin => {
   return {
-    name: 'shiki-language-filter',
+    name: 'exclude-shiki',
     enforce: 'pre',
     
-    resolveId(id, importer) {
-      // Intercept ALL Shiki language imports - both static and dynamic
-      // Pattern: node_modules/shiki/dist/langs/*.mjs or @shikijs/langs/*.mjs
-      const isShikiImport = (id.includes('shiki') || id.includes('@shikijs')) && SHIKI_LANGS_PATTERN.test(id);
-      
-      if (isShikiImport) {
-        // Extract language name from various patterns:
-        // - /langs/javascript.mjs
-        // - /langs/typescript
-        // - @shikijs/langs/python.mjs
-        const langMatch = id.match(/\/langs\/([^/.]+)/);
-        
-        if (langMatch) {
-          const langName = langMatch[1];
-          
-          if (!isLanguageAllowed(langName)) {
-            // Return a virtual empty module for excluded languages
-            if (process.env.NODE_ENV !== 'production') {
-              console.log(`[Shiki] ✗ Excluding: ${langName}`);
-            }
-            return VIRTUAL_MODULE_PREFIX + langName;
-          } else if (process.env.NODE_ENV !== 'production') {
-            console.log(`[Shiki] ✓ Including: ${langName}`);
-          }
-        }
+    resolveId(id) {
+      // Block all Shiki-related imports
+      if (id.includes('shiki') || id.includes('@shikijs')) {
+        console.log(`[Exclude Shiki] Blocking: ${id}`);
+        return '\0shiki-excluded';
       }
       return null;
     },
     
     load(id) {
-      // Provide empty exports for excluded language modules
-      if (id.startsWith(VIRTUAL_MODULE_PREFIX)) {
-        const langName = id.replace(VIRTUAL_MODULE_PREFIX, '');
+      // Return empty module for all Shiki imports
+      if (id === '\0shiki-excluded') {
         return `
-// Excluded Shiki language: ${langName}
+// Shiki excluded - using plain markdown rendering
 export default {};
-export const lang = {};
+export const getHighlighter = () => Promise.resolve({});
+export const createHighlighter = () => Promise.resolve({});
         `;
       }
       return null;
@@ -192,6 +141,20 @@ export default defineConfig({
       dark: "./src/logo.svg",
     },
   },
+  // Configure markdown rendering without Shiki syntax highlighting
+  // This completely removes Shiki from the bundle (~5MB savings)
+  markdown: (env) => {
+    // Import markdown-it without Shiki
+    const MarkdownIt = require('markdown-it');
+    const md = new MarkdownIt({
+      html: true,
+      linkify: true,
+      typographer: true,
+    });
+    // Don't register any Shiki or syntax highlighting plugins
+    // Code blocks will render as plain <pre><code>...</code></pre>
+    return md;
+  },
   vite: {
     plugins: [
       visualizer({
@@ -199,7 +162,7 @@ export default defineConfig({
         gzipSize: true,
         brotliSize: true
       }),
-      shikiLanguageFilterPlugin(),
+      excludeShikiPlugin(),
       cdnExternalsPlugin()
     ],
     build: {
