@@ -111,6 +111,7 @@ const rootStyles = computed(() => {
 // --- methods ---
 const forceLintRefresh = () => {
   if (editorView) {
+    // Trigger lint refresh by dispatching an empty change
     editorView.dispatch({
       changes: { from: 0, insert: "" },
     });
