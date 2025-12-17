@@ -102,6 +102,9 @@ const cdnExternalsPlugin = (): Plugin => {
  * This reduces the bundle size by excluding unused language grammars (~7MB savings)
  */
 const shikiLanguageFilterPlugin = (): Plugin => {
+  const VIRTUAL_MODULE_PREFIX = '\0shiki-excluded:';
+  const SHIKI_LANGS_PATTERN = /\/langs\//;
+  
   // Languages we want to keep - only what's needed for our documentation
   const allowedLanguages = new Set([
     'javascript', 'js',
@@ -114,6 +117,22 @@ const shikiLanguageFilterPlugin = (): Plugin => {
     'jsx', 'tsx',
   ]);
 
+  // Pre-compute partial matches for efficiency
+  const allowedPartialMatches = new Set([
+    'javascript', 'typescript', 'vue', 'html', 'css', 
+    'json', 'markdown', 'jsx', 'tsx', 'js', 'ts', 'md'
+  ]);
+
+  const isLanguageAllowed = (langName: string): boolean => {
+    const normalized = langName.toLowerCase();
+    // Fast path: exact match
+    if (allowedLanguages.has(normalized)) return true;
+    // Slower path: partial match
+    return Array.from(allowedPartialMatches).some(allowed => 
+      normalized.includes(allowed) || allowed.includes(normalized)
+    );
+  };
+
   return {
     name: 'shiki-language-filter',
     enforce: 'pre',
@@ -121,7 +140,9 @@ const shikiLanguageFilterPlugin = (): Plugin => {
     resolveId(id, importer) {
       // Intercept ALL Shiki language imports - both static and dynamic
       // Pattern: node_modules/shiki/dist/langs/*.mjs or @shikijs/langs/*.mjs
-      if ((id.includes('shiki') || id.includes('@shikijs')) && id.includes('/langs/')) {
+      const isShikiImport = (id.includes('shiki') || id.includes('@shikijs')) && SHIKI_LANGS_PATTERN.test(id);
+      
+      if (isShikiImport) {
         // Extract language name from various patterns:
         // - /langs/javascript.mjs
         // - /langs/typescript
@@ -129,19 +150,15 @@ const shikiLanguageFilterPlugin = (): Plugin => {
         const langMatch = id.match(/\/langs\/([^/.]+)/);
         
         if (langMatch) {
-          const langName = langMatch[1].toLowerCase();
+          const langName = langMatch[1];
           
-          // Check if this language is in our allowed list
-          const isAllowed = allowedLanguages.has(langName) || 
-                           Array.from(allowedLanguages).some(allowed => 
-                             langName.includes(allowed) || allowed.includes(langName)
-                           );
-          
-          if (!isAllowed) {
+          if (!isLanguageAllowed(langName)) {
             // Return a virtual empty module for excluded languages
-            console.log(`[Shiki] ✗ Excluding: ${langName}`);
-            return '\0shiki-excluded:' + langName;
-          } else {
+            if (process.env.NODE_ENV !== 'production') {
+              console.log(`[Shiki] ✗ Excluding: ${langName}`);
+            }
+            return VIRTUAL_MODULE_PREFIX + langName;
+          } else if (process.env.NODE_ENV !== 'production') {
             console.log(`[Shiki] ✓ Including: ${langName}`);
           }
         }
@@ -151,9 +168,10 @@ const shikiLanguageFilterPlugin = (): Plugin => {
     
     load(id) {
       // Provide empty exports for excluded language modules
-      if (id.startsWith('\0shiki-excluded:')) {
+      if (id.startsWith(VIRTUAL_MODULE_PREFIX)) {
+        const langName = id.replace(VIRTUAL_MODULE_PREFIX, '');
         return `
-// Excluded Shiki language: ${id.replace('\0shiki-excluded:', '')}
+// Excluded Shiki language: ${langName}
 export default {};
 export const lang = {};
         `;
