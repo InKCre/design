@@ -103,33 +103,66 @@ const cdnExternalsPlugin = (): Plugin => {
 };
 
 /**
- * Vite plugin to completely exclude Shiki from the bundle
- * This prevents any Shiki imports, reducing bundle size significantly
+ * Vite plugin to optimize Shiki bundle in different modes
+ * - Dev mode: Only allow specific languages (vue, typescript, javascript) by intercepting imports
+ * - Build mode: Exclude Shiki completely
  */
-const excludeShikiPlugin = (): Plugin => {
+const optimizeShikiPlugin = (): Plugin => {
+  let isBuild = false;
+  const allowedLangs = ["vue", "typescript", "javascript", "ts", "js"];
+
   return {
-    name: "exclude-shiki",
+    name: "optimize-shiki",
     enforce: "pre",
 
+    configResolved(config) {
+      isBuild = config.command === "build";
+    },
+
     resolveId(id) {
-      // Block all Shiki-related imports
-      if (id.includes("shiki") || id.includes("@shikijs")) {
-        if (process.env.NODE_ENV !== "production") {
-          console.log(`[Exclude Shiki] Blocking: ${id}`);
+      if (isBuild) {
+        // In build mode, block all Shiki-related imports
+        if (id.includes("shiki") || id.includes("@shikijs")) {
+          console.log(`[Optimize Shiki] Blocking in build mode: ${id}`);
+          return "\0shiki-excluded";
         }
-        return "\0shiki-excluded";
+      } else {
+        // In dev mode, block non-essential language imports
+        if (id.startsWith("@shikijs/langs/") && !id.startsWith("@shikijs/langs/dist/index")) {
+          const langName = id.replace("@shikijs/langs/", "").replace(/\.mjs$/, "");
+          if (!allowedLangs.includes(langName)) {
+            // Block this language
+            return "\0shiki-lang-blocked";
+          }
+        }
+        // Block non-essential theme imports (only allow github-light)
+        if (id.startsWith("@shikijs/themes/") && !id.startsWith("@shikijs/themes/dist/index")) {
+          const themeName = id.replace("@shikijs/themes/", "").replace(/\.mjs$/, "");
+          if (themeName !== "github-light") {
+            // Block this theme
+            return "\0shiki-theme-blocked";
+          }
+        }
       }
       return null;
     },
 
     load(id) {
-      // Return empty module for all Shiki imports
+      if (id === "\0shiki-lang-blocked" || id === "\0shiki-theme-blocked") {
+        // Return empty module for blocked languages/themes in dev mode
+        return `export default null;`;
+      }
+
       if (id === "\0shiki-excluded") {
+        // Build mode: Return empty module for all Shiki
         return `
-// Shiki excluded - using plain markdown rendering
+// Shiki excluded in build mode - using plain markdown rendering
 export default {};
 export const getHighlighter = () => Promise.resolve({});
 export const createHighlighter = () => Promise.resolve({});
+export const bundledLanguages = {};
+export const bundledThemes = {};
+export const codeToHtml = () => Promise.resolve('');
         `;
       }
       return null;
@@ -148,20 +181,24 @@ export default defineConfig({
       dark: "./src/logo.svg",
     },
   },
-  // Configure markdown rendering without Shiki syntax highlighting
-  // This completely removes Shiki from the bundle (~5MB savings)
-  markdown: (env) => {
-    // Use markdown-it without any Shiki or syntax highlighting plugins
-    const md = new MarkdownIt({
-      html: true,
-      linkify: true,
-      typographer: true,
-    });
-    // Code blocks will render as plain <pre><code>...</code></pre>
-    return md;
-  },
+  // Configure markdown rendering
+  // In dev mode: Use Histoire's default (which will use our optimized Shiki with limited langs/themes)
+  // In build mode: Use plain markdown-it (Shiki excluded by plugin)
+  markdown:
+    process.env.NODE_ENV === "production"
+      ? (env) => {
+          // Build mode: Use markdown-it without Shiki
+          const md = new MarkdownIt({
+            html: true,
+            linkify: true,
+            typographer: true,
+          });
+          // Code blocks will render as plain <pre><code>...</code></pre>
+          return md;
+        }
+      : undefined, // Dev mode: Use Histoire's default with our optimized Shiki
   vite: {
-    plugins: [excludeShikiPlugin(), cdnExternalsPlugin()],
+    plugins: [optimizeShikiPlugin(), cdnExternalsPlugin()],
     build: {
       sourcemap: false,
       minify: "terser",
