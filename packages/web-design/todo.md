@@ -12,3 +12,4 @@
 - [x] InkPlaceholder
 - [x] InkJsonEditor 可以动态更新 schema
 - [ ] InkJsonEditor autocomplete 效果有待加强（抽离为单独的 composable）
+- [ ] Histoire dev 下提供语法高亮支持（但是有限，还是尽可能地缩小体积）

@@ -8,6 +8,7 @@ import {
 } from "./inkDropdown";
 import InkField from "../inkField/inkField.vue";
 import { INK_FORM_CONTEXT_KEY } from "../inkForm/inkForm";
+import { useOptionalModel } from "../../composables/use-optional-model";
 
 const props = defineProps(inkDropdownProps);
 const emit = defineEmits(inkDropdownEmits);
@@ -18,41 +19,43 @@ const useField = computed(() => formContext !== null && props.label);
 const fieldLayout = computed(() => props.layout || formContext?.layout);
 
 const showOptions = ref(false);
-const isLoading = ref(false);
-const resolvedOptions = ref<DropdownOption[]>([]);
+const isRefreshing = ref(false);
+
+const optionsModel = useOptionalModel<DropdownOption[]>({
+  props,
+  emit,
+  modelName: "options",
+  defaultValue: [],
+});
 
 // --- computed ---
 const displayValue = computed(() => {
-  const option = optionsList.value.find(
+  const option = optionsModel.value.find(
     (opt) => opt.value === props.modelValue
   );
   return option ? option.label : props.placeholder;
 });
 
-const optionsList = computed(() => {
-  if (typeof props.options === "function") {
-    return resolvedOptions.value;
-  }
-  return props.options;
-});
-
 // --- methods ---
-const loadOptionsIfNeeded = async () => {
-  if (typeof props.options === "function") {
-    if (resolvedOptions.value.length > 0) {
-      return;
+const loadOptionsIfNeeded = async (force: boolean = false) => {
+  if (optionsModel.value.length > 0 && !force) {
+    return;
+  }
+  isRefreshing.value = true;
+  try {
+    if (props.refresher) {
+      const options = await props.refresher();
+      optionsModel.value = options;
+    } else {
+      return; // No load needed
     }
-    isLoading.value = true;
-    try {
-      resolvedOptions.value = await props.options();
-    } finally {
-      isLoading.value = false;
-    }
+  } finally {
+    isRefreshing.value = false;
   }
 };
 
 const onRefresh = async () => {
-  await loadOptionsIfNeeded();
+  await loadOptionsIfNeeded(true);
 };
 
 const onDropdownClick = async () => {
@@ -72,17 +75,6 @@ const onOptionSelect = (value: DropdownOption["value"]) => {
   emit("change", value);
   showOptions.value = false;
 };
-
-// --- watchers ---
-watch(
-  () => props.options,
-  () => {
-    // Reset resolved options when options source changes
-    if (typeof props.options !== "function") {
-      resolvedOptions.value = [];
-    }
-  }
-);
 
 const [DefineDropdown, ReuseDropdown] = createReusableTemplate();
 </script>
@@ -111,27 +103,29 @@ const [DefineDropdown, ReuseDropdown] = createReusableTemplate();
 
       <!-- Refresh Button -->
       <button
-        v-if="showRefresh && typeof options === 'function'"
+        v-if="props.refresher"
         :class="[
           'ink-dropdown__refresh',
-          { 'ink-dropdown__refresh--loading': isLoading },
+          { 'ink-dropdown__refresh--loading': isRefreshing },
         ]"
-        :disabled="isLoading"
+        :disabled="isRefreshing"
         @click.stop="onRefresh"
         type="button"
         title="Refresh options"
       >
-        <span :class="['i-mdi-refresh', { 'animate-spin': isLoading }]"></span>
+        <span
+          :class="['i-mdi-refresh', { 'animate-spin': isRefreshing }]"
+        ></span>
       </button>
 
       <!-- Options -->
       <div v-if="showOptions" class="ink-dropdown__options">
-        <div v-if="isLoading" class="ink-dropdown__loading">
+        <div v-if="isRefreshing" class="ink-dropdown__loading">
           <span class="i-mdi-loading animate-spin"></span>
           Loading...
         </div>
         <template v-else>
-          <div v-for="option in optionsList" :key="option.value">
+          <div v-for="option in optionsModel" :key="option.value">
             <div
               :class="[
                 'ink-dropdown__option',

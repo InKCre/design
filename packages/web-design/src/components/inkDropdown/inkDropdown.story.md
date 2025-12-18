@@ -4,59 +4,71 @@ A form control component for selecting a single option from a dropdown list with
 
 ## Rationale
 
-Provide a consistent dropdown selection control that supports both static and dynamically loaded options.
+Provides a consistent dropdown selection control that supports both static and dynamically loaded options. Use for single selection from a list, especially when options need to be loaded on-demand.
 
-## Goals
+## Design Semantics
 
-- Single-option selection from a dropdown list
-- Support for static and lazy-loaded options
-- Automatic loading state management
-- Integration with InkForm for consistent form layouts
-
-## Key Concepts
+### Concepts
 
 - Static options: Pre-defined array of options passed directly
 - Lazy-loaded options: Options loaded on-demand when the dropdown is opened
 
-## Specification
+### Visual / UX Meaning
 
-The dropdown displays a clickable box with the currently selected value. When opened, it shows available options. The component can accept options either as a static array or as an async function that fetches options when the dropdown is opened.
+The dropdown displays as a box showing the selected value or placeholder. Opening reveals a list of options. Loading state shows a spinner. Refresh button allows manual reload for lazy options, indicating dynamic content.
 
-## Implementation
+## Canonical Examples
 
-### Props
+- Basic static options with label:
 
-- `options` (`DropdownOption[] | () => Promise<DropdownOption[]>`, `[]`): Options source, either a static array or an async function
-  - When `options` is a function, the options are loaded asynchronously when the dropdown is opened. The component displays a loading indicator during this time.
-- `modelValue` (`string | number | undefined | null`, `""`): Currently selected value
-- `placeholder` (`string`, `"Select an option"`): Placeholder text when no option is selected
-- `editable` (`boolean`, `false`): Whether the dropdown can be interacted with
-- `displayAs` (`"box"`, `"box"`): Display style
-- `showRefresh` (`boolean`, `false`): Show a refresh button to manually reload lazy options. Only displayed when `options` is a function
-- `label` (`string`, optional): Label for the field when used within InkForm
-- `layout` (`FieldLayout`, optional): Layout style when used within a form
+  ```vue
+  <InkDropdown
+    v-model="selected"
+    label="Choose option"
+    :options="[{value: 'a', label: 'Option A'}, {value: 'b', label: 'Option B'}]"
+  />
+  ```
 
-### Events
+- Lazy-loaded options with refresh:
 
-- `update:modelValue(value: string | number)`: Emitted when the selected value changes
-- `change(value: string | number)`: Emitted when an option is selected
+  ```vue
+  <InkDropdown
+    v-model="selected"
+    :refresher="async () => [{value: '1', label: 'Loaded 1'}, {value: '2', label: 'Loaded 2'}]"
+  />
+  ```
 
-### Methods
+- Dynamic options with manual refresh:
 
-#### Loading
+  ```vue
+  <InkDropdown
+    v-model="selected"
+    v-model:options="dynamicOptions"
+    :refresher="loadOptions"
+  />
+  ```
 
-The component automatically manages loading state internally when `options` is a function. The loading indicator is displayed while options are being fetched.
+## Behavioral Contract
 
-### Watchers
+- In loading state: No selection possible, loading indicator shown
+- Selection emits update:modelValue and change events
+- Refresh button reloads options asynchronously, disabled during load
+- State transitions are idempotent
 
-- `props.options`: Resets resolved options when the options source changes
+## Extension & Composition
 
-## Others
+- Composes with InkForm for consistent form layouts
+- Supports controlled and uncontrolled usage via v-model
 
-### Lazy Loading
+## Non-Goals
 
-When `options` is a function, the options are loaded asynchronously when the dropdown is opened or when the refresh button is clicked. The component displays a loading indicator during this time.
+- Multi-selection
+- Custom option rendering
+- Data persistence or authorization logic
 
-### Refresh Button
+## Implementation Notes
 
-The refresh button appears next to the dropdown box when `showRefresh` is `true` and `options` is a function. Clicking the button will reload the options asynchronously. The button is disabled during loading to prevent multiple concurrent requests.
+- Internal state managed via reactive refs
+- Uses Vue reactivity for updates
+- Handles async loading with promises
+- Relies on DOM for rendering

@@ -10,16 +10,16 @@ export interface DropdownOption {
   [key: string]: any;
 }
 
-export type DropdownOptionsSource =
-  | DropdownOption[]
-  | (() => Promise<DropdownOption[]>);
+export type DropdownOptionsSource = DropdownOption[];
 
 // --- Props ---
 export const inkDropdownProps = {
   ...formControlCommonProps,
   options: {
-    type: [Array, Function] as PropType<DropdownOptionsSource>,
-    default: () => [],
+    type: Array as PropType<DropdownOption[]>,
+  },
+  refresher: {
+    type: Function as PropType<() => Promise<DropdownOption[]>>,
   },
   modelValue: {
     type: [String, Number] as PropType<
@@ -29,11 +29,11 @@ export const inkDropdownProps = {
   },
   placeholder: makeStringProp("Select an option"),
   displayAs: makeStringProp<"box">("box"),
-  showRefresh: makeBooleanProp(false),
 } as const;
 
 // --- Emits ---
 export const inkDropdownEmits = {
   "update:modelValue": (value: DropdownOption["value"]) => true,
   change: (value: DropdownOption["value"]) => true,
+  "update:options": (options: DropdownOption[]) => true,
 } as const;
