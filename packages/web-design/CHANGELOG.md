@@ -1,5 +1,12 @@
 # @inkcre/web-design
 
+## 1.1.4
+
+### Patch Changes
+
+- 083700b: Update InkDropdown: separate loader from options
+- 89ef855: InkJsonEditor ensures modelValue is valid JSON string
+
 ## 1.1.3
 
 ### Patch Changes
