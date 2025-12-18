@@ -134,7 +134,8 @@ const optimizeShikiPlugin = (): Plugin => {
         }
       } else {
         // In dev mode, block non-essential language imports
-        if (id.startsWith("@shikijs/langs/") && !id.startsWith("@shikijs/langs/dist/index")) {
+        // Allow index files and only specific language files
+        if (id.startsWith("@shikijs/langs/") && !id.includes("/dist/index")) {
           const langName = extractModuleName(id, "@shikijs/langs/");
           if (!allowedLangs.includes(langName)) {
             // Block this language
@@ -142,7 +143,8 @@ const optimizeShikiPlugin = (): Plugin => {
           }
         }
         // Block non-essential theme imports (only allow github-light)
-        if (id.startsWith("@shikijs/themes/") && !id.startsWith("@shikijs/themes/dist/index")) {
+        // Allow index files and only the github-light theme
+        if (id.startsWith("@shikijs/themes/") && !id.includes("/dist/index")) {
           const themeName = extractModuleName(id, "@shikijs/themes/");
           if (themeName !== "github-light") {
             // Block this theme
