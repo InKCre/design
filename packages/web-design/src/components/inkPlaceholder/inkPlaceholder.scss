@@ -1,0 +1,41 @@
+.ink-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: sys-var(space, xl);
+  text-align: center;
+  gap: sys-var(space, md);
+  color: sys-var(color, text, subtle);
+
+  &__illustration {
+    @include apply-icon(xl, true);
+    color: sys-var(color, text, subtle);
+  }
+
+  &__title {
+    @include apply-font(headline-sm);
+    color: sys-var(color, text, base);
+  }
+
+  &__description {
+    @include apply-font(body-md);
+    color: sys-var(color, text, subtle);
+    max-width: 400px;
+  }
+
+  &__actions {
+    margin-top: sys-var(space, sm);
+    display: flex;
+    gap: sys-var(space, sm);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  // State variants
+  &--error {
+    .ink-placeholder__illustration {
+      color: sys-var(color, text, danger);
+    }
+  }
+}
