@@ -109,7 +109,13 @@ const cdnExternalsPlugin = (): Plugin => {
  */
 const optimizeShikiPlugin = (): Plugin => {
   let isBuild = false;
+  // Include both full names and common aliases for language matching
   const allowedLangs = ["vue", "typescript", "javascript", "ts", "js"];
+
+  // Helper function to extract module name from import path
+  const extractModuleName = (id: string, prefix: string): string => {
+    return id.replace(prefix, "").replace(/\.(mjs|js|ts)$/, "");
+  };
 
   return {
     name: "optimize-shiki",
@@ -129,7 +135,7 @@ const optimizeShikiPlugin = (): Plugin => {
       } else {
         // In dev mode, block non-essential language imports
         if (id.startsWith("@shikijs/langs/") && !id.startsWith("@shikijs/langs/dist/index")) {
-          const langName = id.replace("@shikijs/langs/", "").replace(/\.mjs$/, "");
+          const langName = extractModuleName(id, "@shikijs/langs/");
           if (!allowedLangs.includes(langName)) {
             // Block this language
             return "\0shiki-lang-blocked";
@@ -137,7 +143,7 @@ const optimizeShikiPlugin = (): Plugin => {
         }
         // Block non-essential theme imports (only allow github-light)
         if (id.startsWith("@shikijs/themes/") && !id.startsWith("@shikijs/themes/dist/index")) {
-          const themeName = id.replace("@shikijs/themes/", "").replace(/\.mjs$/, "");
+          const themeName = extractModuleName(id, "@shikijs/themes/");
           if (themeName !== "github-light") {
             // Block this theme
             return "\0shiki-theme-blocked";
@@ -184,6 +190,7 @@ export default defineConfig({
   // Configure markdown rendering
   // In dev mode: Use Histoire's default (which will use our optimized Shiki with limited langs/themes)
   // In build mode: Use plain markdown-it (Shiki excluded by plugin)
+  // Note: Using process.env.NODE_ENV here is correct as Histoire sets it based on command
   markdown:
     process.env.NODE_ENV === "production"
       ? (env) => {
