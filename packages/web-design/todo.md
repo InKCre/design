@@ -6,8 +6,9 @@
 - [ ] 更新 story 的结构
 - [x] InkHeader pageTitle
 - [x] InkHeader menu icon
-- [ ] InkJsonEditor should ensure modelValue is a valid JSON, otherwise, do not update
+- [x] InkJsonEditor should ensure modelValue is a valid JSON, otherwise, do not update
 - [ ] ARIA
 - [x] InkDialog 没有基于 inkPopup
-- [ ] InkPlaceholder
-- [ ] InkJsonEditor 需要动态更新 schema
+- [x] InkPlaceholder
+- [x] InkJsonEditor 可以动态更新 schema
+- [ ] InkJsonEditor autocomplete 效果有待加强（抽离为单独的 composable）

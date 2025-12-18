@@ -47,10 +47,9 @@ Use it for editing JSON strings in forms; avoid using it for general text editin
 
 ## Behavioral Contract
 
-- Use modelValue
+- Use modelValue and ensures it's a valid JSON string (If editor value is invalid, will not update to modelValue)
 - Supports keyboard shortcuts: Tab/Shift+Tab for indentation, quote auto-completion, comma completion
-- Uses JSON schema validation via `vscode-json-languageservice`
-- When `editable` is false, no input is allowed
+- Supports to provide lint and autocomplete from JSON Schema.
 
 ## Extension & Composition
 
@@ -66,10 +65,6 @@ Use it for editing JSON strings in forms; avoid using it for general text editin
 
 ## Implementation Notes
 
-- Built on Code Mirror 6 for advanced editing features
+- Built on Code Mirror 6 and vscode-json-languageservice for advanced editing features
 - Height is fixed to `rows * 1.2em + space-sm * 2` and so set `line-height: 1.2 !important`
 - JSON edit features: tab indentation, quote completion, comma completion, JSON schema support (vscode-json-languageservice)
-
-### Other
-
-It's not time to reinvent the wheel yet; when learning, prioritize getting the product online first; use mature libraries like Code Mirror 6

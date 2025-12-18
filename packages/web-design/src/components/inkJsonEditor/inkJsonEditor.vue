@@ -13,6 +13,7 @@ import { jsonService } from "./jsonSchemaService";
 import { linter } from "@codemirror/lint";
 import { autocompletion } from "@codemirror/autocomplete";
 import { TextDocument } from "vscode-json-languageservice";
+import { isJsonValid } from "../../utils/json";
 
 const props = defineProps(inkJsonEditorProps);
 const emit = defineEmits(inkJsonEditorEmits);
@@ -155,7 +156,11 @@ const createEditor = () => {
       placeholder(props.placeholder),
       EditorView.updateListener.of((update) => {
         if (update.docChanged) {
-          emit("update:modelValue", update.state.doc.toString());
+          const newValue = update.state.doc.toString();
+          const isValid = isJsonValid(newValue);
+          if (isValid) {
+            emit("update:modelValue", newValue);
+          }
         }
       }),
     ],
