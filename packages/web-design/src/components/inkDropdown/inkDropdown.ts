@@ -7,6 +7,7 @@ export interface DropdownOption {
   label: string;
   value: string | number;
   description?: string;
+  [key: string]: any;
 }
 
 export type DropdownOptionsSource =

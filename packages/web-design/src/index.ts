@@ -63,4 +63,11 @@ export {
 
 // Others
 
-export { INK_ROUTER_KEY } from "./router";
+import { INK_ROUTER_KEY } from "./router";
+
+import type { DropdownOption } from "./components/inkDropdown/inkDropdown";
+
+// others
+import type { InkRouter } from "./router";
+
+export { DropdownOption, InkRouter, INK_ROUTER_KEY };

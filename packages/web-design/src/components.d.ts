@@ -21,6 +21,3 @@ declare module "vue" {
     InkTooltip: typeof import("./index")["InkTooltip"];
   }
 }
-
-// others
-export type { InkRouter } from "./router";
