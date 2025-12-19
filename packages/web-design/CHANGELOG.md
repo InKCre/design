@@ -1,5 +1,11 @@
 # @inkcre/web-design
 
+## 1.1.5
+
+### Patch Changes
+
+- 7882d27: Optimize histoire DX by adding necessary highlights back
+
 ## 1.1.4
 
 ### Patch Changes
