@@ -35,21 +35,21 @@
   }
 
   // Size variants
-  &--xs {
+  &--s-xs {
     .ink-loading__block {
       width: 5px;
       height: 5px;
     }
   }
 
-  &--sm {
+  &--s-sm {
     .ink-loading__block {
       width: 12px;
       height: 12px;
     }
   }
 
-  &--md {
+  &--s-md {
     .ink-loading__block {
       width: 18px;
       height: 18px;
@@ -57,11 +57,11 @@
   }
 
   // Density variants
-  &--sm {
+  &--d-sm {
     gap: sys-var(space, xs);
   }
 
-  &--md {
+  &--d-md {
     gap: sys-var(space, sm);
   }
 }

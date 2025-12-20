@@ -6,8 +6,8 @@ const props = defineProps(inkLoadingProps);
 
 const loadingClass = computed(() => [
   "ink-loading",
-  `ink-loading--${props.size}`,
-  `ink-loading--${props.density}`,
+  `ink-loading--s-${props.size}`,
+  `ink-loading--d-${props.density}`,
 ]);
 </script>
 
