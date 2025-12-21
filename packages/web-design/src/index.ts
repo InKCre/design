@@ -3,6 +3,7 @@ import type { App } from "vue";
 import "../styles/index.scss";
 
 // Import components for global registration
+import InkAutoForm from "./components/inkAutoForm/inkAutoForm.vue";
 import InkButton from "./components/inkButton/inkButton.vue";
 import InkHeader from "./components/inkHeader/inkHeader.vue";
 import InkDatetimePickerView from "./components/inkDatetimePickerView/inkDatetimePickerView.vue";
@@ -24,6 +25,7 @@ import InkTooltip from "./components/inkTooltip/inkTooltip.vue";
 export default {
   install(app: App, options: any = {}) {
     // Register global components
+    app.component("InkAutoForm", InkAutoForm);
     app.component("InkButton", InkButton);
     app.component("InkHeader", InkHeader);
     app.component("InkDatetimePickerView", InkDatetimePickerView);
@@ -45,6 +47,7 @@ export default {
 };
 
 export {
+  InkAutoForm,
   InkButton,
   InkHeader,
   InkDatetimePickerView,
@@ -69,8 +72,18 @@ export {
 import { INK_ROUTER_KEY } from "./router";
 
 import type { DropdownOption } from "./components/inkDropdown/inkDropdown";
+import type {
+  JSONSchema,
+  JSONSchemaProperty,
+} from "./components/inkAutoForm/inkAutoForm";
 
 // others
 import type { InkRouter } from "./router";
 
-export { DropdownOption, InkRouter, INK_ROUTER_KEY };
+export {
+  DropdownOption,
+  JSONSchema,
+  JSONSchemaProperty,
+  InkRouter,
+  INK_ROUTER_KEY,
+};

@@ -12,4 +12,6 @@
 - [x] InkPlaceholder
 - [x] InkJsonEditor 可以动态更新 schema
 - [ ] InkJsonEditor autocomplete 效果有待加强（抽离为单独的 composable）
-- [ ] Histoire dev 下提供语法高亮支持（但是有限，还是尽可能地缩小体积）
+- [x] Histoire dev 下提供语法高亮支持（但是有限，还是尽可能地缩小体积）
+- [x] InkAutoForm （自动从 JsonSchema 生成 Form）
+- [ ] InkAutoForm 支持切换编辑模式

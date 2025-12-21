@@ -1,0 +1,25 @@
+.ink-auto-form {
+  &__error {
+    padding: sys-var(spacing, md);
+    background-color: sys-var(color, surface, error-subtle);
+    color: sys-var(color, text, error);
+    border-radius: sys-var(radius, md);
+    @include apply-font(body-md);
+  }
+
+  &__field {
+    position: relative;
+  }
+
+  &__field-errors {
+    display: flex;
+    flex-direction: column;
+    gap: sys-var(spacing, xs);
+    margin-top: sys-var(spacing, xs);
+  }
+
+  &__field-error {
+    color: sys-var(color, text, error);
+    @include apply-font(body-sm);
+  }
+}
