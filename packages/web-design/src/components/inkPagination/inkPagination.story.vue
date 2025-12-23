@@ -6,6 +6,8 @@ const currentPage1 = ref(1);
 const currentPage2 = ref(5);
 const currentPage3 = ref(1);
 const currentPage4 = ref(15);
+const currentPageText1 = ref(1);
+const currentPageText2 = ref(3);
 </script>
 
 <template>
@@ -51,6 +53,27 @@ const currentPage4 = ref(15);
     <!-- [Edge] Single Page -->
     <Variant title="Single Page Only">
       <InkPagination :current-page="1" :total-pages="1" />
+    </Variant>
+
+    <!-- [Type] Text Type -->
+    <Variant title="Text Type - Few Pages">
+      <InkPagination
+        type="text"
+        :current-page="currentPageText1"
+        :total-pages="5"
+        @page-change="(page) => (currentPageText1 = page)"
+      />
+      <p>Current page: {{ currentPageText1 }}</p>
+    </Variant>
+
+    <Variant title="Text Type - Many Pages">
+      <InkPagination
+        type="text"
+        :current-page="currentPageText2"
+        :total-pages="20"
+        @page-change="(page) => (currentPageText2 = page)"
+      />
+      <p>Current page: {{ currentPageText2 }}</p>
     </Variant>
   </Story>
 </template>

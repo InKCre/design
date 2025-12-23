@@ -53,4 +53,13 @@
       border: none;
     }
   }
+
+  &__page-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: sys-var(color, text, base);
+    @include apply-font(label-lg);
+    padding: 0 sys-var(space, xs);
+  }
 }
