@@ -10,6 +10,10 @@ const isPrevDisabled = computed(() => props.currentPage <= 1);
 const isNextDisabled = computed(() => props.currentPage >= props.totalPages);
 
 const visiblePages = computed(() => {
+  if (props.type !== "default") {
+    return [];
+  }
+
   const pages: (number | string)[] = [];
   const total = props.totalPages;
   const current = props.currentPage;
@@ -110,7 +114,7 @@ const getPageButtonClass = (page: number | string) => {
     </template>
 
     <!-- Text type: text buttons with page info -->
-    <template v-else-if="props.type === 'text'">
+    <template v-else>
       <InkButton
         text="Previous"
         class="ink-pagination__text-nav"
