@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { inkPaginationProps, inkPaginationEmits } from "./inkPagination";
+import InkButton from "../inkButton/inkButton.vue";
 
 const props = defineProps(inkPaginationProps);
 const emit = defineEmits(inkPaginationEmits);
@@ -75,13 +76,15 @@ const getPageButtonClass = (page: number | string) => {
 
 <template>
   <div class="ink-pagination">
-    <button
+    <InkButton
       class="ink-pagination__nav ink-pagination__nav--prev"
       :disabled="isPrevDisabled"
+      size="md"
+      type="icon"
       @click="handlePrev"
     >
-      <span class="i-mdi-chevron-left" />
-    </button>
+      <div class="i-mdi-chevron-left" />
+    </InkButton>
 
     <button
       v-for="(page, index) in visiblePages"
@@ -93,13 +96,15 @@ const getPageButtonClass = (page: number | string) => {
       {{ page }}
     </button>
 
-    <button
+    <InkButton
       class="ink-pagination__nav ink-pagination__nav--next"
       :disabled="isNextDisabled"
+      size="md"
+      type="icon"
       @click="handleNext"
     >
       <span class="i-mdi-chevron-right" />
-    </button>
+    </InkButton>
   </div>
 </template>
 
