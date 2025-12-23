@@ -135,7 +135,10 @@ const [DefineDropdown, ReuseDropdown] = createReusableTemplate();
               ]"
               @click="onOptionSelect(option.value)"
             >
-              {{ option.label }}
+              <span class="option__label">{{ option.label }}</span>
+              <span class="option__description" v-if="option.description">{{
+                option.description
+              }}</span>
             </div>
           </div>
         </template>

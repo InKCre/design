@@ -57,10 +57,13 @@
 }
 
 .ink-dropdown__option {
-  padding: 0 sys-var(space, sm);
-  height: sys-var(size, md);
+  padding: sys-var(space, sm) sys-var(space, sm);
+  min-height: sys-var(size, md);
+  box-sizing: border-box;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: sys-var(space, xs);
+  justify-content: center;
   cursor: pointer;
   transition: background-color 0.2s;
 
@@ -70,12 +73,29 @@
 
   &--selected {
     background-color: sys-var(color, surface, primary);
-    color: sys-var(color, text, primary);
+
+    .option__label {
+      color: sys-var(color, text, primary);
+    }
+
+    .option__description {
+      color: sys-var(color, text, primary-subtle);
+    }
 
     &:hover {
       background-color: sys-var(color, surface, primary-hover);
     }
   }
+}
+
+.option__label {
+  @include apply-font(label-lg);
+  color: sys-var(color, text, base);
+}
+
+.option__description {
+  @include apply-font(label-md);
+  color: sys-var(color, text, subtle);
 }
 
 .ink-dropdown__loading {

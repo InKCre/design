@@ -8,17 +8,17 @@
   background-color: sys-var(color, surface, base);
   color: sys-var(color, text, base);
   border: 1px solid sys-var(color, border, base);
-  border-radius: sys-var(radius, sm);
+  border-radius: sys-var(radius, none);
   padding: sys-var(space, xs) sys-var(space, sm);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
+  z-index: 50;
   white-space: pre-wrap;
-  max-width: 200px;
   word-wrap: break-word;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.2s ease, visibility 0.2s ease;
   pointer-events: none;
+
+  @include apply-elevation(md);
 
   &--visible {
     opacity: 1;
@@ -54,6 +54,6 @@
   }
 
   &__content {
-    @include apply-font(body-sm);
+    @include apply-font(label-lg);
   }
 }
