@@ -8,8 +8,7 @@ This package provides a consistent design system and common components for InKCr
 - Styles: Sass(scss) + UnoCSS (iconfont only)
 - Internalization: vue-i18n
 - Story-driven tooling: [Histoire](https://histoire.dev)
-- Automate test: Vitest
-- Packagae management: pnpm
+- Testing: Vitest
 
 ## Project Strucutre (Crucial Only)
 
@@ -17,8 +16,11 @@ This project is a sub repo of `InKCre/design` workspace.
 
 ```
 src/
-├── components/         
-├── styles/             # Design tokens in sass map and sass utilties
-    └── tokens/         # Design token exports
-├── vite.config.ts, vitest.config.ts, package.json, ...
+├── components/     # read components/AGENTS.md for more
+├── composables/
+├── utils/
+└── index.ts        # Entry of the package, export components, types here.         
+styles/             # Design tokens in sass map and sass utilties
+├── tokens/         # Design token exports
+└── vite.config.ts, vitest.config.ts, package.json, ...
 ```
