@@ -1,0 +1,56 @@
+.ink-pagination {
+  display: flex;
+  align-items: center;
+  gap: sys-var(space, xs);
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: sys-var(size, icon, lg);
+    height: sys-var(size, icon, lg);
+    border: 1px solid sys-var(color, border, base);
+    background-color: sys-var(color, surface, subtle);
+    color: sys-var(color, text, base);
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease,
+      opacity 0.2s ease;
+    border-radius: sys-var(radius, none);
+    @include apply-icon(md);
+
+    &:hover:not(:disabled) {
+      background-color: sys-var(color, surface, subtle-hover);
+    }
+  }
+
+  &__page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: sys-var(size, md);
+    height: sys-var(size, md);
+    border: 1px solid transparent;
+    background-color: transparent;
+    color: sys-var(color, text, base);
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+    border-radius: sys-var(radius, none);
+    @include apply-font(label-lg);
+
+    &:hover:not(:disabled):not(&--active) {
+      border-color: sys-var(color, border, base);
+    }
+
+    &--active {
+      border-color: sys-var(color, surface, primary);
+      background-color: sys-var(color, surface, primary);
+      color: sys-var(color, text, primary);
+      cursor: default;
+    }
+
+    &--ellipsis {
+      cursor: default;
+      border: none;
+    }
+  }
+}

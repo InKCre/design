@@ -15,6 +15,7 @@ import InkForm from "./components/inkForm/inkForm.vue";
 import InkInput from "./components/inkInput/inkInput.vue";
 import InkJsonEditor from "./components/inkJsonEditor/inkJsonEditor.vue";
 import InkLoading from "./components/inkLoading/inkLoading.vue";
+import InkPagination from "./components/inkPagination/inkPagination.vue";
 import InkPicker from "./components/inkPicker/inkPicker.vue";
 import InkPlaceholder from "./components/inkPlaceholder/inkPlaceholder.vue";
 import InkPopup from "./components/inkPopup/inkPopup.vue";
@@ -37,6 +38,7 @@ export default {
     app.component("InkInput", InkInput);
     app.component("InkJsonEditor", InkJsonEditor);
     app.component("InkLoading", InkLoading);
+    app.component("InkPagination", InkPagination);
     app.component("InkPicker", InkPicker);
     app.component("InkPlaceholder", InkPlaceholder);
     app.component("InkPopup", InkPopup);
@@ -59,6 +61,7 @@ export {
   InkInput,
   InkJsonEditor,
   InkLoading,
+  InkPagination,
   InkPicker,
   InkPlaceholder,
   InkPopup,

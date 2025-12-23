@@ -10,6 +10,7 @@
   background-color: transparent;
   color: sys-var(color, text, base);
   position: relative;
+  box-sizing: border-box;
 
   &__loading-overlay {
     position: absolute;
@@ -33,18 +34,7 @@
     cursor: not-allowed;
   }
 
-  // Size variants
-  &--md {
-    padding: sys-var(space, sm) sys-var(space, md);
-    @include apply-font(label-lg);
-  }
-
-  &--sm {
-    padding: sys-var(space, xs) sys-var(space, md);
-    @include apply-font(label-md);
-  }
-
-  // Type variants
+  // Theme variants
   &--subtle {
     border: 1px solid sys-var(color, border, base);
     background-color: sys-var(color, surface, subtle);
@@ -73,6 +63,34 @@
     &:hover,
     &:active {
       opacity: 0.9;
+    }
+  }
+
+  // Type variants
+  &--default {
+    .ink-button--md {
+      padding: sys-var(space, sm) sys-var(space, md);
+      @include apply-font(label-lg);
+    }
+
+    .ink-button--sm {
+      padding: sys-var(space, xs) sys-var(space, md);
+      @include apply-font(label-md);
+    }
+  }
+
+  &--icon {
+    padding: 0;
+
+    .ink-button--sm {
+      height: sys-var(size, sm);
+      width: sys-var(size, sm);
+      @include apply-icon(sm);
+    }
+    .ink-button--md {
+      height: sys-var(size, md);
+      width: sys-var(size, md);
+      @include apply-icon(md);
     }
   }
 }

@@ -1,18 +1,20 @@
 import { makeStringProp, makeBooleanProp } from "../../utils/vue-props";
 
 // --- Types ---
-type ButtonType = "subtle" | "primary" | "danger";
+type ButtonTheme = "subtle" | "primary" | "danger";
+type ButtonType = "default" | "icon";
 type ButtonSize = "md" | "sm";
 
 // --- Props ---
 export const inkButtonProps = {
-	text: makeStringProp("Button Text"),
-	type: makeStringProp<ButtonType>("subtle"),
-	size: makeStringProp<ButtonSize>("md"),
-	isLoading: makeBooleanProp(false),
+  text: makeStringProp("Button Text"),
+  type: makeStringProp<ButtonType>("default"),
+  theme: makeStringProp<ButtonTheme>("subtle"),
+  size: makeStringProp<ButtonSize>("md"),
+  isLoading: makeBooleanProp(false),
 } as const;
 
 // --- Emits ---
 export const inkButtonEmits = {
-	click: () => true,
+  click: () => true,
 } as const;

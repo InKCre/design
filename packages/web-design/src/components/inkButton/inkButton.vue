@@ -20,6 +20,7 @@ const isLoading = computed(() => {
 const buttonClass = computed(() => [
   "ink-button",
   `ink-button--${props.type}`,
+  `ink-button--${props.theme}`,
   `ink-button--${props.size}`,
   { "ink-button--loading": isLoading.value },
 ]);
