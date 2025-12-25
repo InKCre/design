@@ -1,5 +1,15 @@
 # @inkcre/web-design
 
+## 1.1.6
+
+### Patch Changes
+
+- 8ebafb5: InkButton: move `type` to `theme`, add `type` icon
+- 926f109: Fix inkLoading size not work
+- 4b2e070: Add inkAutoForm
+- aa19a81: Add inkPagination component with page buttons and prev/next navigation
+- a42627f: Fix InkDropdown: display description
+
 ## 1.1.5
 
 ### Patch Changes

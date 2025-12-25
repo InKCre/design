@@ -119,4 +119,104 @@ describe("InkPagination", () => {
 
     expect(wrapper.emitted("page-change")).toBeFalsy();
   });
+
+  describe("Text type", () => {
+    it("renders text buttons instead of icon buttons", () => {
+      const wrapper = mount(InkPagination, {
+        props: {
+          type: "text",
+          currentPage: 1,
+          totalPages: 5,
+        },
+      });
+
+      const textNavButtons = wrapper.findAll(".ink-pagination__text-nav");
+      expect(textNavButtons.length).toBe(2);
+
+      const iconButtons = wrapper.findAll(".ink-pagination__nav");
+      expect(iconButtons.length).toBe(0);
+    });
+
+    it("displays page info in 'x of y' format", () => {
+      const wrapper = mount(InkPagination, {
+        props: {
+          type: "text",
+          currentPage: 3,
+          totalPages: 10,
+        },
+      });
+
+      const pageInfo = wrapper.find(".ink-pagination__page-info");
+      expect(pageInfo.text()).toBe("3 of 10");
+    });
+
+    it("does not render numbered page buttons", () => {
+      const wrapper = mount(InkPagination, {
+        props: {
+          type: "text",
+          currentPage: 1,
+          totalPages: 5,
+        },
+      });
+
+      const pageButtons = wrapper.findAll(".ink-pagination__page");
+      expect(pageButtons.length).toBe(0);
+    });
+
+    it("disables Previous button on first page", () => {
+      const wrapper = mount(InkPagination, {
+        props: {
+          type: "text",
+          currentPage: 1,
+          totalPages: 5,
+        },
+      });
+
+      const prevButton = wrapper.findAll(".ink-pagination__text-nav")[0];
+      expect(prevButton.attributes("disabled")).toBeDefined();
+    });
+
+    it("disables Next button on last page", () => {
+      const wrapper = mount(InkPagination, {
+        props: {
+          type: "text",
+          currentPage: 5,
+          totalPages: 5,
+        },
+      });
+
+      const nextButton = wrapper.findAll(".ink-pagination__text-nav")[1];
+      expect(nextButton.attributes("disabled")).toBeDefined();
+    });
+
+    it("emits page-change when Previous button is clicked", async () => {
+      const wrapper = mount(InkPagination, {
+        props: {
+          type: "text",
+          currentPage: 3,
+          totalPages: 5,
+        },
+      });
+
+      const prevButton = wrapper.findAll(".ink-pagination__text-nav")[0];
+      await prevButton.trigger("click");
+
+      expect(wrapper.emitted("page-change")?.[0]).toEqual([2]);
+    });
+
+    it("emits page-change when Next button is clicked", async () => {
+      const wrapper = mount(InkPagination, {
+        props: {
+          type: "text",
+          currentPage: 3,
+          totalPages: 5,
+        },
+      });
+
+      const nextButton = wrapper.findAll(".ink-pagination__text-nav")[1];
+      await nextButton.trigger("click");
+
+      expect(wrapper.emitted("page-change")?.[0]).toEqual([4]);
+    });
+  });
 });
