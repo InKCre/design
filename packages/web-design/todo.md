@@ -15,3 +15,4 @@
 - [x] Histoire dev 下提供语法高亮支持（但是有限，还是尽可能地缩小体积）
 - [x] InkAutoForm （自动从 JsonSchema 生成 Form）
 - [ ] InkAutoForm 支持切换编辑模式
+- [ ] i18n

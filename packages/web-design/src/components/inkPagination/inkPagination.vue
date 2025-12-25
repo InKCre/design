@@ -79,7 +79,10 @@ const getPageButtonClass = (page: number | string) => {
 </script>
 
 <template>
-  <div class="ink-pagination" :class="{ 'ink-pagination--text': props.type === 'text' }">
+  <div
+    class="ink-pagination"
+    :class="{ 'ink-pagination--text': props.type === 'text' }"
+  >
     <!-- Default type: icon buttons with numbered pages -->
     <template v-if="props.type === 'default'">
       <InkButton
@@ -123,9 +126,9 @@ const getPageButtonClass = (page: number | string) => {
         :disabled="isPrevDisabled"
         @click="handlePrev"
       />
-      <span class="ink-pagination__page-info">
+      <div class="ink-pagination__page-info">
         {{ props.currentPage }} of {{ props.totalPages }}
-      </span>
+      </div>
       <InkButton
         text="Next"
         class="ink-pagination__text-nav"
