@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { inkPlaceholderProps } from "./inkPlaceholder";
+import { useOptionalI18n } from "../../i18n";
 
 const props = defineProps(inkPlaceholderProps);
+const i18n = useOptionalI18n();
 
 const placeholderClass = computed(() => [
   "ink-placeholder",
@@ -16,11 +18,27 @@ const defaultIllustration = computed(() => {
 
 const defaultTitle = computed(() => {
   if (props.title) return props.title;
+  
+  if (i18n) {
+    const key = props.state === "error" 
+      ? "placeholder.error.title" 
+      : "placeholder.empty.title";
+    return i18n.t(key);
+  }
+  
   return props.state === "error" ? "Something went wrong" : "No data";
 });
 
 const defaultDescription = computed(() => {
   if (props.description) return props.description;
+  
+  if (i18n) {
+    const key = props.state === "error" 
+      ? "placeholder.error.description" 
+      : "placeholder.empty.description";
+    return i18n.t(key);
+  }
+  
   return props.state === "error" 
     ? "An error occurred. Please try again." 
     : "There's nothing here yet.";

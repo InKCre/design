@@ -92,9 +92,57 @@ provide(
 </script>
 ```
 
+### Use internationalization (i18n)
+
+The design system supports internationalization via vue-i18n. You can provide your own i18n instance to enable multi-language support.
+
+**Install vue-i18n:**
+
+```bash
+pnpm add vue-i18n
+```
+
+**Setup i18n:**
+
+```ts
+// i18n.ts
+import { createI18n } from "vue-i18n";
+import { locales } from "@inkcre/web-design";
+
+const i18n = createI18n({
+  legacy: false,
+  locale: "en",
+  fallbackLocale: "en",
+  messages: locales,
+});
+
+export default i18n;
+```
+
+**Provide i18n to components:**
+
+```ts
+// App.vue
+<script lang="ts" setup>
+import { INK_I18N_KEY } from "@inkcre/web-design";
+import i18n from "./i18n";
+
+// Provide the i18n composer instance
+provide(INK_I18N_KEY, i18n.global);
+</script>
+```
+
+**Supported locales:**
+
+- `en` - English
+- `zh-CN` - Chinese (Simplified)
+
+The design system will fall back to English strings if no i18n instance is provided.
+
 ## Features
 
 - Design tokens automatically generated from the main tokens file
 - CSS custom properties for theming (light/dark mode support)
 - Component-scoped design tokens
 - Modular SCSS architecture
+- Internationalization support (en, zh-CN)

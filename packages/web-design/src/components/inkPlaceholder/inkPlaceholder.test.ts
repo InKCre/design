@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
 import InkPlaceholder from "./inkPlaceholder.vue";
+import { INK_I18N_KEY } from "../../i18n";
 
 describe("InkPlaceholder", () => {
   it("renders with default empty state", () => {
@@ -138,5 +139,72 @@ describe("InkPlaceholder", () => {
     });
 
     expect(wrapper.find(".i-mdi-custom-icon").exists()).toBe(true);
+  });
+
+  describe("i18n integration", () => {
+    it("uses i18n translations when provided", () => {
+      const mockI18n = {
+        t: (key: string) => {
+          const translations: Record<string, string> = {
+            "placeholder.empty.title": "Translated Empty Title",
+            "placeholder.empty.description": "Translated Empty Description",
+            "placeholder.error.title": "Translated Error Title",
+            "placeholder.error.description": "Translated Error Description",
+          };
+          return translations[key] || key;
+        },
+      };
+
+      const wrapper = mount(InkPlaceholder, {
+        props: {
+          state: "empty",
+        },
+        global: {
+          provide: {
+            [INK_I18N_KEY as symbol]: mockI18n,
+          },
+        },
+      });
+
+      expect(wrapper.text()).toContain("Translated Empty Title");
+      expect(wrapper.text()).toContain("Translated Empty Description");
+    });
+
+    it("falls back to English when i18n not provided", () => {
+      const wrapper = mount(InkPlaceholder, {
+        props: {
+          state: "empty",
+        },
+      });
+
+      expect(wrapper.text()).toContain("No data");
+      expect(wrapper.text()).toContain("There's nothing here yet.");
+    });
+
+    it("uses i18n translations for error state", () => {
+      const mockI18n = {
+        t: (key: string) => {
+          const translations: Record<string, string> = {
+            "placeholder.error.title": "Translated Error",
+            "placeholder.error.description": "Translated Error Description",
+          };
+          return translations[key] || key;
+        },
+      };
+
+      const wrapper = mount(InkPlaceholder, {
+        props: {
+          state: "error",
+        },
+        global: {
+          provide: {
+            [INK_I18N_KEY as symbol]: mockI18n,
+          },
+        },
+      });
+
+      expect(wrapper.text()).toContain("Translated Error");
+      expect(wrapper.text()).toContain("Translated Error Description");
+    });
   });
 });

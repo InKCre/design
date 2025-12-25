@@ -30,6 +30,10 @@
     },
     "./utils": {
       "import": "./dist/utils/index.js"
+    },
+    "./locales": {
+      "import": "./dist/locales/index.js",
+      "types": "./dist/locales/index.d.ts"
     }
   },
   "sideEffects": [
@@ -78,6 +82,7 @@
     "vite-plugin-dts": "^4.5.4",
     "vitest": "^4.0.15",
     "vue": "^3.4.0",
+    "vue-i18n": "^11.2.7",
     "vue-tsc": "^3.1.8"
   },
   "peerDependencies": {
@@ -91,6 +96,7 @@
     "dayjs": "^1.11.0",
     "vscode-json-languageservice": "^5.6.4",
     "vue": "^3.0.0",
+    "vue-i18n": "^10.0.0",
     "vue-router": "^4.0.0"
   }
 }
