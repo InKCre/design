@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, ref, watch } from "vue";
+import { computed, inject, ref, watch, onMounted } from "vue";
 import { createReusableTemplate } from "@vueuse/core";
 import {
   inkDropdownProps,
@@ -75,6 +75,20 @@ const onOptionSelect = (value: DropdownOption["value"]) => {
   emit("change", value);
   showOptions.value = false;
 };
+
+// Load lazy options immediately if modelValue is set
+onMounted(() => {
+  const hasModelValue =
+    props.modelValue !== undefined &&
+    props.modelValue !== null &&
+    props.modelValue !== "";
+  const hasRefresher = props.refresher !== undefined;
+  const hasNoOptions = optionsModel.value.length === 0;
+
+  if (hasModelValue && hasRefresher && hasNoOptions) {
+    loadOptionsIfNeeded();
+  }
+});
 
 const [DefineDropdown, ReuseDropdown] = createReusableTemplate();
 </script>

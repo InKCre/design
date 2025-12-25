@@ -11,7 +11,7 @@ Provides a consistent dropdown selection control that supports both static and d
 ### Concepts
 
 - Static options: Pre-defined array of options passed directly
-- Lazy-loaded options: Options loaded on-demand when the dropdown is opened
+- Lazy-loaded options: Options loaded on-demand when the dropdown is opened, or immediately if modelValue is set
 
 ### Visual / UX Meaning
 
@@ -53,6 +53,7 @@ The dropdown displays as a box showing the selected value or placeholder. Openin
 - In loading state: No selection possible, loading indicator shown
 - Selection emits update:modelValue and change events
 - Refresh button reloads options asynchronously, disabled during load
+- When modelValue is set on mount with a refresher function, options are loaded immediately to display the correct label
 - State transitions are idempotent
 
 ## Extension & Composition
