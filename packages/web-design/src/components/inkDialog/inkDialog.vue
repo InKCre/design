@@ -95,13 +95,13 @@ const handleConfirm = () => {
           <InkButton
             v-if="showCancel"
             :text="cancelText"
-            type="subtle"
+            theme="subtle"
             @click="handleCancel"
           />
           <InkButton
             v-if="showConfirm"
             :text="confirmText"
-            type="primary"
+            theme="primary"
             @click="handleConfirm"
           />
         </slot>

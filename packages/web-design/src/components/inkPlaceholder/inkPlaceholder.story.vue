@@ -4,10 +4,7 @@ import InkButton from "../inkButton/inkButton.vue";
 </script>
 
 <template>
-  <Story
-    title="Feedback/Placeholder"
-    :layout="{ type: 'grid', width: '100%' }"
-  >
+  <Story title="Feedback/Placeholder" :layout="{ type: 'grid', width: '100%' }">
     <!-- [Semantic] Empty State -->
     <Variant title="Empty State - Default">
       <InkPlaceholder state="empty" />
@@ -51,8 +48,8 @@ import InkButton from "../inkButton/inkButton.vue";
         description="Start by creating your first project."
       >
         <template #actions>
-          <InkButton text="Create Project" type="primary" />
-          <InkButton text="Import Project" type="subtle" />
+          <InkButton text="Create Project" theme="primary" />
+          <InkButton text="Import Project" theme="subtle" />
         </template>
       </InkPlaceholder>
     </Variant>
@@ -64,7 +61,7 @@ import InkButton from "../inkButton/inkButton.vue";
         description="Unable to connect to the server."
       >
         <template #actions>
-          <InkButton text="Retry" type="primary" />
+          <InkButton text="Retry" theme="primary" />
         </template>
       </InkPlaceholder>
     </Variant>
@@ -77,7 +74,7 @@ import InkButton from "../inkButton/inkButton.vue";
         description="Using slot to override the default illustration"
       >
         <template #illustration>
-          <div style="font-size: 64px;">🎨</div>
+          <div style="font-size: 64px">🎨</div>
         </template>
       </InkPlaceholder>
     </Variant>
@@ -85,7 +82,7 @@ import InkButton from "../inkButton/inkButton.vue";
     <Variant title="Custom Title Slot">
       <InkPlaceholder state="empty">
         <template #title>
-          <h2 style="color: #4a90e2; font-weight: bold;">Custom Styled Title</h2>
+          <h2 style="color: #4a90e2; font-weight: bold">Custom Styled Title</h2>
         </template>
       </InkPlaceholder>
     </Variant>
@@ -93,17 +90,22 @@ import InkButton from "../inkButton/inkButton.vue";
     <Variant title="Fully Custom Content">
       <InkPlaceholder state="empty">
         <template #illustration>
-          <span class="i-mdi-rocket-launch" style="font-size: 64px; color: #f39c12;" />
+          <span
+            class="i-mdi-rocket-launch"
+            style="font-size: 64px; color: #f39c12"
+          />
         </template>
         <template #title>
-          <h2 style="color: #2c3e50;">Welcome aboard!</h2>
+          <h2 style="color: #2c3e50">Welcome aboard!</h2>
         </template>
         <template #description>
-          <p style="color: #7f8c8d;">Let's get started with something amazing.</p>
+          <p style="color: #7f8c8d">
+            Let's get started with something amazing.
+          </p>
         </template>
         <template #actions>
-          <InkButton text="Get Started" type="primary" />
-          <InkButton text="Learn More" type="subtle" />
+          <InkButton text="Get Started" theme="primary" />
+          <InkButton text="Learn More" theme="subtle" />
         </template>
       </InkPlaceholder>
     </Variant>

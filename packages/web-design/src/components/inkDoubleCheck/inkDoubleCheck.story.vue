@@ -15,7 +15,7 @@ import InkButton from "../inkButton/inkButton.vue";
         confirm-text="Delete"
         cancel-text="Cancel"
       >
-        <InkButton text="Delete Item" type="danger" />
+        <InkButton text="Delete Item" theme="danger" />
       </InkDoubleCheck>
     </Variant>
   </Story>

@@ -38,8 +38,8 @@ const onCancel = () => {
         <h3 class="ink-double-check__title">{{ title }}</h3>
         <p class="ink-double-check__message">{{ message }}</p>
         <div class="ink-double-check__actions">
-          <InkButton :text="cancelText" type="subtle" @click="onCancel" />
-          <InkButton :text="confirmText" type="danger" @click="onConfirm" />
+          <InkButton :text="cancelText" theme="subtle" @click="onCancel" />
+          <InkButton :text="confirmText" theme="danger" @click="onConfirm" />
         </div>
       </div>
     </InkPopup>

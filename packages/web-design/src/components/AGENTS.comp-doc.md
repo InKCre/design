@@ -40,7 +40,7 @@ The words in `>` is what you (agent) need to follow, do NOT includes in the fina
 > The examples represent canonical usage, not an exhaustive combination of all parameters. For example:
 > - Subtle(default): Used as the normal/secondary action.
 >   ```vue
->   <InkButton text="Save" type="primary" />
+>   <InkButton text="Save" theme="primary" />
 >   ```
 > 
 
