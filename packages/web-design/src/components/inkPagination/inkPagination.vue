@@ -10,6 +10,10 @@ const isPrevDisabled = computed(() => props.currentPage <= 1);
 const isNextDisabled = computed(() => props.currentPage >= props.totalPages);
 
 const visiblePages = computed(() => {
+  if (props.type !== "default") {
+    return [];
+  }
+
   const pages: (number | string)[] = [];
   const total = props.totalPages;
   const current = props.currentPage;
@@ -75,36 +79,65 @@ const getPageButtonClass = (page: number | string) => {
 </script>
 
 <template>
-  <div class="ink-pagination">
-    <InkButton
-      class="ink-pagination__nav ink-pagination__nav--prev"
-      :disabled="isPrevDisabled"
-      size="md"
-      type="icon"
-      @click="handlePrev"
-    >
-      <div class="i-mdi-chevron-left" />
-    </InkButton>
+  <div
+    class="ink-pagination"
+    :class="{ 'ink-pagination--text': props.type === 'text' }"
+  >
+    <!-- Default type: icon buttons with numbered pages -->
+    <template v-if="props.type === 'default'">
+      <InkButton
+        class="ink-pagination__nav ink-pagination__nav--prev"
+        :disabled="isPrevDisabled"
+        size="md"
+        type="icon"
+        @click="handlePrev"
+      >
+        <div class="i-mdi-chevron-left" />
+      </InkButton>
 
-    <button
-      v-for="(page, index) in visiblePages"
-      :key="index"
-      :class="getPageButtonClass(page)"
-      :disabled="page === '...'"
-      @click="handlePageClick(page)"
-    >
-      {{ page }}
-    </button>
+      <button
+        v-for="(page, index) in visiblePages"
+        :key="index"
+        :class="getPageButtonClass(page)"
+        :disabled="page === '...'"
+        @click="handlePageClick(page)"
+      >
+        {{ page }}
+      </button>
 
-    <InkButton
-      class="ink-pagination__nav ink-pagination__nav--next"
-      :disabled="isNextDisabled"
-      size="md"
-      type="icon"
-      @click="handleNext"
-    >
-      <span class="i-mdi-chevron-right" />
-    </InkButton>
+      <InkButton
+        class="ink-pagination__nav ink-pagination__nav--next"
+        :disabled="isNextDisabled"
+        size="md"
+        type="icon"
+        @click="handleNext"
+      >
+        <span class="i-mdi-chevron-right" />
+      </InkButton>
+    </template>
+
+    <!-- Text type: text buttons with page info -->
+    <template v-else>
+      <InkButton
+        text="Previous"
+        class="ink-pagination__text-nav"
+        theme="subtle"
+        size="sm"
+        :disabled="isPrevDisabled"
+        @click="handlePrev"
+      />
+      <div class="ink-pagination__page-info">
+        {{ props.currentPage }} of {{ props.totalPages }}
+      </div>
+      <InkButton
+        text="Next"
+        class="ink-pagination__text-nav"
+        theme="subtle"
+        size="sm"
+        :disabled="isNextDisabled"
+        @click="handleNext"
+      />
+    </template>
   </div>
 </template>
 
