@@ -68,12 +68,12 @@
 
   // Type variants
   &--default {
-    .ink-button--md {
+    &.ink-button--md {
       padding: sys-var(space, sm) sys-var(space, md);
       @include apply-font(label-lg);
     }
 
-    .ink-button--sm {
+    &.ink-button--sm {
       padding: sys-var(space, xs) sys-var(space, md);
       @include apply-font(label-md);
     }
@@ -82,12 +82,12 @@
   &--icon {
     padding: 0;
 
-    .ink-button--sm {
+    &.ink-button--sm {
       height: sys-var(size, sm);
       width: sys-var(size, sm);
       @include apply-icon(sm);
     }
-    .ink-button--md {
+    &.ink-button--md {
       height: sys-var(size, md);
       width: sys-var(size, md);
       @include apply-icon(md);
