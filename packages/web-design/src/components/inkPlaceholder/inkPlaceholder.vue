@@ -16,32 +16,31 @@ const defaultIllustration = computed(() => {
   return props.state === "error" ? "i-mdi-alert-circle-outline" : "i-mdi-inbox-outline";
 });
 
-const defaultTitle = computed(() => {
-  if (props.title) return props.title;
+const getTranslatedText = (messageType: "title" | "description") => {
+  const isError = props.state === "error";
   
   if (i18n) {
-    const key = props.state === "error" 
-      ? "placeholder.error.title" 
-      : "placeholder.empty.title";
+    const key = `placeholder.${isError ? "error" : "empty"}.${messageType}`;
     return i18n.t(key);
   }
   
-  return props.state === "error" ? "Something went wrong" : "No data";
+  if (messageType === "title") {
+    return isError ? "Something went wrong" : "No data";
+  }
+  
+  return isError 
+    ? "An error occurred. Please try again." 
+    : "There's nothing here yet.";
+};
+
+const defaultTitle = computed(() => {
+  if (props.title) return props.title;
+  return getTranslatedText("title");
 });
 
 const defaultDescription = computed(() => {
   if (props.description) return props.description;
-  
-  if (i18n) {
-    const key = props.state === "error" 
-      ? "placeholder.error.description" 
-      : "placeholder.empty.description";
-    return i18n.t(key);
-  }
-  
-  return props.state === "error" 
-    ? "An error occurred. Please try again." 
-    : "There's nothing here yet.";
+  return getTranslatedText("description");
 });
 </script>
 
