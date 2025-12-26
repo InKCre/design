@@ -1,6 +1,6 @@
 ---
-name: web-design-i18n
-description: Integrate @inkcre/web-design with vue-i18n. Provides i18n adapter pattern for internationalized components.
+name: i18n
+description: Integrate @inkcre/web-design with vue-i18n for internationalization.
 ---
 
 # Internationalization (i18n)
@@ -14,8 +14,7 @@ The design system supports i18n through a provider pattern compatible with vue-i
 ## Interface
 
 ```typescript
-import type { InjectionKey, Ref } from "vue";
-import { inject } from "vue";
+import type { Ref, InjectionKey } from "vue";
 
 export interface InkI18n {
   t: (key: string) => string;
@@ -23,11 +22,6 @@ export interface InkI18n {
 }
 
 export const INK_I18N_KEY: InjectionKey<InkI18n> = Symbol("INK_I18N");
-
-export function useOptionalI18n(): InkI18n | null {
-  return inject(INK_I18N_KEY, null);
-}
-
 ```
 
 ## Setup

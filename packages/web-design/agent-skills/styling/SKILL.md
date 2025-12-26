@@ -1,6 +1,6 @@
 ---
-name: web-design-styling
-description: Use @inkcre/web-design styling system with design tokens, SCSS mixins, and theming. Includes token categories and usage examples.
+name: styling
+description: Use @inkcre/web-design styling system with design tokens, SCSS mixins, and theming.
 ---
 
 # Styling System

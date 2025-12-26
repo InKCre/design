@@ -1,6 +1,6 @@
 ---
-name: web-design-best-practices
-description: Best practices for developing with @inkcre/web-design. Includes coding guidelines, naming conventions, and accessibility tips.
+name: best-practices
+description: Best practices for developing with @inkcre/web-design including coding guidelines and accessibility.
 ---
 
 # Best Practices
