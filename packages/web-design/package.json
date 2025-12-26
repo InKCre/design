@@ -48,8 +48,9 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "pnpm run clean && pnpm run build:js",
+    "build": "pnpm run clean && pnpm run build:js && pnpm run build:locales",
     "build:js": "vite build",
+    "build:locales": "vite build --config vite.locales.config.js",
     "build:tokens": "tsx ../../scripts/build-tokens.ts",
     "clean": "rimraf dist",
     "preview": "vite preview",
