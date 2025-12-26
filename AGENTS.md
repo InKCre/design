@@ -17,5 +17,6 @@ This repo includes everything about the design of InKCre.
 
 ## Development Workflows
 
-- Use PNPM as package manager
-- Use changeset for automatic CHANGELOG and release. So run `pnpm changeset` after you made changes.
+- Package manager is PNPM
+- Use changeset to summarize your changes (run `pnpm changeset` after you made changes.)
+- Run tests and build to verify your changes if possible.

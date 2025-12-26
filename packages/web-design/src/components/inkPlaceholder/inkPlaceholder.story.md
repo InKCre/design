@@ -7,11 +7,13 @@ A component to communicate empty or error states and guide users to appropriate 
 InkPlaceholder exists to provide consistent visual feedback when content is unavailable or an error occurs, reducing user confusion and providing clear next steps.
 
 Use it when:
+
 - A view has no data to display (empty state)
 - An operation fails and the user needs guidance (error state)
 - You need to suggest actions to resolve the empty/error condition
 
 Avoid using it for:
+
 - Loading states (use InkLoading instead)
 - Inline validation errors (use form field validation)
 - Temporary placeholder content during data fetching
@@ -48,7 +50,7 @@ Avoid using it for:
     description="Start by creating your first project."
   >
     <template #actions>
-      <InkButton text="Create Project" type="primary" />
+      <InkButton text="Create Project" theme="primary" />
     </template>
   </InkPlaceholder>
   ```
@@ -62,7 +64,7 @@ Avoid using it for:
     description="Unable to connect to the server."
   >
     <template #actions>
-      <InkButton text="Retry" type="primary" />
+      <InkButton text="Retry" theme="primary" />
     </template>
   </InkPlaceholder>
   ```
@@ -107,4 +109,3 @@ Avoid using it for:
 - Default icons use UnoCSS MDI icons: `i-mdi-inbox-outline` (empty), `i-mdi-alert-circle-outline` (error)
 - Consumers should add default icons to UnoCSS safelist: `i-mdi-inbox-outline`, `i-mdi-alert-circle-outline`
 - Layout uses flexbox with centered alignment; max-width on description (400px) for readability
-

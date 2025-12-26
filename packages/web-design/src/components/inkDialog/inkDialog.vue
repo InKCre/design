@@ -53,12 +53,12 @@ const isLoading = computed(() => isDialogLoading.value);
 // Provide loading state to buttons via inject
 provide("isLoading", readonly(isLoading));
 
-const defaultCancelText = computed(() => {
+const cCancelText = computed(() => {
   if (props.cancelText) return props.cancelText;
   return i18n ? i18n.t("dialog.cancel") : "Cancel";
 });
 
-const defaultConfirmText = computed(() => {
+const cConfirmText = computed(() => {
   if (props.confirmText) return props.confirmText;
   return i18n ? i18n.t("dialog.confirm") : "Confirm";
 });
@@ -106,14 +106,14 @@ const handleConfirm = () => {
         <slot name="footer">
           <InkButton
             v-if="showCancel"
-            :text="defaultCancelText"
-            type="subtle"
+            :text="cCancelText"
+            theme="subtle"
             @click="handleCancel"
           />
           <InkButton
             v-if="showConfirm"
-            :text="defaultConfirmText"
-            type="primary"
+            :text="cConfirmText"
+            theme="primary"
             @click="handleConfirm"
           />
         </slot>

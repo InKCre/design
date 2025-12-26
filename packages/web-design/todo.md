@@ -16,4 +16,5 @@
 - [x] InkAutoForm （自动从 JsonSchema 生成 Form）
 - [ ] InkAutoForm 支持切换编辑模式
 - [x] i18n
+- [ ] make InkPagination use v-model
 - [ ] Agent Skills

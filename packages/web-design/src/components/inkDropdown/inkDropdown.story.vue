@@ -26,6 +26,8 @@ const asyncOptionsLoader = async () => {
   ];
 };
 
+const preselectedAsyncValue = ref("a2");
+
 // Dummy operation to simulate refresh
 const onRefresh = () => {
   return Promise.resolve(
@@ -61,6 +63,18 @@ const onRefresh = () => {
     <!-- [Feature] Options with Description -->
     <Variant title="With Descriptions">
       <InkDropdown v-model="selectedValue" :options="optionsWithDescription" />
+    </Variant>
+
+    <!-- [Feature] Preselected Async Value -->
+    <Variant title="Preselected Async Value">
+      <p>
+        The dropdown should immediately load options and display "Async Option
+        2" instead of placeholder
+      </p>
+      <InkDropdown
+        v-model="preselectedAsyncValue"
+        :refresher="asyncOptionsLoader"
+      />
     </Variant>
   </Story>
 </template>

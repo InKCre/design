@@ -34,13 +34,13 @@ Use it for any single-click action that requires a compact button UI; avoid usin
 - Primary: The primary action in a modal or a form footer.
 
   ```vue
-  <InkButton text="Save" type="primary" />
+  <InkButton text="Save" theme="primary" />
   ```
 
 - Danger: Used for destructive actions where the user must confirm an operation.
 
   ```vue
-  <InkButton text="Delete" type="danger" />
+  <InkButton text="Delete" theme="danger" />
   ```
 
 - Small size: Use in dense toolbars or where space is constrained.
@@ -54,7 +54,7 @@ Use it for any single-click action that requires a compact button UI; avoid usin
 The `slot` is supported for custom content; this is how you add icons or non-text children.
 
 ```vue
-<InkButton type="primary">
+<InkButton theme="primary">
   <svg aria-hidden="true" width="16" height="16">...</svg>
   <span>Save</span>
   </InkButton>

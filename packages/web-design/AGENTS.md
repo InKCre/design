@@ -1,4 +1,4 @@
-# `@inkcre/web-design` coding agent guide
+# Coding Agent Guideline of `@inkcre/web-design`
 
 This package provides a consistent design system and common components for InKCre client using web tech stacks.
 

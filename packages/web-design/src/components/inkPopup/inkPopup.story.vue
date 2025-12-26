@@ -12,12 +12,12 @@ const visible = ref(false);
     :layout="{ type: 'single', iframe: false }"
   >
     <Variant title="Default Popup">
-      <InkButton text="Open Popup" type="primary" @click="visible = true" />
+      <InkButton text="Open Popup" theme="primary" @click="visible = true" />
       <InkPopup v-model:visible="visible">
-        <div style="padding: 20px;">
+        <div style="padding: 20px">
           <h3>Popup Content</h3>
           <p>This is the popup content.</p>
-          <InkButton text="Close" type="subtle" @click="visible = false" />
+          <InkButton text="Close" theme="subtle" @click="visible = false" />
         </div>
       </InkPopup>
     </Variant>

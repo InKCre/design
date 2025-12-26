@@ -29,7 +29,7 @@ const handleLoadingConfirm = () => {
     <Variant title="Basic">
       <InkButton
         text="Open Dialog"
-        type="primary"
+        theme="primary"
         @click="basicDialog = true"
       />
       <InkDialog
@@ -44,7 +44,7 @@ const handleLoadingConfirm = () => {
     <Variant title="with Custom Slots">
       <InkButton
         text="Open Dialog"
-        type="primary"
+        theme="primary"
         @click="withSlotsDialog = true"
       />
       <InkDialog v-model="withSlotsDialog" title="Custom Dialog">
@@ -53,8 +53,8 @@ const handleLoadingConfirm = () => {
             <p>Are you sure you want to proceed?</p>
             <p v-if="isLoading">Processing...</p>
             <div style="display: flex; gap: 10px; margin-top: 10px">
-              <InkButton text="No" type="subtle" @click="cancel" />
-              <InkButton text="Yes" type="primary" @click="confirm" />
+              <InkButton text="No" theme="subtle" @click="cancel" />
+              <InkButton text="Yes" theme="primary" @click="confirm" />
             </div>
           </div>
         </template>
@@ -64,7 +64,7 @@ const handleLoadingConfirm = () => {
     <Variant title="Async">
       <InkButton
         text="Open Async Dialog"
-        type="primary"
+        theme="primary"
         @click="asyncDialog = true"
       />
       <InkDialog
@@ -80,7 +80,7 @@ const handleLoadingConfirm = () => {
     <Variant title="Without Cancel">
       <InkButton
         text="Open Dialog"
-        type="primary"
+        theme="primary"
         @click="loadingDialog = true"
       />
       <InkDialog

@@ -113,8 +113,8 @@ const [DefinePicker, ReusePicker] = createReusableTemplate();
         :mode="type"
       />
       <div class="ink-picker-popup__actions">
-        <InkButton text="Cancel" type="subtle" @click="onCancel" />
-        <InkButton text="Confirm" type="primary" @click="onConfirm" />
+        <InkButton text="Cancel" theme="subtle" @click="onCancel" />
+        <InkButton text="Confirm" theme="primary" @click="onConfirm" />
       </div>
     </template>
   </InkPopup>

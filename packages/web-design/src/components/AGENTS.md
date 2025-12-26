@@ -32,6 +32,8 @@ Each component has a folder (`compName/`) containing the following files:
 
 ## Task Checklist
 
+> ALWAYS Check this list once you made changes to components
+
 - [ ] Update `compName.story.md` to plan the changes
 - [ ] Ensure type-safety (avoid `any`, `unknown`)
 - [ ] Update `compName.test.ts` and pass the test
