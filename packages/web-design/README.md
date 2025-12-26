@@ -164,17 +164,16 @@ Components will fall back to English strings if no i18n provider is configured.
 - Modular SCSS architecture
 - Provider-agnostic router support
 - Provider-agnostic internationalization support
-- Claude AI Skill documentation for comprehensive package understanding
+- Agent Skills for AI-assisted development
 
-## Documentation
+## Agent Skills
 
-### Claude AI Skill
+The package includes [Agent Skills](https://agentskills.io) - standardized packages of domain expertise that AI agents can discover and load dynamically. Located in `.github/skills/`, these skills provide:
 
-The package includes comprehensive Claude AI Skill documentation (`CLAUDE_SKILL.md`) that provides:
-- Complete component API reference with props, events, and types
-- Usage examples from component documentation
-- Router and i18n integration guides
-- Styling system documentation
-- Best practices and coding guidelines
+- **web-design-components**: Component library usage with props, events, and examples
+- **web-design-router**: Router integration patterns with Vue Router
+- **web-design-i18n**: Internationalization setup with vue-i18n
+- **web-design-styling**: Design token system and SCSS utilities
+- **web-design-best-practices**: Development guidelines and coding philosophy
 
-This documentation is automatically generated from component source code and story files during the build process.
+These skills work with Claude Code, GitHub Copilot, and other AI agents supporting the agentskills.io standard. They're automatically generated from source code during the build process.

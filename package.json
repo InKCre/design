@@ -10,7 +10,7 @@
   },
   "scripts": {
     "build-tokens": "tsx scripts/build-tokens.ts",
-    "build-skill": "tsx scripts/build-claude-skill.ts",
+    "build-skills": "tsx scripts/build-agent-skills.ts",
     "changeset": "changeset",
     "changeset:add": "changeset add",
     "changeset:version": "changeset version",

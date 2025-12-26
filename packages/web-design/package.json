@@ -45,15 +45,15 @@
   "files": [
     "dist/",
     "styles/",
-    "CLAUDE_SKILL.md"
+    ".github/skills/"
   ],
   "scripts": {
     "dev": "vite",
-    "build": "pnpm run clean && pnpm run build:js && pnpm run build:locales && pnpm run build:skill",
+    "build": "pnpm run clean && pnpm run build:js && pnpm run build:locales && pnpm run build:skills",
     "build:js": "vite build",
     "build:locales": "vite build --config vite.locales.config.js",
     "build:tokens": "tsx ../../scripts/build-tokens.ts",
-    "build:skill": "tsx ../../scripts/build-claude-skill.ts",
+    "build:skills": "tsx ../../scripts/build-agent-skills.ts",
     "clean": "rimraf dist",
     "preview": "vite preview",
     "story:dev": "histoire dev",

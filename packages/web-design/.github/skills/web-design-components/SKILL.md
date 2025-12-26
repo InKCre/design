@@ -1,276 +1,15 @@
-# @inkcre/web-design - Claude Skill
+---
+name: web-design-components
+description: Use @inkcre/web-design Vue 3 components. Includes all 19 components with props, events, and usage examples.
+---
 
-This is a comprehensive guide for using the @inkcre/web-design package, InKCre's design system for web applications.
+# @inkcre/web-design Components
+
+Use this skill when working with the @inkcre/web-design Vue 3 component library.
 
 ## Overview
 
-@inkcre/web-design is a Vue 3 component library built with TypeScript, providing:
-- Design tokens (colors, spacing, typography, etc.)
-- Reusable UI components
-- Router and i18n abstractions
-- SCSS utilities and mixins
-- Comprehensive styling system
-
-## Tech Stack
-
-- **Framework**: Vue 3 + TypeScript + Vite
-- **Styles**: SCSS + UnoCSS (icons only)
-- **Internationalization**: vue-i18n compatible
-- **Testing**: Vitest
-- **Storybook**: Histoire
-
-## Installation
-
-```bash
-npm install @inkcre/web-design
-# or
-pnpm add @inkcre/web-design
-```
-
-## Basic Setup
-
-### Main Application Setup
-
-```typescript
-// main.ts
-import { createApp } from 'vue'
-import InKCreWebDesign from '@inkcre/web-design'
-import "@inkcre/web-design/styles"
-
-const app = createApp(App)
-app.use(InKCreWebDesign)
-```
-
-### TypeScript Configuration
-
-```json
-// tsconfig.json
-{
-  "compilerOptions": {
-    "types": ["@inkcre/web-design"]
-  }
-}
-```
-
-### UnoCSS Configuration
-
-```typescript
-// uno.config.ts
-export default defineConfig({
-  safelist: [
-    'i-mdi-menu',
-    'i-mdi-loading',
-    'i-mdi-refresh',
-    'i-mdi-chevron-right',
-    'i-mdi-chevron-down',
-    'i-mdi-alert-circle-outline',
-    'i-mdi-inbox-outline',
-    'animate-spin'
-  ]
-})
-```
-
-## Router Integration
-
-Some components (like InkHeader) require router capabilities. The design system uses a provider pattern that works with any router.
-
-### Interface
-
-```typescript
-import type { ComputedRef, InjectionKey } from "vue";
-import { inject } from "vue";
-
-export interface InkRouter {
-  /** 当前路径（响应式） */
-  currentPath: ComputedRef<string>;
-  /** 当前页面名称 */
-  currentName: ComputedRef<string | null>;
-}
-
-export const INK_ROUTER_KEY: InjectionKey<InkRouter> = Symbol("INK_ROUTER");
-
-export function useOptionalRouter(): InkRouter | null {
-  return inject(INK_ROUTER_KEY, null);
-}
-
-```
-
-### Setup with Vue Router
-
-```typescript
-// your-router.ts
-import { computed } from "vue";
-import type { Router, RouteLocationNormalizedLoaded } from "vue-router";
-import type { InkRouter } from "@inkcre/web-design";
-
-export function createInkRouterAdapter(
-  router: Router,
-  route: RouteLocationNormalizedLoaded
-): InkRouter {
-  return {
-    currentPath: computed(() => route.path),
-    currentName: computed(() => route.name),
-  };
-}
-```
-
-```typescript
-// App.vue
-<script setup lang="ts">
-import { INK_ROUTER_KEY } from "@inkcre/web-design";
-import { createInkRouterAdapter } from "./your-router";
-import { useRoute, useRouter } from "vue-router";
-
-const router = useRouter();
-const route = useRoute();
-
-provide(INK_ROUTER_KEY, createInkRouterAdapter(router, route));
-</script>
-```
-
-## Internationalization (i18n)
-
-The design system supports internationalization through a provider pattern that works with any i18n library.
-
-### Interface
-
-```typescript
-import type { InjectionKey, Ref } from "vue";
-import { inject } from "vue";
-
-export interface InkI18n {
-  t: (key: string) => string;
-  locale: Ref<string>;
-}
-
-export const INK_I18N_KEY: InjectionKey<InkI18n> = Symbol("INK_I18N");
-
-export function useOptionalI18n(): InkI18n | null {
-  return inject(INK_I18N_KEY, null);
-}
-
-```
-
-### Setup with vue-i18n
-
-1. Install vue-i18n:
-```bash
-pnpm add vue-i18n
-```
-
-2. Extend provided locales:
-```typescript
-// locales/en.ts
-import { en } from "@inkcre/web-design/locales";
-
-export default {
-  ...en,
-  // Your custom translations
-}
-```
-
-3. Configure vue-i18n:
-```typescript
-// locales/index.ts
-import { createI18n } from "vue-i18n";
-import en from "./en";
-import zhCN from "./zhCN";
-
-const i18n = createI18n({
-  legacy: false,
-  locale: "en",
-  fallbackLocale: "en",
-  messages: { en, zhCN },
-});
-
-export default i18n;
-```
-
-4. Provide to design system:
-```typescript
-// App.vue
-<script setup lang="ts">
-import { INK_I18N_KEY } from "@inkcre/web-design";
-import i18n from "./locales";
-
-provide(INK_I18N_KEY, {
-  t: i18n.global.t,
-  locale: i18n.global.locale,
-});
-</script>
-```
-
-**Note**: Components fall back to English if no i18n provider is configured.
-
-## Styling System
-
-The design system provides a comprehensive styling system with design tokens, mixins, and utilities.
-
-### Using SCSS Utilities
-
-```scss
-// Your component styles
-@use "@inkcre/web-design/styles/mixins" as *;
-@use "@inkcre/web-design/styles/functions" as *;
-@use "@inkcre/web-design/tokens/ref" as ref;
-@use "@inkcre/web-design/tokens/sys" as sys;
-@use "@inkcre/web-design/tokens/comp" as comp;
-```
-
-### Design Tokens
-
-Design tokens are organized in three layers:
-
-1. **Reference Tokens** (`ref`): Primitive values (colors, spacing, etc.)
-2. **System Tokens** (`sys`): Semantic tokens that reference primitives
-3. **Component Tokens** (`comp`): Component-specific tokens
-
-#### Example Usage
-
-```scss
-.my-component {
-  // Using system tokens
-  color: fn.map-deep-get(sys.$color-light, "text", "base");
-  padding: fn.map-deep-get(ref.$space, "md");
-  border-radius: fn.map-deep-get(ref.$radius, "sm");
-  
-  // Using component tokens
-  background: fn.map-deep-get(comp.$light, "button", "bg-primary");
-}
-```
-
-### Theme Support
-
-The design system supports light and dark modes through CSS custom properties.
-
-```scss
-// Light mode
-[data-theme="light"] {
-  --color-text-base: #{fn.map-deep-get(sys.$color-light, "text", "base")};
-}
-
-// Dark mode
-[data-theme="dark"] {
-  --color-text-base: #{fn.map-deep-get(sys.$color-dark, "text", "base")};
-}
-```
-
-### Available Token Categories
-
-- **Colors**: `ref.$color`, `sys.$color-light`, `sys.$color-dark`
-- **Spacing**: `ref.$space` (xs, sm, md, lg, xl, etc.)
-- **Typography**: `ref.$typo` (font sizes, weights, line heights)
-- **Border Radius**: `ref.$radius`
-- **Elevation**: `ref.$elevation` (shadows)
-- **Breakpoints**: `ref.$breakpoint` (sm, md, lg, xl)
-- **Opacity**: `ref.$opacity`
-
-## Components
-
-The design system includes 19 components, each designed for specific use cases.
-
-### Component List
-
+@inkcre/web-design provides 19 UI components for Vue 3 applications:
 - **inkAutoForm**
 - **inkButton**
 - **inkDatetimePickerView**
@@ -291,8 +30,27 @@ The design system includes 19 components, each designed for specific use cases.
 - **inkTextarea**
 - **inkTooltip**
 
+## Installation
 
----
+```bash
+npm install @inkcre/web-design
+# or
+pnpm add @inkcre/web-design
+```
+
+## Setup
+
+```typescript
+// main.ts
+import { createApp } from 'vue'
+import InKCreWebDesign from '@inkcre/web-design'
+import "@inkcre/web-design/styles"
+
+const app = createApp(App)
+app.use(InKCreWebDesign)
+```
+
+## Components
 
 ### inkAutoForm
 
@@ -383,8 +141,7 @@ InkAutoForm can be composed within larger forms or used standalone. It supports 
 
 Relies on `vscode-json-languageservice` for schema validation. Internal state managed via Vue reactivity. Assumes DOM environment for rendering; SSR support may require additional handling.
 
-#### Props Definition
-
+**Props:**
 ```typescript
 export const inkAutoFormProps = {
   /** JSON Schema definition for the form (flat properties only) */
@@ -399,16 +156,14 @@ export const inkAutoFormProps = {
 } as const;
 ```
 
-#### Events
-
+**Events:**
 ```typescript
 export const inkAutoFormEmits = {
   "update:formData": (value: Record<string, any>) => true,
 } as const;
 ```
 
-#### Types
-
+**Types:**
 ```typescript
 type FieldLayout = "inline" | "col" | "row";
 
@@ -437,14 +192,10 @@ interface FieldComponentMapping {
 }
 ```
 
-#### Import
-
+**Import:**
 ```typescript
 import { inkAutoForm } from '@inkcre/web-design';
-// or
-import inkAutoForm from '@inkcre/web-design/components/inkAutoForm/inkAutoForm.vue';
 ```
-
 
 ---
 
@@ -538,8 +289,7 @@ The `slot` is supported for custom content; this is how you add icons or non-tex
 - The `slot` is present and should be considered the source of truth for custom content; the `text` prop is a convenience when only a label is used.
 - Accessibility note for maintainers: the component omits an explicit `type` attribute on the underlying `<button>`, so by default in HTML forms the button will behave as `submit`. When used inside a form where submission is not intended, the caller should pass a `type="button"` attribute to avoid accidental form submits.
 
-#### Props Definition
-
+**Props:**
 ```typescript
 export const inkButtonProps = {
   text: makeStringProp("Button Text"),
@@ -550,16 +300,14 @@ export const inkButtonProps = {
 } as const;
 ```
 
-#### Events
-
+**Events:**
 ```typescript
 export const inkButtonEmits = {
   click: () => true,
 } as const;
 ```
 
-#### Types
-
+**Types:**
 ```typescript
 type ButtonTheme = "subtle" | "primary" | "danger";
 type ButtonType = "default" | "icon";
@@ -575,14 +323,10 @@ export const inkButtonProps = {
 }
 ```
 
-#### Import
-
+**Import:**
 ```typescript
 import { inkButton } from '@inkcre/web-design';
-// or
-import inkButton from '@inkcre/web-design/components/inkButton/inkButton.vue';
 ```
-
 
 ---
 
@@ -642,8 +386,7 @@ Handling data persistence or business logic. Not for direct keyboard input.
 
 Uses scrollable columns for selection. Manages internal state for current selections. Relies on Vue reactivity for updates.
 
-#### Props Definition
-
+**Props:**
 ```typescript
 export const inkDatetimePickerViewProps = {
   modelValue: {
@@ -663,16 +406,14 @@ export const inkDatetimePickerViewProps = {
 } as const;
 ```
 
-#### Events
-
+**Events:**
 ```typescript
 export const inkDatetimePickerViewEmits = {
   "update:modelValue": (value: Date) => value instanceof Date,
 } as const;
 ```
 
-#### Types
-
+**Types:**
 ```typescript
 type InkDatetimePickerMode =
   | "date"
@@ -690,14 +431,10 @@ export interface PickerColumn {
 }
 ```
 
-#### Import
-
+**Import:**
 ```typescript
 import { inkDatetimePickerView } from '@inkcre/web-design';
-// or
-import inkDatetimePickerView from '@inkcre/web-design/components/inkDatetimePickerView/inkDatetimePickerView.vue';
 ```
-
 
 ---
 
@@ -840,8 +577,7 @@ const handleConfirm = () => {
 </InkDialog>
 ```
 
-#### Props Definition
-
+**Props:**
 ```typescript
 export const inkDialogProps = {
   modelValue: {
@@ -862,8 +598,7 @@ export const inkDialogProps = {
 } as const;
 ```
 
-#### Events
-
+**Events:**
 ```typescript
 export const inkDialogEmits = {
   "update:modelValue": (value: boolean) => typeof value === "boolean",
@@ -872,8 +607,7 @@ export const inkDialogEmits = {
 } as const;
 ```
 
-#### Types
-
+**Types:**
 ```typescript
 type DialogPosition =
   | "center"
@@ -891,14 +625,10 @@ export const inkDialogProps = {
   }
 ```
 
-#### Import
-
+**Import:**
 ```typescript
 import { inkDialog } from '@inkcre/web-design';
-// or
-import inkDialog from '@inkcre/web-design/components/inkDialog/inkDialog.vue';
 ```
-
 
 ---
 
@@ -957,8 +687,7 @@ The component maintains the original clickable element's appearance until clicke
 - Relies on a popup component for the confirmation dialog.
 - State management handles popup visibility and event emission.
 
-#### Props Definition
-
+**Props:**
 ```typescript
 export const inkDoubleCheckProps = {
   title: makeStringProp("Confirm Action"),
@@ -968,22 +697,17 @@ export const inkDoubleCheckProps = {
 } as const;
 ```
 
-#### Events
-
+**Events:**
 ```typescript
 export const inkDoubleCheckEmits = {
   confirm: () => true,
 } as const;
 ```
 
-#### Import
-
+**Import:**
 ```typescript
 import { inkDoubleCheck } from '@inkcre/web-design';
-// or
-import inkDoubleCheck from '@inkcre/web-design/components/inkDoubleCheck/inkDoubleCheck.vue';
 ```
-
 
 ---
 
@@ -1065,8 +789,7 @@ The dropdown displays as a box showing the selected value or placeholder. Openin
 - Handles async loading with promises
 - Relies on DOM for rendering
 
-#### Props Definition
-
+**Props:**
 ```typescript
 export const inkDropdownProps = {
   ...formControlCommonProps,
@@ -1087,8 +810,7 @@ export const inkDropdownProps = {
 } as const;
 ```
 
-#### Events
-
+**Events:**
 ```typescript
 export const inkDropdownEmits = {
   "update:modelValue": (value: DropdownOption["value"]) => true,
@@ -1097,8 +819,7 @@ export const inkDropdownEmits = {
 } as const;
 ```
 
-#### Types
-
+**Types:**
 ```typescript
 interface DropdownOption {
   label: string;
@@ -1116,14 +837,10 @@ export const inkDropdownProps = {
   }
 ```
 
-#### Import
-
+**Import:**
 ```typescript
 import { inkDropdown } from '@inkcre/web-design';
-// or
-import inkDropdown from '@inkcre/web-design/components/inkDropdown/inkDropdown.vue';
 ```
-
 
 ---
 
@@ -1198,8 +915,7 @@ Use it for form fields where you need a label and a value display or input; avoi
 - Uses computed classes for layout and state.
 - Relies on Vue slots for flexibility.
 
-#### Props Definition
-
+**Props:**
 ```typescript
 export const inkFieldProps = {
   label: makeStringProp("Label"),
@@ -1210,16 +926,14 @@ export const inkFieldProps = {
 } as const;
 ```
 
-#### Events
-
+**Events:**
 ```typescript
 export const inkFieldEmits = {
   "value-click": () => true,
 } as const;
 ```
 
-#### Types
-
+**Types:**
 ```typescript
 type FieldLayout = "inline" | "col" | "row";
 
@@ -1233,14 +947,10 @@ export const inkFieldProps = {
 }
 ```
 
-#### Import
-
+**Import:**
 ```typescript
 import { inkField } from '@inkcre/web-design';
-// or
-import inkField from '@inkcre/web-design/components/inkField/inkField.vue';
 ```
-
 
 ---
 
@@ -1278,38 +988,31 @@ A form container that uses Vue's provide/inject API to communicate layout prefer
 
 The component provides `INK_FORM_CONTEXT_KEY` context that child form controls can inject to detect they are inside a form and access the default layout.
 
-#### Props Definition
-
+**Props:**
 ```typescript
 export const inkFormProps = {
   layout: makeStringProp<FieldLayout>("col"),
 } as const;
 ```
 
-#### Events
-
+**Events:**
 ```typescript
 export const inkFormEmits = {
   submit: (e: Event) => true,
 } as const;
 ```
 
-#### Types
-
+**Types:**
 ```typescript
 interface InkFormContext {
   layout: FieldLayout;
 }
 ```
 
-#### Import
-
+**Import:**
 ```typescript
 import { inkForm } from '@inkcre/web-design';
-// or
-import inkForm from '@inkcre/web-design/components/inkForm/inkForm.vue';
 ```
-
 
 ---
 
@@ -1379,8 +1082,7 @@ Use it for app headers where branding and navigation are needed; avoid using it 
 - Uses vue-router if available for page title.
 - Emits events for parent handling.
 
-#### Props Definition
-
+**Props:**
 ```typescript
 export const inkHeaderProps = {
   title: makeStringProp("InKCre"),
@@ -1395,8 +1097,7 @@ export const inkHeaderEmits = {
 } as const;
 ```
 
-#### Events
-
+**Events:**
 ```typescript
 export const inkHeaderEmits = {
   "menu-click": () => true,
@@ -1404,14 +1105,10 @@ export const inkHeaderEmits = {
 } as const;
 ```
 
-#### Import
-
+**Import:**
 ```typescript
 import { inkHeader } from '@inkcre/web-design';
-// or
-import inkHeader from '@inkcre/web-design/components/inkHeader/inkHeader.vue';
 ```
-
 
 ---
 
@@ -1582,8 +1279,7 @@ When `type="inline"`:
 - **Pressing Esc or clicking outside exits edit mode without saving changes**
 - Use the default slot to customize how the value is displayed
 
-#### Props Definition
-
+**Props:**
 ```typescript
 export const inkInputProps = {
   ...formControlCommonProps,
@@ -1593,16 +1289,14 @@ export const inkInputProps = {
 } as const;
 ```
 
-#### Events
-
+**Events:**
 ```typescript
 export const inkInputEmits = {
   "update:modelValue": (value: string) => true,
 } as const;
 ```
 
-#### Types
-
+**Types:**
 ```typescript
 type InkInputType = "default" | "inline";
 
@@ -1615,14 +1309,10 @@ export const inkInputProps = {
 }
 ```
 
-#### Import
-
+**Import:**
 ```typescript
 import { inkInput } from '@inkcre/web-design';
-// or
-import inkInput from '@inkcre/web-design/components/inkInput/inkInput.vue';
 ```
-
 
 ---
 
@@ -1699,8 +1389,7 @@ Use it for editing JSON strings in forms; avoid using it for general text editin
 - Height is fixed to `rows * 1.2em + space-sm * 2` and so set `line-height: 1.2 !important`
 - JSON edit features: tab indentation, quote completion, comma completion, JSON schema support (vscode-json-languageservice)
 
-#### Props Definition
-
+**Props:**
 ```typescript
 export const inkJsonEditorProps = {
   ...formControlCommonProps,
@@ -1718,22 +1407,17 @@ export const inkJsonEditorProps = {
 } as const;
 ```
 
-#### Events
-
+**Events:**
 ```typescript
 export const inkJsonEditorEmits = {
   "update:modelValue": (value: string) => true,
 } as const;
 ```
 
-#### Import
-
+**Import:**
 ```typescript
 import { inkJsonEditor } from '@inkcre/web-design';
-// or
-import inkJsonEditor from '@inkcre/web-design/components/inkJsonEditor/inkJsonEditor.vue';
 ```
-
 
 ---
 
@@ -1794,8 +1478,7 @@ Use it for loading screens or inline loading; avoid using it for static placehol
 - Uses CSS keyframes for animation.
 - Sequential delays for wave effect.
 
-#### Props Definition
-
+**Props:**
 ```typescript
 export const inkLoadingProps = {
   size: makeStringProp<LoadingSize>("md"),
@@ -1803,8 +1486,7 @@ export const inkLoadingProps = {
 } as const;
 ```
 
-#### Types
-
+**Types:**
 ```typescript
 type LoadingSize = "xs" | "sm" | "md";
 type LoadingDensity = "sm" | "md";
@@ -1816,14 +1498,10 @@ export const inkLoadingProps = {
 }
 ```
 
-#### Import
-
+**Import:**
 ```typescript
 import { inkLoading } from '@inkcre/web-design';
-// or
-import inkLoading from '@inkcre/web-design/components/inkLoading/inkLoading.vue';
 ```
-
 
 ---
 
@@ -1929,8 +1607,7 @@ Use it when you need to navigate through multiple pages of content in a list or 
 - Smart page number display: shows first, last, current, and adjacent pages with ellipsis for gaps (default type)
 - Text type uses InkButton components with "subtle" theme
 
-#### Props Definition
-
+**Props:**
 ```typescript
 export const inkPaginationProps = {
 	currentPage: makeNumberProp(1),
@@ -1939,16 +1616,14 @@ export const inkPaginationProps = {
 } as const;
 ```
 
-#### Events
-
+**Events:**
 ```typescript
 export const inkPaginationEmits = {
 	"page-change": (page: number) => true,
 } as const;
 ```
 
-#### Types
-
+**Types:**
 ```typescript
 type PaginationType = "default" | "text";
 
@@ -1960,14 +1635,10 @@ export const inkPaginationProps = {
 }
 ```
 
-#### Import
-
+**Import:**
 ```typescript
 import { inkPagination } from '@inkcre/web-design';
-// or
-import inkPagination from '@inkcre/web-design/components/inkPagination/inkPagination.vue';
 ```
-
 
 ---
 
@@ -2023,8 +1694,7 @@ Displays a value that can be clicked to pick, in inline or box layout. When used
   - mount when `props.type` not set
   - `closePopup() => void` will be provided
 
-#### Types
-
+**Types:**
 ```typescript
 type DisplayValueAs = "inline-text" | "box";
 type InkPickerType = "date" | "time" | "datetime";
@@ -2038,14 +1708,10 @@ export const inkPickerProps = <T>() =>
     }
 ```
 
-#### Import
-
+**Import:**
 ```typescript
 import { inkPicker } from '@inkcre/web-design';
-// or
-import inkPicker from '@inkcre/web-design/components/inkPicker/inkPicker.vue';
 ```
-
 
 ---
 
@@ -2163,8 +1829,7 @@ Avoid using it for:
 - Consumers should add default icons to UnoCSS safelist: `i-mdi-inbox-outline`, `i-mdi-alert-circle-outline`
 - Layout uses flexbox with centered alignment; max-width on description (400px) for readability
 
-#### Props Definition
-
+**Props:**
 ```typescript
 export const inkPlaceholderProps = {
   /** The state of the placeholder */
@@ -2178,8 +1843,7 @@ export const inkPlaceholderProps = {
 } as const;
 ```
 
-#### Types
-
+**Types:**
 ```typescript
 type PlaceholderState = "empty" | "error";
 
@@ -2196,14 +1860,10 @@ export const inkPlaceholderProps = {
 }
 ```
 
-#### Import
-
+**Import:**
 ```typescript
 import { inkPlaceholder } from '@inkcre/web-design';
-// or
-import inkPlaceholder from '@inkcre/web-design/components/inkPlaceholder/inkPlaceholder.vue';
 ```
-
 
 ---
 
@@ -2286,8 +1946,7 @@ type PopupPosition =
   | [number, number, number, number]; // [top, right, bottom, left]
 ```
 
-#### Props Definition
-
+**Props:**
 ```typescript
 export const inkPopupProps = {
   position: {
@@ -2298,16 +1957,14 @@ export const inkPopupProps = {
 } as const;
 ```
 
-#### Events
-
+**Events:**
 ```typescript
 export const inkPopupEmits = {
   "scrim-click": () => true,
 } as const;
 ```
 
-#### Types
-
+**Types:**
 ```typescript
 type PopupPosition =
   | "center"
@@ -2325,14 +1982,10 @@ export const inkPopupProps = {
   }
 ```
 
-#### Import
-
+**Import:**
 ```typescript
 import { inkPopup } from '@inkcre/web-design';
-// or
-import inkPopup from '@inkcre/web-design/components/inkPopup/inkPopup.vue';
 ```
-
 
 ---
 
@@ -2403,8 +2056,7 @@ Use it for settings or preferences; avoid using it for multi-state selections.
 - Uses useAsyncState for promise handling.
 - Computed classes for styling.
 
-#### Props Definition
-
+**Props:**
 ```typescript
 export const inkSwitchProps = {
   modelValue: {
@@ -2420,22 +2072,17 @@ export const inkSwitchProps = {
 } as const;
 ```
 
-#### Events
-
+**Events:**
 ```typescript
 export const inkSwitchEmits = {
   "update:modelValue": (value: boolean) => true,
 } as const;
 ```
 
-#### Import
-
+**Import:**
 ```typescript
 import { inkSwitch } from '@inkcre/web-design';
-// or
-import inkSwitch from '@inkcre/web-design/components/inkSwitch/inkSwitch.vue';
 ```
-
 
 ---
 
@@ -2508,8 +2155,7 @@ Use it for comments, descriptions, or any multi-line text input; avoid using it 
 - Uses reusable template for conditional rendering.
 - Injects form context for integration.
 
-#### Props Definition
-
+**Props:**
 ```typescript
 export const inkTextareaProps = {
   ...formControlCommonProps,
@@ -2522,16 +2168,14 @@ export const inkTextareaProps = {
 } as const;
 ```
 
-#### Events
-
+**Events:**
 ```typescript
 export const inkTextareaEmits = {
   "update:value": (value: string) => true,
 } as const;
 ```
 
-#### Types
-
+**Types:**
 ```typescript
 type FieldLayout = "inline" | "col" | "row";
 
@@ -2546,14 +2190,10 @@ export const inkTextareaProps = {
   }
 ```
 
-#### Import
-
+**Import:**
 ```typescript
 import { inkTextarea } from '@inkcre/web-design';
-// or
-import inkTextarea from '@inkcre/web-design/components/inkTextarea/inkTextarea.vue';
 ```
-
 
 ---
 
@@ -2697,8 +2337,7 @@ Trigger element, usually an icon, button, or text.
 - CSS transition 实现显示/隐藏动画
 - 依赖父元素的 relative 定位
 
-#### Props Definition
-
+**Props:**
 ```typescript
 export const inkTooltipProps = {
   content: makeStringProp(""),
@@ -2706,14 +2345,12 @@ export const inkTooltipProps = {
 } as const;
 ```
 
-#### Events
-
+**Events:**
 ```typescript
 export const inkTooltipEmits = {} as const;
 ```
 
-#### Types
-
+**Types:**
 ```typescript
 type TooltipPosition = "top" | "bottom" | "left" | "right";
 
@@ -2724,123 +2361,10 @@ export const inkTooltipProps = {
 }
 ```
 
-#### Import
-
+**Import:**
 ```typescript
 import { inkTooltip } from '@inkcre/web-design';
-// or
-import inkTooltip from '@inkcre/web-design/components/inkTooltip/inkTooltip.vue';
 ```
-
-## Utilities
-
-The design system provides several utility functions and composables.
-
-### Vue Props Utilities
-
-```typescript
-import { makeStringProp, makeBooleanProp, makeNumberProp } from '@inkcre/web-design/utils';
-
-// Create props with defaults and type safety
-const props = {
-  text: makeStringProp("Default text"),
-  isActive: makeBooleanProp(false),
-  count: makeNumberProp(0),
-};
-```
-
-### Composables
-
-Use the router and i18n composables to access provided instances:
-
-```typescript
-import { useOptionalRouter, useOptionalI18n } from '@inkcre/web-design';
-
-const router = useOptionalRouter(); // Returns null if not provided
-const i18n = useOptionalI18n();     // Returns null if not provided
-
-if (router) {
-  console.log(router.currentPath.value);
-}
-
-if (i18n) {
-  console.log(i18n.t('common.save'));
-}
-```
-
-## Best Practices
-
-### Component Development
-
-1. **Single Responsibility Principle**: Each component should do one thing well
-2. **High Cohesion, Low Coupling**: Keep related code together, minimize dependencies
-3. **Clear and Consistent API**: Props and events should be intuitive
-4. **Avoid Prop Drilling**: Use provide/inject for deeply nested data
-5. **Easy to Test and Maintain**: Write testable, readable code
-
-### Naming Conventions
-
-- **Components**: `camelCase` (e.g., `inkButton`)
-- **CSS Classes**: `kebab-case` (e.g., `ink-button`)
-- **Props/Variables**: `camelCase` (e.g., `isLoading`)
-- **Events**: `kebab-case` (e.g., `update:modelValue`)
-
-### Error Handling
-
-- Use graceful degradation
-- Provide user-friendly error messages
-- Log errors appropriately
-- Validate inputs and provide defaults
-
-### Accessibility
-
-- Use semantic HTML elements
-- Provide ARIA labels where needed
-- Ensure keyboard navigation works
-- Test with screen readers
-- Maintain proper color contrast
-
-### Performance
-
-- Use `v-if` vs `v-show` appropriately
-- Avoid unnecessary watchers
-- Use `computed` for derived state
-- Lazy load components when possible
-- Optimize large lists with virtual scrolling
-
-## Coding Guidelines
-
-### Code for Human Brains
-
-Write code that's easy to understand and maintain:
-
-- **Keep it simple**: Prefer straightforward solutions
-- **Limit cognitive load**: Keep functions and conditions simple (≤4 concepts)
-- **Use meaningful names**: Variables and functions should be self-documenting
-- **Prefer early returns**: Avoid deeply nested conditions
-- **Comment the "why"**: Explain motivation, not just what the code does
-
-### Example: Complex vs Simple
-
-❌ Hard to understand:
-```typescript
-if (val > someConstant && (condition2 || condition3) && (condition4 && !condition5)) {
-  // What are we checking here?
-}
-```
-
-✅ Easy to understand:
-```typescript
-const isValid = val > someConstant;
-const isAllowed = condition2 || condition3;
-const isSecure = condition4 && !condition5;
-
-if (isValid && isAllowed && isSecure) {
-  // Clear what each condition means
-}
-```
-
 
 ---
 
-*This documentation was auto-generated by build-claude-skill.ts*
