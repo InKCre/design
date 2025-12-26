@@ -1,5 +1,17 @@
 # @inkcre/web-design
 
+## 1.2.0
+
+### Minor Changes
+
+- 31b01fd: Add internationalization support with vue-i18n. Library now supports en and zh-CN locales, with consumers able to provide their own i18n instance.
+
+### Patch Changes
+
+- 6506b64: Update InkDropdown: load lazy options if modelValue is set
+- f51bdf6: Fix InkButton size style lost
+- f9c5d5d: Fix: InkButton make breaking changes to prop `type`
+
 ## 1.1.6
 
 ### Patch Changes
