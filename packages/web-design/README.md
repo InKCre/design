@@ -96,8 +96,6 @@ provide(
 
 The design system supports internationalization. You can provide your own i18n implementation via the `INK_I18N_KEY` injection key.
 
-**Requirements:**
-
 Your i18n provider must implement the following interface:
 
 ```ts
@@ -107,65 +105,56 @@ interface InkI18n {
 }
 ```
 
-**Example with vue-i18n:**
-
-```bash
-pnpm add vue-i18n
-```
-
-```ts
-// i18n.ts
-import { createI18n } from "vue-i18n";
-import { locales } from "@inkcre/web-design/locales";
-
-const i18n = createI18n({
-  legacy: false,
-  locale: "en",
-  fallbackLocale: "en",
-  messages: locales,
-});
-
-export default i18n;
-```
-
-```ts
-// App.vue
-<script lang="ts" setup>
-import { INK_I18N_KEY } from "@inkcre/web-design";
-import i18n from "./i18n";
-
-// Provide i18n to the design system
-provide(INK_I18N_KEY, {
-  t: i18n.global.t,
-  locale: i18n.global.locale,
-});
-</script>
-```
-
-**Built-in locales:**
-
-The library exports the following locales from `@inkcre/web-design/locales`:
-- `en` - English
-- `zh-CN` - Chinese (Simplified)
-- `locales` - All locales combined
-
-**Translation keys used by components:**
-
-```ts
-{
-  // InkPlaceholder component
-  "placeholder.empty.title": string,
-  "placeholder.empty.description": string,
-  "placeholder.error.title": string,
-  "placeholder.error.description": string,
-  
-  // InkDialog component
-  "dialog.cancel": string,
-  "dialog.confirm": string,
-}
-```
-
 Components will fall back to English strings if no i18n provider is configured.
+
+#### Example with vue-i18n
+
+1. `pnpm add vue-i18n`
+
+2. Add your messages. You can extend our exported locales (`en`, `zhCN`) from `@inkcre/web-design/locales`.
+
+    ```ts
+    // your/locales/messages/en.ts
+    import { en } from "@inkcre/web-design/locales";
+
+    export default {
+      ...en,
+      // your translations here
+    }
+    ```
+
+3. Config your vue-i18n
+
+    ```ts
+    // your/locales/index.ts
+    import { createI18n } from "vue-i18n";
+    import messages from "your/locales/messages";  
+
+    const i18n = createI18n({
+      legacy: false,
+      locale: "en",
+      fallbackLocale: "en",
+      messages,
+    });
+
+    export default i18n;
+    ```
+
+4. Provide it to us
+
+    ```ts
+    // App.vue
+    <script lang="ts" setup>
+    import { INK_I18N_KEY } from "@inkcre/web-design";
+    import i18n from "./locales";
+
+    // Provide i18n to the design system
+    provide(INK_I18N_KEY, {
+      t: i18n.global.t,
+      locale: i18n.global.locale,
+    });
+    </script>
+    ```
 
 ## Features
 
@@ -173,4 +162,5 @@ Components will fall back to English strings if no i18n provider is configured.
 - CSS custom properties for theming (light/dark mode support)
 - Component-scoped design tokens
 - Modular SCSS architecture
+- Provider-agnostic router support
 - Provider-agnostic internationalization support
