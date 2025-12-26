@@ -1,8 +1,10 @@
-import type { InjectionKey } from "vue";
+import type { InjectionKey, Ref } from "vue";
 import { inject } from "vue";
-import type { Composer } from "vue-i18n";
 
-export type InkI18n = Composer;
+export interface InkI18n {
+  t: (key: string) => string;
+  locale: Ref<string>;
+}
 
 export const INK_I18N_KEY: InjectionKey<InkI18n> = Symbol("INK_I18N");
 

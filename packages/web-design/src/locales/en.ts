@@ -9,4 +9,8 @@ export default {
       description: "An error occurred. Please try again.",
     },
   },
+  dialog: {
+    cancel: "Cancel",
+    confirm: "Confirm",
+  },
 };

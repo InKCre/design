@@ -153,6 +153,7 @@ describe("InkPlaceholder", () => {
           };
           return translations[key] || key;
         },
+        locale: { value: "en" },
       };
 
       const wrapper = mount(InkPlaceholder, {
@@ -190,6 +191,7 @@ describe("InkPlaceholder", () => {
           };
           return translations[key] || key;
         },
+        locale: { value: "en" },
       };
 
       const wrapper = mount(InkPlaceholder, {

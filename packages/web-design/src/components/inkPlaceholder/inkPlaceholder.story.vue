@@ -1,13 +1,33 @@
 <script setup lang="ts">
+import { inject } from "vue";
 import InkPlaceholder from "./inkPlaceholder.vue";
 import InkButton from "../inkButton/inkButton.vue";
+import { INK_I18N_KEY } from "../../i18n";
+
+const i18n = inject(INK_I18N_KEY);
+
+function initState() {
+  return {
+    locale: "en",
+  };
+}
 </script>
 
 <template>
   <Story
     title="Feedback/Placeholder"
     :layout="{ type: 'grid', width: '100%' }"
+    :init-state="initState"
   >
+    <template #controls="{ state }">
+      <HstSelect
+        v-model="state.locale"
+        title="Language"
+        :options="['en', 'zh-CN']"
+        @update:model-value="i18n && (i18n.locale.value = state.locale)"
+      />
+    </template>
+
     <!-- [Semantic] Empty State -->
     <Variant title="Empty State - Default">
       <InkPlaceholder state="empty" />

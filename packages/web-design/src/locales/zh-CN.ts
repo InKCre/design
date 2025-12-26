@@ -9,4 +9,8 @@ export default {
       description: "发生了错误，请重试。",
     },
   },
+  dialog: {
+    cancel: "取消",
+    confirm: "确认",
+  },
 };

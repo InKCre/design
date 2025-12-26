@@ -17,7 +17,7 @@ export default defineConfig({
     sourcemap: "inline",
     outDir: "dist",
     rollupOptions: {
-      external: ["vue", "vue-router", "vue-i18n", "dayjs"],
+      external: ["vue", "vue-router", "dayjs"],
 
       output: {
         globals: {

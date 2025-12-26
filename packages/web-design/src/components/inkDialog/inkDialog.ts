@@ -23,8 +23,8 @@ export const inkDialogProps = {
   closeOnScrim: makeBooleanProp(true),
   title: makeStringProp(""),
   subtitle: makeStringProp(""),
-  cancelText: makeStringProp("Cancel"),
-  confirmText: makeStringProp("Confirm"),
+  cancelText: makeStringProp(""),
+  confirmText: makeStringProp(""),
   showCancel: makeBooleanProp(true),
   showConfirm: makeBooleanProp(true),
 } as const;

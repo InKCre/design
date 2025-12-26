@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { mount, flushPromises } from "@vue/test-utils";
 import InkDialog from "./inkDialog.vue";
+import { INK_I18N_KEY } from "../../i18n";
 
 describe("InkDialog", () => {
   it("renders with basic props", async () => {
@@ -112,5 +113,75 @@ describe("InkDialog", () => {
 
     expect(wrapper.props("cancelText")).toBe("Custom Cancel");
     expect(wrapper.props("confirmText")).toBe("Custom Confirm");
+  });
+
+  describe("i18n integration", () => {
+    it("uses i18n translations for button text when no custom text provided", () => {
+      const mockI18n = {
+        t: (key: string) => {
+          const translations: Record<string, string> = {
+            "dialog.cancel": "Translated Cancel",
+            "dialog.confirm": "Translated Confirm",
+          };
+          return translations[key] || key;
+        },
+        locale: { value: "en" },
+      };
+
+      const wrapper = mount(InkDialog, {
+        props: {
+          modelValue: false,
+        },
+        global: {
+          provide: {
+            [INK_I18N_KEY as symbol]: mockI18n,
+          },
+        },
+      });
+
+      // The computed properties should use i18n
+      expect(wrapper.vm.defaultCancelText).toBe("Translated Cancel");
+      expect(wrapper.vm.defaultConfirmText).toBe("Translated Confirm");
+    });
+
+    it("uses custom text over i18n translations", () => {
+      const mockI18n = {
+        t: (key: string) => {
+          const translations: Record<string, string> = {
+            "dialog.cancel": "Translated Cancel",
+            "dialog.confirm": "Translated Confirm",
+          };
+          return translations[key] || key;
+        },
+        locale: { value: "en" },
+      };
+
+      const wrapper = mount(InkDialog, {
+        props: {
+          modelValue: false,
+          cancelText: "Custom Cancel",
+          confirmText: "Custom Confirm",
+        },
+        global: {
+          provide: {
+            [INK_I18N_KEY as symbol]: mockI18n,
+          },
+        },
+      });
+
+      expect(wrapper.vm.defaultCancelText).toBe("Custom Cancel");
+      expect(wrapper.vm.defaultConfirmText).toBe("Custom Confirm");
+    });
+
+    it("falls back to English when i18n not provided", () => {
+      const wrapper = mount(InkDialog, {
+        props: {
+          modelValue: false,
+        },
+      });
+
+      expect(wrapper.vm.defaultCancelText).toBe("Cancel");
+      expect(wrapper.vm.defaultConfirmText).toBe("Confirm");
+    });
   });
 });

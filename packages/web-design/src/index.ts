@@ -74,7 +74,6 @@ export {
 
 import { INK_ROUTER_KEY } from "./router";
 import { INK_I18N_KEY } from "./i18n";
-import { locales, en, zhCN } from "./locales";
 
 import type { DropdownOption } from "./components/inkDropdown/inkDropdown";
 import type {
@@ -85,7 +84,6 @@ import type {
 // others
 import type { InkRouter } from "./router";
 import type { InkI18n } from "./i18n";
-import type { LocaleMessages } from "./locales";
 
 export {
   DropdownOption,
@@ -95,8 +93,4 @@ export {
   INK_ROUTER_KEY,
   InkI18n,
   INK_I18N_KEY,
-  LocaleMessages,
-  locales,
-  en,
-  zhCN,
 };
