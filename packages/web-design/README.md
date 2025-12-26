@@ -164,3 +164,17 @@ Components will fall back to English strings if no i18n provider is configured.
 - Modular SCSS architecture
 - Provider-agnostic router support
 - Provider-agnostic internationalization support
+- Claude AI Skill documentation for comprehensive package understanding
+
+## Documentation
+
+### Claude AI Skill
+
+The package includes comprehensive Claude AI Skill documentation (`CLAUDE_SKILL.md`) that provides:
+- Complete component API reference with props, events, and types
+- Usage examples from component documentation
+- Router and i18n integration guides
+- Styling system documentation
+- Best practices and coding guidelines
+
+This documentation is automatically generated from component source code and story files during the build process.
