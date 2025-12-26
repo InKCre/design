@@ -411,6 +411,30 @@ export const inkAutoFormEmits = {
 
 ```typescript
 type FieldLayout = "inline" | "col" | "row";
+
+export interface JSONSchema {
+  type: "object";
+  properties: Record<string, JSONSchemaProperty>;
+  required?: string[];
+  [key: string]: any;
+}
+interface JSONSchemaProperty {
+  type: "string" | "number" | "integer" | "boolean";
+  title?: string;
+  description?: string;
+  default?: any;
+  enum?: any[];
+  format?: "date" | "time" | "datetime" | "date-time";
+  maxLength?: number;
+  minimum?: number;
+  maximum?: number;
+  pattern?: string;
+  [key: string]: any;
+}
+interface FieldComponentMapping {
+  component: string;
+  props: Record<string, any>;
+}
 ```
 
 #### Import
@@ -540,6 +564,15 @@ export const inkButtonEmits = {
 type ButtonTheme = "subtle" | "primary" | "danger";
 type ButtonType = "default" | "icon";
 type ButtonSize = "md" | "sm";
+
+// --- Props ---
+export const inkButtonProps = {
+  text: makeStringProp("Button Text"),
+  type: makeStringProp<ButtonType>("default"),
+  theme: makeStringProp<ButtonTheme>("subtle"),
+  size: makeStringProp<ButtonSize>("md"),
+  isLoading: makeBooleanProp(false),
+}
 ```
 
 #### Import
@@ -641,7 +674,20 @@ export const inkDatetimePickerViewEmits = {
 #### Types
 
 ```typescript
-type HourFormat = "12" | "24";
+type InkDatetimePickerMode =
+  | "date"
+  | "time"
+  | "datetime"
+  | "weekday"
+  | "weekday-date"
+  | "weekday-datetime";
+
+export type HourFormat = "12" | "24";
+
+export interface PickerColumn {
+  values: (string | number)[];
+  defaultIndex: number;
+}
 ```
 
 #### Import
@@ -824,6 +870,25 @@ export const inkDialogEmits = {
   cancel: () => true,
   confirm: () => true,
 } as const;
+```
+
+#### Types
+
+```typescript
+type DialogPosition =
+  | "center"
+  | "left"
+  | "right"
+  | "bottom"
+  | "top"
+  | [number, number, number, number]; // [top, right, bottom, left]
+
+// --- Props ---
+export const inkDialogProps = {
+  modelValue: {
+    type: [Boolean, Promise] as PropType<boolean | Promise<boolean>>,
+    default: false,
+  }
 ```
 
 #### Import
@@ -1035,7 +1100,20 @@ export const inkDropdownEmits = {
 #### Types
 
 ```typescript
+interface DropdownOption {
+  label: string;
+  value: string | number;
+  description?: string;
+  [key: string]: any;
+}
 type DropdownOptionsSource = DropdownOption[];
+
+// --- Props ---
+export const inkDropdownProps = {
+  ...formControlCommonProps,
+  options: {
+    type: Array as PropType<DropdownOption[]>,
+  }
 ```
 
 #### Import
@@ -1144,6 +1222,15 @@ export const inkFieldEmits = {
 
 ```typescript
 type FieldLayout = "inline" | "col" | "row";
+
+// --- Props ---
+export const inkFieldProps = {
+  label: makeStringProp("Label"),
+  layout: makeStringProp<FieldLayout>("col"),
+  value: makeStringProp(""),
+  editable: makeBooleanProp(true),
+  required: makeBooleanProp(false),
+}
 ```
 
 #### Import
@@ -1205,6 +1292,14 @@ export const inkFormProps = {
 export const inkFormEmits = {
   submit: (e: Event) => true,
 } as const;
+```
+
+#### Types
+
+```typescript
+interface InkFormContext {
+  layout: FieldLayout;
+}
 ```
 
 #### Import
@@ -1510,6 +1605,14 @@ export const inkInputEmits = {
 
 ```typescript
 type InkInputType = "default" | "inline";
+
+// --- Props ---
+export const inkInputProps = {
+  ...formControlCommonProps,
+  modelValue: makeStringProp(""),
+  placeholder: makeStringProp(""),
+  type: makeStringProp<InkInputType>("default"),
+}
 ```
 
 #### Import
@@ -1705,6 +1808,12 @@ export const inkLoadingProps = {
 ```typescript
 type LoadingSize = "xs" | "sm" | "md";
 type LoadingDensity = "sm" | "md";
+
+// --- Props ---
+export const inkLoadingProps = {
+  size: makeStringProp<LoadingSize>("md"),
+  density: makeStringProp<LoadingDensity>("md"),
+}
 ```
 
 #### Import
@@ -1842,6 +1951,13 @@ export const inkPaginationEmits = {
 
 ```typescript
 type PaginationType = "default" | "text";
+
+// --- Props ---
+export const inkPaginationProps = {
+	currentPage: makeNumberProp(1),
+	totalPages: makeNumberProp(1),
+	type: makeStringProp<PaginationType>("default"),
+}
 ```
 
 #### Import
@@ -1912,6 +2028,14 @@ Displays a value that can be clicked to pick, in inline or box layout. When used
 ```typescript
 type DisplayValueAs = "inline-text" | "box";
 type InkPickerType = "date" | "time" | "datetime";
+
+// --- Props ---
+export const inkPickerProps = <T>() =>
+  ({
+    ...formControlCommonProps,
+    modelValue: {
+      type: [String, Object, Date] as PropType<T>,
+    }
 ```
 
 #### Import
@@ -2058,6 +2182,18 @@ export const inkPlaceholderProps = {
 
 ```typescript
 type PlaceholderState = "empty" | "error";
+
+// --- Props ---
+export const inkPlaceholderProps = {
+  /** The state of the placeholder */
+  state: makeStringProp<PlaceholderState>("empty"),
+  /** The illustration to display (icon class name or custom content via slot) */
+  illustration: makeStringProp<string>(""),
+  /** The title text */
+  title: makeStringProp<string>(""),
+  /** The description text */
+  description: makeStringProp<string>(""),
+}
 ```
 
 #### Import
@@ -2168,6 +2304,25 @@ export const inkPopupProps = {
 export const inkPopupEmits = {
   "scrim-click": () => true,
 } as const;
+```
+
+#### Types
+
+```typescript
+type PopupPosition =
+  | "center"
+  | "left"
+  | "right"
+  | "bottom"
+  | "top"
+  | [number, number, number, number]; // [top, right, bottom, left]
+
+// --- Props ---
+export const inkPopupProps = {
+  position: {
+    type: [String, Array] as PropType<PopupPosition>,
+    default: "center",
+  }
 ```
 
 #### Import
@@ -2379,6 +2534,16 @@ export const inkTextareaEmits = {
 
 ```typescript
 type FieldLayout = "inline" | "col" | "row";
+
+// --- Props ---
+export const inkTextareaProps = {
+  ...formControlCommonProps,
+  value: makeStringProp(""),
+  placeholder: makeStringProp(""),
+  rows: {
+    type: Number,
+    default: 5,
+  }
 ```
 
 #### Import
@@ -2551,6 +2716,12 @@ export const inkTooltipEmits = {} as const;
 
 ```typescript
 type TooltipPosition = "top" | "bottom" | "left" | "right";
+
+// --- Props ---
+export const inkTooltipProps = {
+  content: makeStringProp(""),
+  position: makeStringProp<TooltipPosition>("top"),
+}
 ```
 
 #### Import

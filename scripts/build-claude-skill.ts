@@ -53,25 +53,39 @@ function extractComponentInfo(tsContent: string): {
 } {
   const result: { props?: string; emits?: string; types?: string } = {};
 
-  // Extract props definition
-  const propsMatch = tsContent.match(/export const \w+Props = \{([\s\S]*?)\} as const;/);
+  // Extract props definition - handle nested objects and complex structures
+  const propsMatch = tsContent.match(/export const \w+Props = \{[\s\S]*?\} as const;/);
   if (propsMatch) {
     result.props = propsMatch[0].trim();
   }
 
-  // Extract emits definition
-  const emitsMatch = tsContent.match(/export const \w+Emits = \{([\s\S]*?)\} as const;/);
+  // Extract emits definition - handle nested objects
+  const emitsMatch = tsContent.match(/export const \w+Emits = \{[\s\S]*?\} as const;/);
   if (emitsMatch) {
     result.emits = emitsMatch[0].trim();
   }
 
-  // Extract type definitions
-  const typeMatches = tsContent.match(/type \w+ = [^;]+;/g);
+  // Extract type definitions - handle multiline types and interfaces
+  const typeMatches = tsContent.match(/(?:type|interface) \w+[^;{]*[;{][^}]*}?/g);
   if (typeMatches) {
     result.types = typeMatches.join("\n");
   }
 
   return result;
+}
+
+/**
+ * Clean documentation content by removing Histoire-specific syntax
+ */
+function cleanDocumentation(content: string): string {
+  return content
+    .replace(/import .* from ['"]@histoire\/plugin-vue['"]/g, "")
+    .replace(/import .* from ['"]\.\/.*\.vue['"]/g, "")
+    .replace(/<Story[^>]*>/g, "")
+    .replace(/<\/Story>/g, "")
+    .replace(/<Variant[^>]*>/g, "")
+    .replace(/<\/Variant>/g, "")
+    .trim();
 }
 
 /**
@@ -208,6 +222,12 @@ export default defineConfig({
 function generateRouterIntegration(): string {
   const routerContent = readFileSafe(join(PACKAGE_ROOT, "src/router.ts"));
   
+  const routerInterface = routerContent || `// Router interface not available
+export interface InkRouter {
+  currentPath: ComputedRef<string>;
+  currentName: ComputedRef<string | null>;
+}`;
+
   return `## Router Integration
 
 Some components (like InkHeader) require router capabilities. The design system uses a provider pattern that works with any router.
@@ -215,7 +235,7 @@ Some components (like InkHeader) require router capabilities. The design system 
 ### Interface
 
 \`\`\`typescript
-${routerContent || "// router.ts content"}
+${routerInterface}
 \`\`\`
 
 ### Setup with Vue Router
@@ -260,6 +280,12 @@ provide(INK_ROUTER_KEY, createInkRouterAdapter(router, route));
 function generateI18nIntegration(): string {
   const i18nContent = readFileSafe(join(PACKAGE_ROOT, "src/i18n.ts"));
   
+  const i18nInterface = i18nContent || `// i18n interface not available
+export interface InkI18n {
+  t: (key: string) => string;
+  locale: Ref<string>;
+}`;
+  
   return `## Internationalization (i18n)
 
 The design system supports internationalization through a provider pattern that works with any i18n library.
@@ -267,7 +293,7 @@ The design system supports internationalization through a provider pattern that 
 ### Interface
 
 \`\`\`typescript
-${i18nContent || "// i18n.ts content"}
+${i18nInterface}
 \`\`\`
 
 ### Setup with vue-i18n
@@ -414,16 +440,7 @@ ${components.map(c => `- **${c.name}**`).join("\n")}
 
     // Add story.md documentation if available
     if (component.documentation) {
-      // Remove any Histoire-specific imports/tags
-      const cleanDoc = component.documentation
-        .replace(/import .* from ['"]@histoire\/plugin-vue['"]/g, "")
-        .replace(/import .* from ['"]\.\/.*\.vue['"]/g, "")
-        .replace(/<Story[^>]*>/g, "")
-        .replace(/<\/Story>/g, "")
-        .replace(/<Variant[^>]*>/g, "")
-        .replace(/<\/Variant>/g, "")
-        .trim();
-      
+      const cleanDoc = cleanDocumentation(component.documentation);
       output += `${cleanDoc}\n\n`;
     }
 
