@@ -1,10 +1,32 @@
 <script setup lang="ts">
+import { useI18n } from "vue-i18n";
 import InkPlaceholder from "./inkPlaceholder.vue";
 import InkButton from "../inkButton/inkButton.vue";
+
+const { locale, availableLocales } = useI18n();
+
+function initState() {
+  return {
+    locale: locale.value,
+  };
+}
 </script>
 
 <template>
-  <Story title="Feedback/Placeholder" :layout="{ type: 'grid', width: '100%' }">
+  <Story
+    title="Feedback/Placeholder"
+    :layout="{ type: 'grid', width: '100%' }"
+    :init-state="initState"
+  >
+    <template #controls="{ state }">
+      <HstSelect
+        v-model="state.locale"
+        title="Language"
+        :options="availableLocales"
+        @update:model-value="locale = state.locale"
+      />
+    </template>
+
     <!-- [Semantic] Empty State -->
     <Variant title="Empty State - Default">
       <InkPlaceholder state="empty" />

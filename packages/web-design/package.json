@@ -30,6 +30,10 @@
     },
     "./utils": {
       "import": "./dist/utils/index.js"
+    },
+    "./locales": {
+      "import": "./dist/locales/index.js",
+      "types": "./dist/locales/index.d.ts"
     }
   },
   "sideEffects": [
@@ -44,8 +48,9 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "pnpm run clean && pnpm run build:js",
+    "build": "pnpm run clean && pnpm run build:js && pnpm run build:locales",
     "build:js": "vite build",
+    "build:locales": "vite build --config vite.locales.config.js",
     "build:tokens": "tsx ../../scripts/build-tokens.ts",
     "clean": "rimraf dist",
     "preview": "vite preview",
@@ -78,6 +83,7 @@
     "vite-plugin-dts": "^4.5.4",
     "vitest": "^4.0.15",
     "vue": "^3.4.0",
+    "vue-i18n": "^11.2.7",
     "vue-tsc": "^3.1.8"
   },
   "peerDependencies": {

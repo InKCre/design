@@ -73,6 +73,7 @@ export {
 // Others
 
 import { INK_ROUTER_KEY } from "./router";
+import { INK_I18N_KEY } from "./i18n";
 
 import type { DropdownOption } from "./components/inkDropdown/inkDropdown";
 import type {
@@ -82,6 +83,7 @@ import type {
 
 // others
 import type { InkRouter } from "./router";
+import type { InkI18n } from "./i18n";
 
 export {
   DropdownOption,
@@ -89,4 +91,6 @@ export {
   JSONSchemaProperty,
   InkRouter,
   INK_ROUTER_KEY,
+  InkI18n,
+  INK_I18N_KEY,
 };

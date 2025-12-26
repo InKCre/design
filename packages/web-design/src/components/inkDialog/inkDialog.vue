@@ -8,9 +8,11 @@ import {
 } from "./inkDialog";
 import InkButton from "../inkButton/inkButton.vue";
 import InkPopup from "../inkPopup/inkPopup.vue";
+import { useOptionalI18n } from "../../i18n";
 
 const props = defineProps(inkDialogProps);
 const emit = defineEmits(inkDialogEmits);
+const i18n = useOptionalI18n();
 
 const {
   state: currentValue,
@@ -50,6 +52,16 @@ const isLoading = computed(() => isDialogLoading.value);
 
 // Provide loading state to buttons via inject
 provide("isLoading", readonly(isLoading));
+
+const cCancelText = computed(() => {
+  if (props.cancelText) return props.cancelText;
+  return i18n ? i18n.t("dialog.cancel") : "Cancel";
+});
+
+const cConfirmText = computed(() => {
+  if (props.confirmText) return props.confirmText;
+  return i18n ? i18n.t("dialog.confirm") : "Confirm";
+});
 
 const handleCancel = () => {
   if (!isLoading.value) {
@@ -94,13 +106,13 @@ const handleConfirm = () => {
         <slot name="footer">
           <InkButton
             v-if="showCancel"
-            :text="cancelText"
+            :text="cCancelText"
             theme="subtle"
             @click="handleCancel"
           />
           <InkButton
             v-if="showConfirm"
-            :text="confirmText"
+            :text="cConfirmText"
             theme="primary"
             @click="handleConfirm"
           />

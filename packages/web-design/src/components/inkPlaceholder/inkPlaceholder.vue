@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { inkPlaceholderProps } from "./inkPlaceholder";
+import { useOptionalI18n } from "../../i18n";
 
 const props = defineProps(inkPlaceholderProps);
+const i18n = useOptionalI18n();
 
 const placeholderClass = computed(() => [
   "ink-placeholder",
@@ -14,16 +16,31 @@ const defaultIllustration = computed(() => {
   return props.state === "error" ? "i-mdi-alert-circle-outline" : "i-mdi-inbox-outline";
 });
 
+const getTranslatedText = (messageType: "title" | "description") => {
+  const isError = props.state === "error";
+  
+  if (i18n) {
+    const key = `placeholder.${isError ? "error" : "empty"}.${messageType}`;
+    return i18n.t(key);
+  }
+  
+  if (messageType === "title") {
+    return isError ? "Something went wrong" : "No data";
+  }
+  
+  return isError 
+    ? "An error occurred. Please try again." 
+    : "There's nothing here yet.";
+};
+
 const defaultTitle = computed(() => {
   if (props.title) return props.title;
-  return props.state === "error" ? "Something went wrong" : "No data";
+  return getTranslatedText("title");
 });
 
 const defaultDescription = computed(() => {
   if (props.description) return props.description;
-  return props.state === "error" 
-    ? "An error occurred. Please try again." 
-    : "There's nothing here yet.";
+  return getTranslatedText("description");
 });
 </script>
 
