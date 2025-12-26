@@ -45,6 +45,12 @@ function readFileSafe(filePath: string): string | null {
 
 /**
  * Extract component information from .ts file
+ * 
+ * Note: This uses regex patterns that work for the current codebase structure.
+ * For very complex nested structures, a proper TypeScript parser would be more robust.
+ * Current limitations:
+ * - Nested objects with multiple closing braces may need adjustment
+ * - Complex union types spanning multiple lines may not be fully captured
  */
 function extractComponentInfo(tsContent: string): {
   props?: string;
