@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { computed, watch, provide, readonly } from "vue";
-import { useAsyncState } from "@vueuse/core";
+import { ref, computed, watch, provide, readonly } from "vue";
 import {
   inkDialogProps,
   inkDialogEmits,
@@ -14,31 +13,28 @@ const props = defineProps(inkDialogProps);
 const emit = defineEmits(inkDialogEmits);
 const i18n = useOptionalI18n();
 
-const {
-  state: currentValue,
-  isLoading: isDialogLoading,
-  execute,
-} = useAsyncState(
-  async () => {
-    const value = props.modelValue;
-    return value instanceof Promise ? await value : value;
-  },
-  false,
-  {
-    immediate: true,
-    resetOnExecute: false,
+const currentValue = ref(false);
+const isPromiseLoading = ref(false);
+
+const updateCurrentValue = async (value: boolean | Promise<boolean>) => {
+  if (value instanceof Promise) {
+    isPromiseLoading.value = true;
+    try {
+      currentValue.value = await value;
+    } finally {
+      isPromiseLoading.value = false;
+    }
+  } else {
+    currentValue.value = value;
   }
-);
+};
 
 watch(
   () => props.modelValue,
-  async () => {
-    if (props.modelValue instanceof Promise) {
-      await execute();
-    } else {
-      currentValue.value = props.modelValue;
-    }
-  }
+  (val) => {
+    updateCurrentValue(val);
+  },
+  { immediate: true }
 );
 
 const open = computed({
@@ -48,7 +44,7 @@ const open = computed({
   },
 });
 
-const isLoading = computed(() => isDialogLoading.value);
+const isLoading = computed(() => isPromiseLoading.value);
 
 // Provide loading state to buttons via inject
 provide("isLoading", readonly(isLoading));

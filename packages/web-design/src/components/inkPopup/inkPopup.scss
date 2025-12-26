@@ -1,5 +1,5 @@
 .ink-popup-overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -9,7 +9,7 @@
 }
 
 .ink-popup {
-  position: absolute;
+  position: fixed;
   z-index: 10;
   background-color: sys-var(color, surface, base);
   padding: sys-var(space, md);

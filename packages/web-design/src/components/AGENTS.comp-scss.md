@@ -2,7 +2,9 @@
 
 ## Best Practices
 
-- Use UnoCSS when style is simple (e.g. layout, animation)
+- Use UnoCSS for simple styles (e.g. layout)
+- Make use of morden CSS features
+  - Parent selectors (eg. `.card:has(input:checked)`)
 
 ### Use Design Tokens
 
