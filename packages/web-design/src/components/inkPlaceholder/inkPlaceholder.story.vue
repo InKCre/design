@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import { inject } from "vue";
+import { useI18n } from "vue-i18n";
 import InkPlaceholder from "./inkPlaceholder.vue";
 import InkButton from "../inkButton/inkButton.vue";
-import { INK_I18N_KEY } from "../../i18n";
 
-const i18n = inject(INK_I18N_KEY);
+const { locale, availableLocales } = useI18n();
 
 function initState() {
   return {
-    locale: "en",
+    locale: locale.value,
   };
 }
 </script>
@@ -23,8 +22,8 @@ function initState() {
       <HstSelect
         v-model="state.locale"
         title="Language"
-        :options="['en', 'zh-CN']"
-        @update:model-value="i18n && (i18n.locale.value = state.locale)"
+        :options="availableLocales"
+        @update:model-value="locale = state.locale"
       />
     </template>
 

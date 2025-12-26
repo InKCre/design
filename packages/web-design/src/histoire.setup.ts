@@ -3,8 +3,15 @@ import "../styles/index.scss";
 import "virtual:uno.css";
 import { INK_ROUTER_KEY } from "./router";
 import { INK_I18N_KEY } from "./i18n";
-import { ref, computed } from "vue";
+import { createI18n } from "vue-i18n";
 import { locales } from "./locales";
+
+const i18n = createI18n({
+  legacy: false,
+  locale: "en",
+  fallbackLocale: "en",
+  messages: locales,
+});
 
 export const setupVue3 = defineSetupVue3(({ app, story, variant }) => {
   app.provide(INK_ROUTER_KEY, {
@@ -14,18 +21,11 @@ export const setupVue3 = defineSetupVue3(({ app, story, variant }) => {
     currentName: { value: "Dashboard" },
   });
 
-  // Simple i18n implementation for Histoire
-  const currentLocale = ref("en");
+  // Provide vue-i18n for Histoire
+  app.use(i18n);
   
   app.provide(INK_I18N_KEY, {
-    t: (key: string) => {
-      const keys = key.split(".");
-      let value: any = locales[currentLocale.value as keyof typeof locales];
-      for (const k of keys) {
-        value = value?.[k];
-      }
-      return value || key;
-    },
-    locale: currentLocale,
+    t: i18n.global.t,
+    locale: i18n.global.locale,
   });
 });
