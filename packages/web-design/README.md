@@ -59,102 +59,11 @@ export default defineConfig({
 
 ### Use routing
 
-InkHeader and some other components relies on your router abilities.
-
-```ts
-// your-router.ts
-import { computed } from "vue";
-import type { Router, RouteLocationNormalizedLoaded } from "vue-router";
-import type { InkRouter } from "@inkcre/web-design";
-
-export function createInkRouterAdapter(
-  router: Router,
-  route: RouteLocationNormalizedLoaded
-): InkRouter {
-  return {
-    currentPath: computed(() => route.path),
-    currentName: computed(() => route.name),
-  };
-}
-```
-
-```ts
-// App.vue
-<script lang="ts" setup>
-import { INK_ROUTER_KEY } from "@inkcre/web-design";
-import { createInkRouterAdapter } from "./your-router.ts";
-import { useRoute } from "vue-router";
-
-provide(
-  INK_ROUTER_KEY,
-  createInkRouterAdapter(router, useRoute())
-);
-</script>
-```
+InkHeader and some other components can integrate with your router. See `agent-skills/router/SKILL.md` for setup instructions.
 
 ### Use internationalization (i18n)
 
-The design system supports internationalization. You can provide your own i18n implementation via the `INK_I18N_KEY` injection key.
-
-Your i18n provider must implement the following interface:
-
-```ts
-interface InkI18n {
-  t: (key: string) => string;  // Translation function
-  locale: Ref<string>;          // Current locale as a reactive ref
-}
-```
-
-Components will fall back to English strings if no i18n provider is configured.
-
-#### Example with vue-i18n
-
-1. `pnpm add vue-i18n`
-
-2. Add your messages. You can extend our exported locales (`en`, `zhCN`) from `@inkcre/web-design/locales`.
-
-    ```ts
-    // your/locales/messages/en.ts
-    import { en } from "@inkcre/web-design/locales";
-
-    export default {
-      ...en,
-      // your translations here
-    }
-    ```
-
-3. Config your vue-i18n
-
-    ```ts
-    // your/locales/index.ts
-    import { createI18n } from "vue-i18n";
-    import messages from "your/locales/messages";  
-
-    const i18n = createI18n({
-      legacy: false,
-      locale: "en",
-      fallbackLocale: "en",
-      messages,
-    });
-
-    export default i18n;
-    ```
-
-4. Provide it to us
-
-    ```ts
-    // App.vue
-    <script lang="ts" setup>
-    import { INK_I18N_KEY } from "@inkcre/web-design";
-    import i18n from "./locales";
-
-    // Provide i18n to the design system
-    provide(INK_I18N_KEY, {
-      t: i18n.global.t,
-      locale: i18n.global.locale,
-    });
-    </script>
-    ```
+The design system supports internationalization. See `agent-skills/i18n/SKILL.md` for setup instructions with vue-i18n.
 
 ## Features
 
@@ -164,3 +73,10 @@ Components will fall back to English strings if no i18n provider is configured.
 - Modular SCSS architecture
 - Provider-agnostic router support
 - Provider-agnostic internationalization support
+- Agent Skills for AI-assisted development
+
+## Agent Skills
+
+The package includes [Agent Skills](https://agentskills.io) - standardized packages of domain expertise that AI agents can discover and load dynamically. Located in `agent-skills/`, component skills are automatically generated from source code during the build process.
+
+Skills work with Claude Code, GitHub Copilot, and other AI agents supporting the agentskills.io standard.
