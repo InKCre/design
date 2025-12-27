@@ -1,5 +1,12 @@
 # @inkcre/web-design
 
+## 1.2.1
+
+### Patch Changes
+
+- ebd2b76: Fix: InkDialog open issue
+- 7d445ad: upd(InkButton): support prop `icon` and rename `icon` type to `square`
+
 ## 1.2.0
 
 ### Minor Changes
