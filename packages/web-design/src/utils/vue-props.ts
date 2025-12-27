@@ -34,7 +34,7 @@ export const makeNumericProp = <T>(defaultVal: T) => ({
   default: defaultVal,
 });
 
-export const makeStringProp = <T>(defaultVal?: T) => ({
+export const makeStringProp = <T = string>(defaultVal?: T) => ({
   type: String as unknown as PropType<T>,
   default: defaultVal,
 });

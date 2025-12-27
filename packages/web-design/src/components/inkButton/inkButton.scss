@@ -12,6 +12,7 @@
   position: relative;
   box-sizing: border-box;
 
+  // State styles
   &__loading-overlay {
     position: absolute;
     top: 0;
@@ -35,7 +36,7 @@
   }
 
   // Theme variants
-  &--subtle {
+  &--theme-subtle {
     border: 1px solid sys-var(color, border, base);
     background-color: sys-var(color, surface, subtle);
     color: sys-var(color, text, base);
@@ -46,7 +47,7 @@
     }
   }
 
-  &--primary {
+  &--theme-primary {
     background-color: sys-var(color, surface, primary);
     color: sys-var(color, text, primary);
 
@@ -56,7 +57,7 @@
     }
   }
 
-  &--danger {
+  &--theme-danger {
     background-color: sys-var(color, surface, danger);
     color: sys-var(color, text, danger-on);
 
@@ -66,31 +67,44 @@
     }
   }
 
-  // Type variants
-  &--default {
-    &.ink-button--md {
-      padding: sys-var(space, sm) sys-var(space, md);
-      @include apply-font(label-lg);
-    }
+  // Size variants
+  &--size-md {
+    @include apply-font(label-lg);
 
-    &.ink-button--sm {
-      padding: sys-var(space, xs) sys-var(space, md);
-      @include apply-font(label-md);
+    :global(.ink-button__icon) {
+      @include apply-icon(md);
     }
   }
 
-  &--icon {
-    padding: 0;
+  &--size-sm {
+    @include apply-font(label-md);
 
-    &.ink-button--sm {
-      height: sys-var(size, sm);
-      width: sys-var(size, sm);
+    :global(.ink-button__icon) {
       @include apply-icon(sm);
     }
-    &.ink-button--md {
+  }
+
+  // Type variants
+  &--type-default {
+    &.ink-button--size-md {
+      padding: sys-var(space, sm) sys-var(space, md);
+    }
+
+    &.ink-button--size-sm {
+      padding: sys-var(space, xs) sys-var(space, md);
+    }
+  }
+
+  &--type-square {
+    padding: 0;
+
+    &.ink-button--size-sm {
+      height: sys-var(size, sm);
+      width: sys-var(size, sm);
+    }
+    &.ink-button--size-md {
       height: sys-var(size, md);
       width: sys-var(size, md);
-      @include apply-icon(md);
     }
   }
 }

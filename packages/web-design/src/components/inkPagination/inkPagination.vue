@@ -89,11 +89,10 @@ const getPageButtonClass = (page: number | string) => {
         class="ink-pagination__nav ink-pagination__nav--prev"
         :disabled="isPrevDisabled"
         size="md"
-        type="icon"
+        type="square"
+        icon="i-mdi-chevron-left"
         @click="handlePrev"
-      >
-        <div class="i-mdi-chevron-left" />
-      </InkButton>
+      />
 
       <button
         v-for="(page, index) in visiblePages"
@@ -109,11 +108,10 @@ const getPageButtonClass = (page: number | string) => {
         class="ink-pagination__nav ink-pagination__nav--next"
         :disabled="isNextDisabled"
         size="md"
-        type="icon"
+        type="square"
+        icon="i-mdi-chevron-right"
         @click="handleNext"
-      >
-        <span class="i-mdi-chevron-right" />
-      </InkButton>
+      />
     </template>
 
     <!-- Text type: text buttons with page info -->

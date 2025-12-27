@@ -50,5 +50,23 @@ import InkButton from "./inkButton.vue";
     <Variant title="Short Text">
       <InkButton text="OK" theme="primary" />
     </Variant>
+
+    <!-- [Visual] Icons -->
+    <Variant title="Icon Prefix">
+      <InkButton text="Settings" icon="i-mdi-cog" theme="primary" />
+    </Variant>
+
+    <Variant title="Icon Suffix">
+      <InkButton
+        text="Next"
+        icon="i-mdi-arrow-right"
+        icon-placement="suffix"
+        theme="primary"
+      />
+    </Variant>
+
+    <Variant title="Icon Only (Square)">
+      <InkButton icon="i-mdi-plus" type="square" theme="primary" />
+    </Variant>
   </Story>
 </template>

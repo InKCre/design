@@ -19,9 +19,9 @@ const isLoading = computed(() => {
 
 const buttonClass = computed(() => [
   "ink-button",
-  `ink-button--${props.type}`,
-  `ink-button--${props.theme}`,
-  `ink-button--${props.size}`,
+  `ink-button--type-${props.type}`,
+  `ink-button--theme-${props.theme}`,
+  `ink-button--size-${props.size}`,
   { "ink-button--loading": isLoading.value },
 ]);
 
@@ -34,8 +34,14 @@ const handleClick = () => {
 
 <template>
   <button :class="buttonClass" :disabled="isLoading" @click="handleClick">
+    <slot v-if="iconPlacement === 'prefix'" name="prefix-icon">
+      <span v-if="icon" :class="icon" class="ink-button__icon"></span>
+    </slot>
     <slot>
-      <span>{{ text }}</span>
+      <span v-if="text">{{ text }}</span>
+    </slot>
+    <slot v-if="iconPlacement === 'suffix'" name="suffix-icon">
+      <span v-if="icon" :class="icon" class="ink-button__icon"></span>
     </slot>
     <div v-if="isLoading" class="ink-button__loading-overlay">
       <span class="i-mdi-loading animate-spin" />

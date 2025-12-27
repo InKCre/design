@@ -12,8 +12,12 @@ Use it for any single-click action that requires a compact button UI; avoid usin
 
 ### Concepts
 
-- `type`: visual and purposeful variant of the button (`subtle`, `primary`, `danger`).
+- `theme`: visual and purposeful variant of the button (`subtle`, `primary`, `danger`).
+- `type`: shape variant of the button (`default`, `square`).
 - `size`: density of the control (`md`, `sm`).
+- `icon`: iconfont class name (e.g., `i-mdi-cog`).
+- `iconPlacement`: where to place the icon (`prefix`, `suffix`).
+- `isLoading`: whether the button is in a loading state.
 - `slot`: custom content (e.g., icon + label, label only).
 
 ### Visual / UX Meaning
@@ -22,6 +26,7 @@ Use it for any single-click action that requires a compact button UI; avoid usin
 - `primary`: main action in a section or modal; higher contrast to attract attention.
 - `danger`: destructive action that explains a potentially destructive outcome (e.g., delete).
 - `sm`: smaller footprint for compact toolbars; `md`: default size used in forms and actions.
+- `square`: used for icon-only buttons.
 
 ## Canonical Examples
 
@@ -49,39 +54,50 @@ Use it for any single-click action that requires a compact button UI; avoid usin
   <InkButton text="Edit" size="sm" />
   ```
 
+- Icon: Use built-in icon prop.
+
+  ```vue
+  <InkButton text="Settings" icon="i-mdi-cog" />
+  ```
+
+- Loading: Show loading state.
+
+  ```vue
+  <InkButton text="Saving..." :isLoading="true" />
+  ```
+
 ### Custom slot content (icon + label)
 
 The `slot` is supported for custom content; this is how you add icons or non-text children.
 
 ```vue
 <InkButton theme="primary">
-  <svg aria-hidden="true" width="16" height="16">...</svg>
+  <div class="i-mdi-content-save" />
   <span>Save</span>
-  </InkButton>
+</InkButton>
 ```
 
 ## Behavioral Contract
 
 - In all variants, clicking the button emits a `click` event.
-- Click events are always emitted; the component does not internally debounce, block, or prevent repeated clicks.
-- The default values are: `text` = "Button Text", `type` = `subtle`, `size` = `md`.
-- The component uses a native `<button>` element, so it inherits browser keyboard accessibility (space/enter) and form behavior; consumers should be aware of the native `type` default behavior in forms and add an explicit `type` attribute where necessary to avoid accidental form submits.
+- Click events are NOT emitted when `isLoading` is true.
+- The default values are: `text` = "Button Text", `theme` = `subtle`, `type` = `default`, `size` = `md`.
+- The component uses a native `<button>` element, so it inherits browser keyboard accessibility (space/enter) and form behavior.
 
 ## Extension & Composition
 
 - The component is intentionally simple and is designed for composition via the `slot` and surrounding layout.
-- Accepts custom slot content for icons or complex inline labels (icon + text). The component does not provide a built-in `icon` prop; use the slot to place an icon element before or after the label.
-- Works well inside `FormItem` or other containers. Because it is a native `button`, it behaves like a regular HTML button in forms.
+- Accepts custom slot content for icons or complex inline labels (icon + text).
+- Works well inside `FormItem` or other containers.
 
 ## Non-Goals
 
-- There is no built-in `disabled` or `loading` prop. Disabling or preventing repeated action should be handled by parent components or by a wrapper that manages state.
 - It does not provide variant-level keyboard shortcuts or automatic confirmation dialogs.
-- It does not manage long-running workflows, API states, or request lifecycle (for example, showing an internal spinner when an action is in-flight).
+- It does not manage long-running workflows, API states, or request lifecycle (it only provides the `isLoading` visual state).
 
 ## Implementation Notes
 
-- Props: `text` (string, default "Button Text"), `type` (`subtle` | `primary` | `danger`, default `subtle`), `size` (`md` | `sm`, default `md`).
+- Props: `text` (string, default "Button Text"), `theme` (`subtle` | `primary` | `danger`, default `subtle`), `type` (`default` | `square`, default `default`), `size` (`md` | `sm`, default `md`), `icon` (string), `iconPlacement` (`prefix` | `suffix`, default `prefix`), `isLoading` (boolean, default `false`).
 - Emits: `click` (always true), implemented as a regular native `<button>` click event via `emit('click')`.
 - The `slot` is present and should be considered the source of truth for custom content; the `text` prop is a convenience when only a label is used.
 - Accessibility note for maintainers: the component omits an explicit `type` attribute on the underlying `<button>`, so by default in HTML forms the button will behave as `submit`. When used inside a form where submission is not intended, the caller should pass a `type="button"` attribute to avoid accidental form submits.
