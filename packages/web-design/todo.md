@@ -18,3 +18,4 @@
 - [x] i18n
 - [ ] make InkPagination use v-model
 - [ ] Agent Skills
+- [ ] InkTooltip, InkDropdown with css `position-anchor`

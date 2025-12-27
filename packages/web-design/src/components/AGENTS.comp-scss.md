@@ -3,8 +3,9 @@
 ## Best Practices
 
 - Use UnoCSS for simple styles (e.g. layout)
-- Make use of morden CSS features
+- Make use of morden CSS features:
   - Parent selectors (eg. `.card:has(input:checked)`)
+  - `@starting-style` and `transition-behavior: allow-discrete`
 
 ### Use Design Tokens
 
