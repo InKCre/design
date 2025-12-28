@@ -21,4 +21,4 @@
 - [ ] InkTooltip, InkDropdown with css `position-anchor`
 - [x] InkDropdown Stepping
 - [x] InkDropdown incremental search (searching label and description)
-- [ ] InkDropdown incremental search 给第一个元素添加 hover，但如果是 selected，效果就会很奇怪...
+- [ ] InkDropdown incremental search 搜寻额外内容

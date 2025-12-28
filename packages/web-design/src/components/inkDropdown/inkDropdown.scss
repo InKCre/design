@@ -78,7 +78,8 @@
   cursor: pointer;
   transition: background-color 0.2s;
 
-  &:hover {
+  &:hover,
+  &--hovered {
     background-color: sys-var(color, surface, base-hover);
   }
 
@@ -93,13 +94,11 @@
       color: sys-var(color, text, primary-subtle);
     }
 
-    &:hover {
+    &:hover,
+    .ink-dropdown__option--hovered {
       background-color: sys-var(color, surface, primary-hover);
+      color: sys-var(color, text, primary);
     }
-  }
-
-  &--hovered {
-    background-color: sys-var(color, surface, base-hover);
   }
 }
 

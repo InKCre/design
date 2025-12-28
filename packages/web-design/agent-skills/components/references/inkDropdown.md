@@ -88,9 +88,14 @@ The dropdown displays as a box showing the selected value or placeholder. When e
 - Selection emits both `update:modelValue` and `change` events
 - Refresh button reloads options asynchronously (only shown when `refresher` is provided)
 - When `modelValue` is set on mount with a `refresher` function, options are loaded immediately to display the correct label
+- Keyboard navigation when dropdown is open:
+  - Arrow Down/Up navigates through options with circular wrapping
+  - Enter selects the currently hovered option
+  - ESC closes the dropdown
 - Search is initiated by pressing alphanumeric keys when dropdown is open
+  - Arrow Down/Up navigates through filtered options
   - ESC clears search first, then closes dropdown if search is empty
-  - Enter selects the first filtered option
+  - Enter selects the currently hovered option (or first if none hovered)
   - Search text filters options by both label and description
 - Stepping buttons (when `enableStepping` is true):
   - Disabled when dropdown is not editable or no options exist

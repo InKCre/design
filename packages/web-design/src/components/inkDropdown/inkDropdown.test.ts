@@ -247,4 +247,163 @@ describe("InkDropdown", () => {
       expect(buttons.at(1)?.find("button").element.disabled).toBe(true);
     });
   });
+
+  describe("keyboard navigation", () => {
+    const options: DropdownOption[] = [
+      { label: "Option 1", value: "opt1" },
+      { label: "Option 2", value: "opt2" },
+      { label: "Option 3", value: "opt3" },
+    ];
+
+    it("navigates down with ArrowDown key", async () => {
+      const wrapper = mount(InkDropdown, {
+        props: {
+          options,
+          modelValue: "",
+          editable: true,
+        },
+      });
+
+      // Open dropdown
+      await wrapper.find(".ink-dropdown").trigger("click");
+      await nextTick();
+
+      const container = wrapper.find(".ink-dropdown-container");
+
+      // Press ArrowDown
+      await container.trigger("keydown", { key: "ArrowDown" });
+      await nextTick();
+
+      // First option should be hovered (index 1 after initial 0)
+      const optionElements = wrapper.findAll(".ink-dropdown__option");
+      expect(optionElements[1].classes()).toContain(
+        "ink-dropdown__option--hovered"
+      );
+    });
+
+    it("navigates up with ArrowUp key", async () => {
+      const wrapper = mount(InkDropdown, {
+        props: {
+          options,
+          modelValue: "",
+          editable: true,
+        },
+      });
+
+      // Open dropdown
+      await wrapper.find(".ink-dropdown").trigger("click");
+      await nextTick();
+
+      const container = wrapper.find(".ink-dropdown-container");
+
+      // Press ArrowUp (should wrap to last option)
+      await container.trigger("keydown", { key: "ArrowUp" });
+      await nextTick();
+
+      // Last option should be hovered
+      const optionElements = wrapper.findAll(".ink-dropdown__option");
+      expect(optionElements[2].classes()).toContain(
+        "ink-dropdown__option--hovered"
+      );
+    });
+
+    it("wraps around when navigating past last option", async () => {
+      const wrapper = mount(InkDropdown, {
+        props: {
+          options,
+          modelValue: "",
+          editable: true,
+        },
+      });
+
+      // Open dropdown
+      await wrapper.find(".ink-dropdown").trigger("click");
+      await nextTick();
+
+      const container = wrapper.find(".ink-dropdown-container");
+
+      // Press ArrowDown 3 times (0 -> 1 -> 2 -> 0)
+      await container.trigger("keydown", { key: "ArrowDown" });
+      await container.trigger("keydown", { key: "ArrowDown" });
+      await container.trigger("keydown", { key: "ArrowDown" });
+      await nextTick();
+
+      // Should wrap back to first option
+      const optionElements = wrapper.findAll(".ink-dropdown__option");
+      expect(optionElements[0].classes()).toContain(
+        "ink-dropdown__option--hovered"
+      );
+    });
+
+    it("selects hovered option with Enter key", async () => {
+      const wrapper = mount(InkDropdown, {
+        props: {
+          options,
+          modelValue: "",
+          editable: true,
+        },
+      });
+
+      // Open dropdown
+      await wrapper.find(".ink-dropdown").trigger("click");
+      await nextTick();
+
+      const container = wrapper.find(".ink-dropdown-container");
+
+      // Navigate to second option
+      await container.trigger("keydown", { key: "ArrowDown" });
+      await nextTick();
+
+      // Press Enter to select
+      await container.trigger("keydown", { key: "Enter" });
+      await nextTick();
+
+      expect(wrapper.emitted("update:modelValue")).toBeTruthy();
+      expect(wrapper.emitted("update:modelValue")?.[0]).toEqual(["opt2"]);
+    });
+
+    it("closes dropdown with Escape key", async () => {
+      const wrapper = mount(InkDropdown, {
+        props: {
+          options,
+          modelValue: "",
+          editable: true,
+        },
+      });
+
+      // Open dropdown
+      await wrapper.find(".ink-dropdown").trigger("click");
+      await nextTick();
+
+      expect(wrapper.find(".ink-dropdown__options").exists()).toBe(true);
+
+      const container = wrapper.find(".ink-dropdown-container");
+
+      // Press Escape
+      await container.trigger("keydown", { key: "Escape" });
+      await nextTick();
+
+      expect(wrapper.find(".ink-dropdown__options").exists()).toBe(false);
+    });
+
+    it("initializes hover to current selection when opening", async () => {
+      const wrapper = mount(InkDropdown, {
+        props: {
+          options,
+          modelValue: "opt2",
+          editable: true,
+        },
+      });
+
+      // Open dropdown
+      await wrapper.find(".ink-dropdown").trigger("click");
+      await nextTick();
+
+      // Second option should be hovered (matching modelValue)
+      const optionElements = wrapper.findAll(".ink-dropdown__option");
+      expect(optionElements[1].classes()).toContain(
+        "ink-dropdown__option--hovered"
+      );
+    });
+  });
 });

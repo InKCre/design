@@ -110,11 +110,12 @@ const onRefresh = () => {
       />
     </Variant>
 
-    <!-- [Feature] Keyboard Incremental Search -->
-    <Variant title="Keyboard Incremental Search">
+    <!-- [Feature] Keyboard Navigation -->
+    <Variant title="Keyboard Navigation">
       <p>
-        Open the dropdown and start typing to filter options. Search matches
-        both labels and descriptions.
+        Open the dropdown and use Arrow Up/Down to navigate options, Enter to
+        select. Start typing to filter options (search matches both labels and
+        descriptions). Press ESC to close.
       </p>
       <InkDropdown v-model="searchValue" :options="largeOptionsList" />
     </Variant>

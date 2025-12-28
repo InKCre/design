@@ -107,6 +107,8 @@ const onDropdownClick = async () => {
       // Load options before showing dropdown
       await loadOptionsIfNeeded();
       showOptions.value = true;
+      // Initialize hover to current selection or first option
+      hoveredIndex.value = currentIndex.value >= 0 ? currentIndex.value : 0;
       // Focus container to enable keyboard events
       setTimeout(() => {
         containerRef.value?.focus();
@@ -141,8 +143,31 @@ const startSearch = (char: string) => {
 const handleContainerKeyDown = (e: KeyboardEvent) => {
   if (!showOptions.value || isRefreshing.value) return;
 
+  const options = isSearching.value ? filteredOptions.value : optionsModel.value;
+
+  // Arrow down navigates to next option
+  if (e.key === "ArrowDown") {
+    e.preventDefault();
+    if (options.length > 0) {
+      hoveredIndex.value = (hoveredIndex.value + 1) % options.length;
+    }
+  }
+  // Arrow up navigates to previous option
+  else if (e.key === "ArrowUp") {
+    e.preventDefault();
+    if (options.length > 0) {
+      hoveredIndex.value = (hoveredIndex.value - 1 + options.length) % options.length;
+    }
+  }
+  // Enter selects hovered option
+  else if (e.key === "Enter") {
+    e.preventDefault();
+    if (hoveredIndex.value >= 0 && hoveredIndex.value < options.length) {
+      onOptionSelect(options[hoveredIndex.value].value);
+    }
+  }
   // Start search on alphanumeric key
-  if (e.key.length === 1 && /[a-z0-9 ]/i.test(e.key) && !isSearching.value) {
+  else if (e.key.length === 1 && /[a-z0-9 ]/i.test(e.key) && !isSearching.value) {
     e.preventDefault();
     startSearch(e.key);
   }
@@ -158,19 +183,40 @@ const handleContainerKeyDown = (e: KeyboardEvent) => {
 };
 
 const handleSearchKeyDown = (e: KeyboardEvent) => {
-  // ESC clears search first, then closes dropdown
-  if (e.key === "Escape") {
+  const options = filteredOptions.value;
+
+  // Arrow down navigates to next option
+  if (e.key === "ArrowDown") {
     e.preventDefault();
+    e.stopPropagation();
+    if (options.length > 0) {
+      hoveredIndex.value = (hoveredIndex.value + 1) % options.length;
+    }
+  }
+  // Arrow up navigates to previous option
+  else if (e.key === "ArrowUp") {
+    e.preventDefault();
+    e.stopPropagation();
+    if (options.length > 0) {
+      hoveredIndex.value = (hoveredIndex.value - 1 + options.length) % options.length;
+    }
+  }
+  // ESC clears search first, then closes dropdown
+  else if (e.key === "Escape") {
+    e.preventDefault();
+    e.stopPropagation();
     if (searchText.value) {
       clearSearch();
     } else {
       showOptions.value = false;
     }
   }
-  // Enter selects first filtered option
-  else if (e.key === "Enter" && filteredOptions.value.length > 0) {
+  // Enter selects hovered option
+  else if (e.key === "Enter" && options.length > 0) {
     e.preventDefault();
-    onOptionSelect(filteredOptions.value[0].value);
+    e.stopPropagation();
+    const idx = hoveredIndex.value >= 0 ? hoveredIndex.value : 0;
+    onOptionSelect(options[idx].value);
   }
 };
 
@@ -287,8 +333,7 @@ const [DefineDropdown, ReuseDropdown] = createReusableTemplate();
                 'ink-dropdown__option',
                 {
                   'ink-dropdown__option--selected': option.value === modelValue,
-                  'ink-dropdown__option--hovered':
-                    isSearching && hoveredIndex === index,
+                  'ink-dropdown__option--hovered': hoveredIndex === index,
                 },
               ]"
               @click="onOptionSelect(option.value)"
