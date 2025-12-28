@@ -71,7 +71,7 @@
   &--size-md {
     @include apply-font(label-lg);
 
-    :global(.ink-button__icon) {
+    .ink-button__icon {
       @include apply-icon(md);
     }
   }
@@ -79,7 +79,7 @@
   &--size-sm {
     @include apply-font(label-md);
 
-    :global(.ink-button__icon) {
+    .ink-button__icon {
       @include apply-icon(sm);
     }
   }
