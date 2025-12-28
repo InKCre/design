@@ -7,6 +7,7 @@ import {
   type DropdownOption,
 } from "./inkDropdown";
 import InkField from "../inkField/inkField.vue";
+import InkButton from "../inkButton/inkButton.vue";
 import { INK_FORM_CONTEXT_KEY } from "../inkForm/inkForm";
 import { useOptionalModel } from "../../composables/use-optional-model";
 
@@ -36,6 +37,14 @@ const displayValue = computed(() => {
   return option ? option.label : props.placeholder;
 });
 
+const currentIndex = computed(() => {
+  return optionsModel.value.findIndex((opt) => opt.value === props.modelValue);
+});
+
+const isSteppingDisabled = computed(() => {
+  return !props.editable || optionsModel.value.length === 0;
+});
+
 // --- methods ---
 const loadOptionsIfNeeded = async (force: boolean = false) => {
   if (optionsModel.value.length > 0 && !force) {
@@ -56,6 +65,20 @@ const loadOptionsIfNeeded = async (force: boolean = false) => {
 
 const onRefresh = async () => {
   await loadOptionsIfNeeded(true);
+};
+
+const onPrev = () => {
+  if (isSteppingDisabled.value) return;
+  const len = optionsModel.value.length;
+  const nextIdx = (currentIndex.value - 1 + len) % len;
+  onOptionSelect(optionsModel.value[nextIdx].value);
+};
+
+const onNext = () => {
+  if (isSteppingDisabled.value) return;
+  const len = optionsModel.value.length;
+  const nextIdx = (currentIndex.value + 1) % len;
+  onOptionSelect(optionsModel.value[nextIdx].value);
 };
 
 const onDropdownClick = async () => {
@@ -115,22 +138,34 @@ const [DefineDropdown, ReuseDropdown] = createReusableTemplate();
         ></span>
       </div>
 
+      <!-- Stepping Buttons -->
+      <template v-if="enableStepping">
+        <InkButton
+          icon="i-mdi-chevron-left"
+          :disabled="isSteppingDisabled"
+          @click="onPrev"
+          type="square"
+          title="Previous"
+        />
+        <InkButton
+          icon="i-mdi-chevron-right"
+          :disabled="isSteppingDisabled"
+          type="square"
+          @click="onNext"
+          title="Next"
+        />
+      </template>
+
       <!-- Refresh Button -->
-      <button
+      <InkButton
         v-if="props.refresher"
-        :class="[
-          'ink-dropdown__refresh',
-          { 'ink-dropdown__refresh--loading': isRefreshing },
-        ]"
+        class="ink-dropdown__refresh"
+        :icon="`i-mdi-refresh ${isRefreshing ? 'animate-spin' : ''}`"
         :disabled="isRefreshing"
-        @click.stop="onRefresh"
-        type="button"
+        type="square"
+        @click="onRefresh"
         title="Refresh options"
-      >
-        <span
-          :class="['i-mdi-refresh', { 'animate-spin': isRefreshing }]"
-        ></span>
-      </button>
+      />
 
       <!-- Options -->
       <div v-if="showOptions" class="ink-dropdown__options">

@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from "vitest";
 import { mount } from "@vue/test-utils";
 import { nextTick } from "vue";
 import InkDropdown from "./inkDropdown.vue";
+import InkButton from "../inkButton/inkButton.vue";
 import type { DropdownOption } from "./inkDropdown";
 
 describe("InkDropdown", () => {
@@ -174,5 +175,76 @@ describe("InkDropdown", () => {
     await nextTick();
 
     expect(refresher).toHaveBeenCalled();
+  });
+
+  describe("stepping", () => {
+    const options = [
+      { label: "Opt 1", value: "v1" },
+      { label: "Opt 2", value: "v2" },
+      { label: "Opt 3", value: "v3" },
+    ];
+
+    it("loops forward correctly", async () => {
+      const wrapper = mount(InkDropdown, {
+        props: {
+          modelValue: "v1",
+          options,
+          enableStepping: true,
+        },
+      });
+
+      const nextBtn = wrapper.findAllComponents(InkButton).at(1);
+      await nextBtn?.trigger("click");
+      expect(wrapper.emitted("update:modelValue")?.[0]).toEqual(["v2"]);
+
+      await wrapper.setProps({ modelValue: "v3" });
+      await nextBtn?.trigger("click");
+      expect(wrapper.emitted("update:modelValue")?.[1]).toEqual(["v1"]);
+    });
+
+    it("loops backward correctly", async () => {
+      const wrapper = mount(InkDropdown, {
+        props: {
+          modelValue: "v1",
+          options,
+          enableStepping: true,
+        },
+      });
+
+      const prevBtn = wrapper.findAllComponents(InkButton).at(0);
+      await prevBtn?.trigger("click");
+      expect(wrapper.emitted("update:modelValue")?.[0]).toEqual(["v3"]);
+
+      await wrapper.setProps({ modelValue: "v2" });
+      await prevBtn?.trigger("click");
+      expect(wrapper.emitted("update:modelValue")?.[1]).toEqual(["v1"]);
+    });
+
+    it("is disabled when editable is false", () => {
+      const wrapper = mount(InkDropdown, {
+        props: {
+          options,
+          enableStepping: true,
+          editable: false,
+        },
+      });
+
+      const buttons = wrapper.findAllComponents(InkButton);
+      expect(buttons.at(0)?.find("button").element.disabled).toBe(true);
+      expect(buttons.at(1)?.find("button").element.disabled).toBe(true);
+    });
+
+    it("is disabled when options are empty", () => {
+      const wrapper = mount(InkDropdown, {
+        props: {
+          options: [],
+          enableStepping: true,
+        },
+      });
+
+      const buttons = wrapper.findAllComponents(InkButton);
+      expect(buttons.at(0)?.find("button").element.disabled).toBe(true);
+      expect(buttons.at(1)?.find("button").element.disabled).toBe(true);
+    });
   });
 });

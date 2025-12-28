@@ -17,5 +17,7 @@
 - [ ] InkAutoForm 支持切换编辑模式
 - [x] i18n
 - [ ] make InkPagination use v-model
-- [ ] Agent Skills
+- [x] Agent Skills
 - [ ] InkTooltip, InkDropdown with css `position-anchor`
+- [ ] InkDropdown Stepping
+- [ ] InkDropdown keyword filter (enter any symbol will trigger search) (searching label and description)

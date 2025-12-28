@@ -76,5 +76,20 @@ const onRefresh = () => {
         :refresher="asyncOptionsLoader"
       />
     </Variant>
+
+    <!-- [Feature] Stepping -->
+    <Variant title="With Stepping">
+      <InkDropdown v-model="selectedValue" :options="options" enable-stepping />
+    </Variant>
+
+    <!-- [Feature] Stepping & Refresh -->
+    <Variant title="Stepping & Refresh">
+      <InkDropdown
+        v-model="selectedValue"
+        v-model:options="options"
+        :refresher="onRefresh"
+        enable-stepping
+      />
+    </Variant>
   </Story>
 </template>

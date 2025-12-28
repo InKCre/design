@@ -29,6 +29,7 @@ export const inkDropdownProps = {
   },
   placeholder: makeStringProp("Select an option"),
   displayAs: makeStringProp<"box">("box"),
+  enableStepping: makeBooleanProp(false),
 } as const;
 
 // --- Emits ---

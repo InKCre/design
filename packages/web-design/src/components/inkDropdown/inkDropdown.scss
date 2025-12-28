@@ -107,36 +107,3 @@
   color: sys-var(color, text, subtle);
   @include apply-font(label-sm);
 }
-
-.ink-dropdown__refresh {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: sys-var(size, md);
-  height: sys-var(size, md);
-  padding: 0;
-  border: 1px solid sys-var(color, border, subtle);
-  background-color: sys-var(color, surface, base);
-  cursor: pointer;
-  transition: all 0.2s;
-  flex-shrink: 0;
-
-  &:hover:not(:disabled) {
-    border-color: sys-var(color, border, base);
-    background-color: sys-var(color, surface, base-hover);
-  }
-
-  &:disabled {
-    opacity: sys-var(opacity, disabled);
-    cursor: not-allowed;
-  }
-
-  &--loading {
-    border-color: sys-var(color, border, base);
-  }
-}
-
-.ink-dropdown__refresh i {
-  @include apply-icon(md);
-  color: sys-var(color, text, base);
-}
