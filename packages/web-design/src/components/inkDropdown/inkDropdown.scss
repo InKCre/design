@@ -36,6 +36,17 @@
   user-select: none;
 }
 
+.ink-dropdown__search-input {
+  @include apply-font(label-lg);
+  flex: 1;
+  color: sys-var(color, text, base);
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0;
+  width: 100%;
+}
+
 .ink-dropdown__chevron {
   @include apply-icon(md);
   color: sys-var(color, text, base);
@@ -86,6 +97,10 @@
       background-color: sys-var(color, surface, primary-hover);
     }
   }
+
+  &--hovered {
+    background-color: sys-var(color, surface, base-hover);
+  }
 }
 
 .option__label {
@@ -103,6 +118,15 @@
   align-items: center;
   justify-content: center;
   gap: sys-var(space, sm);
+  padding: sys-var(space, sm) sys-var(space, md);
+  color: sys-var(color, text, subtle);
+  @include apply-font(label-sm);
+}
+
+.ink-dropdown__empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: sys-var(space, sm) sys-var(space, md);
   color: sys-var(color, text, subtle);
   @include apply-font(label-sm);

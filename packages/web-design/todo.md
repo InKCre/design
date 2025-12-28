@@ -19,5 +19,6 @@
 - [ ] make InkPagination use v-model
 - [x] Agent Skills
 - [ ] InkTooltip, InkDropdown with css `position-anchor`
-- [ ] InkDropdown Stepping
-- [ ] InkDropdown keyword filter (enter any symbol will trigger search) (searching label and description)
+- [x] InkDropdown Stepping
+- [x] InkDropdown incremental search (searching label and description)
+- [ ] InkDropdown incremental search 给第一个元素添加 hover，但如果是 selected，效果就会很奇怪...

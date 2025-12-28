@@ -16,6 +16,24 @@ const optionsWithDescription = [
   { label: "Option 3", value: 3, description: "Third choice" },
 ];
 
+const largeOptionsList = [
+  { label: "Apple", value: "apple", description: "A red fruit" },
+  { label: "Banana", value: "banana", description: "A yellow fruit" },
+  { label: "Cherry", value: "cherry", description: "A small red fruit" },
+  { label: "Date", value: "date", description: "A sweet brown fruit" },
+  {
+    label: "Elderberry",
+    value: "elderberry",
+    description: "A dark purple berry",
+  },
+  { label: "Fig", value: "fig", description: "A soft purple fruit" },
+  { label: "Grape", value: "grape", description: "A small round fruit" },
+  { label: "Honeydew", value: "honeydew", description: "A green melon" },
+  { label: "Kiwi", value: "kiwi", description: "A fuzzy brown fruit" },
+  { label: "Lemon", value: "lemon", description: "A sour yellow fruit" },
+];
+const searchValue = ref("");
+
 const asyncOptionsLoader = async () => {
   // Simulate async loading
   await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -90,6 +108,15 @@ const onRefresh = () => {
         :refresher="onRefresh"
         enable-stepping
       />
+    </Variant>
+
+    <!-- [Feature] Keyboard Incremental Search -->
+    <Variant title="Keyboard Incremental Search">
+      <p>
+        Open the dropdown and start typing to filter options. Search matches
+        both labels and descriptions.
+      </p>
+      <InkDropdown v-model="searchValue" :options="largeOptionsList" />
     </Variant>
   </Story>
 </template>

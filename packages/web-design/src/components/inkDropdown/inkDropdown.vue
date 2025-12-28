@@ -21,6 +21,11 @@ const fieldLayout = computed(() => props.layout || formContext?.layout);
 
 const showOptions = ref(false);
 const isRefreshing = ref(false);
+const searchText = ref("");
+const isSearching = ref(false);
+const searchInputRef = ref<HTMLInputElement | null>(null);
+const containerRef = ref<HTMLDivElement | null>(null);
+const hoveredIndex = ref<number>(-1);
 
 const optionsModel = useOptionalModel<DropdownOption[]>({
   props,
@@ -35,6 +40,19 @@ const displayValue = computed(() => {
     (opt) => opt.value === props.modelValue
   );
   return option ? option.label : props.placeholder;
+});
+
+const filteredOptions = computed(() => {
+  if (!searchText.value.trim()) {
+    return optionsModel.value;
+  }
+
+  const query = searchText.value.toLowerCase();
+  return optionsModel.value.filter((opt) => {
+    const labelMatches = opt.label.toLowerCase().includes(query);
+    const descriptionMatches = opt.description?.toLowerCase().includes(query);
+    return labelMatches || descriptionMatches;
+  });
 });
 
 const currentIndex = computed(() => {
@@ -89,6 +107,10 @@ const onDropdownClick = async () => {
       // Load options before showing dropdown
       await loadOptionsIfNeeded();
       showOptions.value = true;
+      // Focus container to enable keyboard events
+      setTimeout(() => {
+        containerRef.value?.focus();
+      }, 0);
     }
   }
 };
@@ -97,7 +119,74 @@ const onOptionSelect = (value: DropdownOption["value"]) => {
   emit("update:modelValue", value);
   emit("change", value);
   showOptions.value = false;
+  clearSearch();
 };
+
+const clearSearch = () => {
+  searchText.value = "";
+  isSearching.value = false;
+  hoveredIndex.value = -1;
+};
+
+const startSearch = (char: string) => {
+  searchText.value = char;
+  isSearching.value = true;
+  hoveredIndex.value = 0;
+  // Focus input on next tick after it's rendered
+  setTimeout(() => {
+    searchInputRef.value?.focus();
+  }, 0);
+};
+
+const handleContainerKeyDown = (e: KeyboardEvent) => {
+  if (!showOptions.value || isRefreshing.value) return;
+
+  // Start search on alphanumeric key
+  if (e.key.length === 1 && /[a-z0-9 ]/i.test(e.key) && !isSearching.value) {
+    e.preventDefault();
+    startSearch(e.key);
+  }
+  // ESC closes dropdown or clears search
+  else if (e.key === "Escape") {
+    e.preventDefault();
+    if (isSearching.value) {
+      clearSearch();
+    } else {
+      showOptions.value = false;
+    }
+  }
+};
+
+const handleSearchKeyDown = (e: KeyboardEvent) => {
+  // ESC clears search first, then closes dropdown
+  if (e.key === "Escape") {
+    e.preventDefault();
+    if (searchText.value) {
+      clearSearch();
+    } else {
+      showOptions.value = false;
+    }
+  }
+  // Enter selects first filtered option
+  else if (e.key === "Enter" && filteredOptions.value.length > 0) {
+    e.preventDefault();
+    onOptionSelect(filteredOptions.value[0].value);
+  }
+};
+
+// Clear search when dropdown closes
+watch(showOptions, (isOpen) => {
+  if (!isOpen) {
+    clearSearch();
+  }
+});
+
+// Update hover to first option when search text changes
+watch(searchText, (newVal) => {
+  if (newVal && isSearching.value) {
+    hoveredIndex.value = 0;
+  }
+});
 
 // Load lazy options immediately if modelValue is set
 onMounted(() => {
@@ -118,7 +207,12 @@ const [DefineDropdown, ReuseDropdown] = createReusableTemplate();
 
 <template>
   <DefineDropdown>
-    <div class="ink-dropdown-container">
+    <div
+      ref="containerRef"
+      class="ink-dropdown-container"
+      tabindex="0"
+      @keydown="handleContainerKeyDown"
+    >
       <!-- Box -->
       <div
         :class="[
@@ -126,11 +220,21 @@ const [DefineDropdown, ReuseDropdown] = createReusableTemplate();
           {
             'ink-dropdown--editable': editable,
             'ink-dropdown--active': showOptions,
+            'ink-dropdown--searching': isSearching,
           },
         ]"
         @click="onDropdownClick"
       >
-        <span class="ink-dropdown__value">{{ displayValue }}</span>
+        <input
+          v-if="isSearching"
+          ref="searchInputRef"
+          v-model="searchText"
+          class="ink-dropdown__search-input"
+          type="text"
+          @keydown="handleSearchKeyDown"
+          @click.stop
+        />
+        <span v-else class="ink-dropdown__value">{{ displayValue }}</span>
 
         <span
           v-if="editable"
@@ -174,12 +278,17 @@ const [DefineDropdown, ReuseDropdown] = createReusableTemplate();
           Loading...
         </div>
         <template v-else>
-          <div v-for="option in optionsModel" :key="option.value">
+          <div v-if="filteredOptions.length === 0" class="ink-dropdown__empty">
+            No matching options
+          </div>
+          <div v-for="(option, index) in filteredOptions" :key="option.value">
             <div
               :class="[
                 'ink-dropdown__option',
                 {
                   'ink-dropdown__option--selected': option.value === modelValue,
+                  'ink-dropdown__option--hovered':
+                    isSearching && hoveredIndex === index,
                 },
               ]"
               @click="onOptionSelect(option.value)"
