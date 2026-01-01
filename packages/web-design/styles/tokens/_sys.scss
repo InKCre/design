@@ -8,8 +8,7 @@ $color-light: (
     "muted": fn.map-deep-get(ref.$color, "neutral", "60"),
     "danger-on": fn.map-deep-get(ref.$color, "danger", "98"),
     "primary": fn.map-deep-get(ref.$color, "brand", "98"),
-    "primary-subtle": fn.map-deep-get(ref.$color, "brand", "90"),
-    "subtle": fn.map-deep-get(ref.$color, "neutral", "40"),
+    "subtle": fn.map-deep-get(ref.$color, "neutral", "40")
   ),
   "surface": (
     "base": fn.map-deep-get(ref.$color, "neutral", "100"),
@@ -20,17 +19,17 @@ $color-light: (
     "subtle-hover": fn.map-deep-get(ref.$color, "neutral", "94"),
     "danger": fn.map-deep-get(ref.$color, "danger", "35"),
     "danger-hover": fn.map-deep-get(ref.$color, "danger", "65"),
-    "base-hover": fn.map-deep-get(ref.$color, "neutral", "94"),
+    "base-hover": fn.map-deep-get(ref.$color, "neutral", "94")
   ),
   "border": (
     "base": fn.map-deep-get(ref.$color, "neutral", "20"),
     "strong": fn.map-deep-get(ref.$color, "neutral", "2"),
     "subtle": fn.map-deep-get(ref.$color, "neutral", "80"),
-    "muted": fn.map-deep-get(ref.$color, "neutral", "60"),
+    "muted": fn.map-deep-get(ref.$color, "neutral", "60")
   ),
   "feedback": (
-    "error": fn.map-deep-get(ref.$color, "danger", "40"),
-  ),
+    "error": fn.map-deep-get(ref.$color, "danger", "40")
+  )
 );
 
 $color-dark: (
@@ -39,7 +38,7 @@ $color-dark: (
     "muted": fn.map-deep-get(ref.$color, "neutral", "98"),
     "danger-on": fn.map-deep-get(ref.$color, "danger", "98"),
     "primary": fn.map-deep-get(ref.$color, "brand", "2"),
-    "subtle": fn.map-deep-get(ref.$color, "neutral", "80"),
+    "subtle": fn.map-deep-get(ref.$color, "neutral", "80")
   ),
   "surface": (
     "base": fn.map-deep-get(ref.$color, "neutral", "30"),
@@ -50,17 +49,17 @@ $color-dark: (
     "subtle-hover": fn.map-deep-get(ref.$color, "neutral", "40"),
     "danger": fn.map-deep-get(ref.$color, "danger", "40"),
     "danger-hover": fn.map-deep-get(ref.$color, "danger", "40"),
-    "base-hover": fn.map-deep-get(ref.$color, "neutral", "30"),
+    "base-hover": fn.map-deep-get(ref.$color, "neutral", "30")
   ),
   "border": (
     "base": fn.map-deep-get(ref.$color, "neutral", "40"),
     "strong": fn.map-deep-get(ref.$color, "neutral", "80"),
     "subtle": fn.map-deep-get(ref.$color, "neutral", "40"),
-    "muted": fn.map-deep-get(ref.$color, "neutral", "40"),
+    "muted": fn.map-deep-get(ref.$color, "neutral", "40")
   ),
   "feedback": (
-    "error": fn.map-deep-get(ref.$color, "danger", "60"),
-  ),
+    "error": fn.map-deep-get(ref.$color, "danger", "60")
+  )
 );
 
 $base: (
@@ -72,5 +71,5 @@ $base: (
   "opacity": ref.$opacity,
   "layout": ref.$layout,
   "size": ref.$size,
-  "font": ref.$font,
+  "font": ref.$font
 );

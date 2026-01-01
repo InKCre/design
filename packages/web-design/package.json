@@ -34,6 +34,9 @@
     "./locales": {
       "import": "./dist/locales/index.js",
       "types": "./dist/locales/index.d.ts"
+    },
+    "uno": {
+      "import": "./styles/uno/preset-ink.ts"
     }
   },
   "sideEffects": [

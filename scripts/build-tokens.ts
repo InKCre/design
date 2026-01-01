@@ -433,6 +433,297 @@ const formatScssSys = ({ dictionary }: { dictionary: Dictionary }) => {
 };
 
 /**
+ * Format for UnoCSS preset - preset-ink.ts
+ */
+const formatUnoPreset = ({ dictionary }: { dictionary: Dictionary }) => {
+  const tokens = dictionary.allTokens;
+
+  // Helper to get tokens by path prefix
+  const getTokensByPath = (pathPrefix: string[]) => {
+    return tokens.filter(
+      (t) =>
+        t.path.length > pathPrefix.length &&
+        pathPrefix.every((part, i) => t.path[i] === part)
+    );
+  };
+
+  // Build system colors (CSS variable references)
+  const buildSysColors = () => {
+    const lightColorTokens = tokens.filter(
+      (t) => t.path[0] === "sys" && t.path[1] === "light" && t.path[2] === "color"
+    );
+
+    const colorMap: Record<string, Record<string, string>> = {};
+
+    for (const token of lightColorTokens) {
+      const category = token.path[3]; // text, surface, border, feedback
+      const name = token.path.slice(4).join("-"); // base, muted, etc.
+
+      if (!colorMap[category]) {
+        colorMap[category] = {};
+      }
+
+      const varName = `--sys-color-${category}-${name}`;
+      colorMap[category][name] = `var(${varName})`;
+    }
+
+    return colorMap;
+  };
+
+  // Build radius map
+  const buildRadius = () => {
+    const radiusTokens = getTokensByPath(["ref", "radius"]);
+    const radiusMap: Record<string, string> = {};
+
+    for (const token of radiusTokens) {
+      const name = token.path[2];
+      radiusMap[name] = typeof token.value === "number" ? `${token.value}px` : token.value;
+    }
+
+    return radiusMap;
+  };
+
+  // Build breakpoints map
+  const buildBreakpoints = () => {
+    const breakpointTokens = getTokensByPath(["ref", "breakpoint"]);
+    const breakpointMap: Record<string, string> = {};
+
+    for (const token of breakpointTokens) {
+      const name = token.path[2];
+      breakpointMap[name] = typeof token.value === "number" ? `${token.value}px` : token.value;
+    }
+
+    return breakpointMap;
+  };
+
+  // Build box shadow from elevation tokens
+  const buildBoxShadow = () => {
+    const elevationTokens = getTokensByPath(["effect", "elevation", "raised"]);
+    const shadowMap: Record<string, string> = {};
+
+    for (const token of elevationTokens) {
+      const name = token.path[3];
+      const val = token.original?.value || token.value;
+
+      if (typeof val === "object" && val.shadowType === "dropShadow") {
+        const { offsetX, offsetY, radius, spread, color } = val;
+        shadowMap[name] = `${offsetX}px ${offsetY}px ${radius}px ${spread}px ${color}`;
+      }
+    }
+
+    return shadowMap;
+  };
+
+  // Build space values
+  const buildSpaces = () => {
+    const spaceTokens = getTokensByPath(["ref", "space"]);
+    const spaceMap: Record<string, string> = {};
+
+    for (const token of spaceTokens) {
+      const name = token.path[2];
+      spaceMap[name] = typeof token.value === "number" ? `${token.value}px` : token.value;
+    }
+
+    return spaceMap;
+  };
+
+  // Build size values
+  const buildSizes = () => {
+    const sizeTokens = tokens.filter(
+      (t) => t.path[0] === "ref" && t.path[1] === "size" && t.path.length === 3
+    );
+    const sizeMap: Record<string, string> = {};
+
+    for (const token of sizeTokens) {
+      const name = token.path[2];
+      sizeMap[name] = typeof token.value === "number" ? `${token.value}px` : token.value;
+    }
+
+    return sizeMap;
+  };
+
+  // Build icon size values
+  const buildIconSizes = () => {
+    const iconTokens = getTokensByPath(["ref", "size", "icon"]);
+    const iconMap: Record<string, string> = {};
+
+    for (const token of iconTokens) {
+      const name = token.path[3];
+      iconMap[name] = typeof token.value === "number" ? `${token.value}px` : token.value;
+    }
+
+    return iconMap;
+  };
+
+  // Build typography map
+  const buildTypography = () => {
+    const typoTokens = tokens.filter((t) => t.path[0] === "typography");
+    const typoMap: Record<string, Record<string, any>> = {};
+
+    for (const token of typoTokens) {
+      const category = token.path[1]; // label, title, body, headline
+      const size = token.path[2]; // sm, md, lg, etc.
+      const prop = token.path[3]; // fontSize, lineHeight, etc.
+
+      if (!typoMap[category]) {
+        typoMap[category] = {};
+      }
+      if (!typoMap[category][size]) {
+        typoMap[category][size] = {};
+      }
+
+      let value = token.value;
+      if (prop === "fontSize" || prop === "lineHeight" || prop === "letterSpacing") {
+        value = typeof value === "number" ? `${value}px` : value;
+      }
+
+      typoMap[category][size][prop] = value;
+    }
+
+    return typoMap;
+  };
+
+  // Build all data
+  const sysColors = buildSysColors();
+  const radius = buildRadius();
+  const breakpoints = buildBreakpoints();
+  const boxShadow = buildBoxShadow();
+  const spaces = buildSpaces();
+  const sizes = buildSizes();
+  const iconSizes = buildIconSizes();
+  const typography = buildTypography();
+
+  // Generate TypeScript code
+  let output = `// Auto-generated by build-tokens.ts - DO NOT EDIT
+import { definePreset } from "unocss";
+import type { Preset } from "unocss";
+
+// Token values
+const spaces = ${JSON.stringify(spaces, null, 2)} as const;
+
+const sizes = ${JSON.stringify(sizes, null, 2)} as const;
+
+const iconSizes = ${JSON.stringify(iconSizes, null, 2)} as const;
+
+const typography = ${JSON.stringify(typography, null, 2)} as const;
+
+// Property mappings for space utilities
+const spaceProps: Record<string, Record<string, string>> = {
+  p: { padding: "" },
+  pt: { "padding-top": "" },
+  pb: { "padding-bottom": "" },
+  pl: { "padding-left": "" },
+  pr: { "padding-right": "" },
+  px: { "padding-left": "", "padding-right": "" },
+  py: { "padding-top": "", "padding-bottom": "" },
+  m: { margin: "" },
+  mt: { "margin-top": "" },
+  mb: { "margin-bottom": "" },
+  ml: { "margin-left": "" },
+  mr: { "margin-right": "" },
+  mx: { "margin-left": "", "margin-right": "" },
+  my: { "margin-top": "", "margin-bottom": "" },
+  gap: { gap: "" },
+};
+
+// Property mappings for size utilities
+const sizeProps: Record<string, string> = {
+  w: "width",
+  h: "height",
+  "min-w": "min-width",
+  "min-h": "min-height",
+  "max-w": "max-width",
+  "max-h": "max-height",
+};
+
+export const presetInk = definePreset((): Preset => ({
+  name: "preset-ink",
+  theme: {
+    colors: ${JSON.stringify(sysColors, null, 4).replace(/\n/g, "\n    ")},
+    borderRadius: ${JSON.stringify(radius, null, 4).replace(/\n/g, "\n    ")},
+    breakpoints: ${JSON.stringify(breakpoints, null, 4).replace(/\n/g, "\n    ")},
+    boxShadow: ${JSON.stringify(boxShadow, null, 4).replace(/\n/g, "\n    ")},
+  },
+  rules: [
+    // Space utilities (padding, margin, gap)
+    [
+      /^(p|pt|pb|pl|pr|px|py|m|mt|mb|ml|mr|mx|my|gap)-(xs|sm|md|lg|xl)$/,
+      ([, prop, space]) => {
+        const value = spaces[space as keyof typeof spaces];
+        if (!value) return;
+
+        const props = spaceProps[prop];
+        if (!props) return;
+
+        const result: Record<string, string> = {};
+        for (const cssProp of Object.keys(props)) {
+          result[cssProp] = value;
+        }
+        return result;
+      },
+    ],
+
+    // Size utilities (width, height)
+    [
+      /^(w|h|min-w|min-h|max-w|max-h)-(xs|sm|md|lg|xl)$/,
+      ([, prop, size]) => {
+        const value = sizes[size as keyof typeof sizes];
+        if (!value) return;
+
+        const cssProp = sizeProps[prop];
+        if (!cssProp) return;
+
+        return { [cssProp]: value };
+      },
+    ],
+
+    // Icon size utilities
+    [
+      /^iconsize-(sm|md|lg)$/,
+      ([, size]) => {
+        const value = iconSizes[size as keyof typeof iconSizes];
+        if (!value) return;
+
+        return { width: value, height: value };
+      },
+    ],
+
+    // Font style utilities
+    [
+      /^font-(label|title|body|headline)-(sm|md|lg|lg-mono|lg-underlined|sm-mono)$/,
+      ([, category, size]) => {
+        const categoryStyles = typography[category as keyof typeof typography];
+        if (!categoryStyles) return;
+
+        const sizeStyles = categoryStyles[size as keyof typeof categoryStyles];
+        if (!sizeStyles) return;
+
+        const result: Record<string, string> = {};
+
+        if (sizeStyles.fontSize) result["font-size"] = sizeStyles.fontSize;
+        if (sizeStyles.lineHeight) result["line-height"] = sizeStyles.lineHeight;
+        if (sizeStyles.fontFamily) result["font-family"] = sizeStyles.fontFamily;
+        if (sizeStyles.fontWeight) result["font-weight"] = String(sizeStyles.fontWeight);
+        if (sizeStyles.letterSpacing && sizeStyles.letterSpacing !== "0px") {
+          result["letter-spacing"] = sizeStyles.letterSpacing;
+        }
+        if (sizeStyles.textDecoration && sizeStyles.textDecoration !== "none") {
+          result["text-decoration"] = sizeStyles.textDecoration;
+        }
+
+        return result;
+      },
+    ],
+  ],
+}));
+
+export default presetInk;
+`;
+
+  return output;
+};
+
+/**
  * Format for _comp.scss - Component tokens
  */
 const formatScssComp = ({ dictionary }: { dictionary: Dictionary }) => {
@@ -539,6 +830,20 @@ const scssPlatform: PlatformConfig = {
   ],
 };
 
+const UNOCSS_OUTPUT_DIR = "packages/web-design/styles/uno";
+
+const unocssPlatform: PlatformConfig = {
+  name: "unocss",
+  buildPath: `${UNOCSS_OUTPUT_DIR}/`,
+  transforms: ["attribute/kebab-path", "color/hex-no-alpha", "size/px"],
+  files: [
+    {
+      destination: "preset-ink.ts",
+      format: "unocss/preset",
+    },
+  ],
+};
+
 // Future platform configurations (placeholders)
 // const dartPlatform: PlatformConfig = {
 //   name: 'dart',
@@ -588,10 +893,12 @@ async function main() {
           "scss/ref": formatScssRef,
           "scss/sys": formatScssSys,
           "scss/comp": formatScssComp,
+          "unocss/preset": formatUnoPreset,
         },
       },
       platforms: {
         scss: scssPlatform,
+        unocss: unocssPlatform,
       },
       log: {
         verbosity: "default",
@@ -603,11 +910,12 @@ async function main() {
 
     const elapsed = Date.now() - startTime;
     process.stdout.write("\n✅ Design tokens built successfully!\n");
-    process.stdout.write(`📁 Output directory: ${OUTPUT_DIR}/\n`);
-    process.stdout.write("\nGenerated files:\n");
+    process.stdout.write(`\n📁 SCSS output: ${OUTPUT_DIR}/\n`);
     process.stdout.write("  - _ref.scss\n");
     process.stdout.write("  - _sys.scss\n");
     process.stdout.write("  - _comp.scss\n");
+    process.stdout.write(`\n📁 UnoCSS output: ${UNOCSS_OUTPUT_DIR}/\n`);
+    process.stdout.write("  - preset-ink.ts\n");
     process.stdout.write(`\n⏱️  Completed in ${elapsed}ms\n`);
   } catch (error) {
     process.stderr.write("\n❌ Error building design tokens:\n");
