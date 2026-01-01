@@ -1,5 +1,16 @@
 # @inkcre/web-design
 
+## 1.2.1
+
+### Patch Changes
+
+- 1856fb9: Update InkDropdown: add stepping
+- 582944b: Update InkDropdown: support arrow up/down navigation
+- ebd2b76: Fix: InkDialog open issue
+- 7d445ad: upd(InkButton): support prop `icon` and rename `icon` type to `square`
+- dd9e768: Update style: add UnoCSS preset
+- 60abffb: Update InkDropdown: support incremental search
+
 ## 1.2.0
 
 ### Minor Changes
