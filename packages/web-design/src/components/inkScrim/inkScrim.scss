@@ -1,0 +1,16 @@
+.ink-scrim {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.ink-scrim-fade-enter-active,
+.ink-scrim-fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.ink-scrim-fade-enter-from,
+.ink-scrim-fade-leave-to {
+  opacity: 0;
+}

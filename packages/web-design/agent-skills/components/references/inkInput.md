@@ -170,7 +170,7 @@ When `type="inline"`:
 ```typescript
 export const inkInputProps = {
   ...formControlCommonProps,
-  modelValue: makeStringProp(""),
+  modelValue: makeStringProp<string | null>(""),
   placeholder: makeStringProp(""),
   type: makeStringProp<InkInputType>("default"),
 } as const;
@@ -192,7 +192,7 @@ type InkInputType = "default" | "inline";
 // --- Props ---
 export const inkInputProps = {
   ...formControlCommonProps,
-  modelValue: makeStringProp(""),
+  modelValue: makeStringProp<string | null>(""),
   placeholder: makeStringProp(""),
   type: makeStringProp<InkInputType>("default"),
 }

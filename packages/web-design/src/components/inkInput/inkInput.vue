@@ -28,7 +28,7 @@ const onInput = (e: Event) => {
 
 const onInlineClick = () => {
   if (props.type === "inline") {
-    originalValue.value = props.modelValue;
+    originalValue.value = props.modelValue ?? "";
     isInlineEditing.value = true;
   }
 };

@@ -12,6 +12,7 @@ import InkDoubleCheck from "./components/inkDoubleCheck/inkDoubleCheck.vue";
 import InkDropdown from "./components/inkDropdown/inkDropdown.vue";
 import InkField from "./components/inkField/inkField.vue";
 import InkForm from "./components/inkForm/inkForm.vue";
+import InkImage from "./components/inkImage/inkImage.vue";
 import InkInput from "./components/inkInput/inkInput.vue";
 import InkJsonEditor from "./components/inkJsonEditor/inkJsonEditor.vue";
 import InkLoading from "./components/inkLoading/inkLoading.vue";
@@ -19,6 +20,7 @@ import InkPagination from "./components/inkPagination/inkPagination.vue";
 import InkPicker from "./components/inkPicker/inkPicker.vue";
 import InkPlaceholder from "./components/inkPlaceholder/inkPlaceholder.vue";
 import InkPopup from "./components/inkPopup/inkPopup.vue";
+import InkScrim from "./components/inkScrim/inkScrim.vue";
 import InkSwitch from "./components/inkSwitch/inkSwitch.vue";
 import InkTextarea from "./components/inkTextarea/inkTextarea.vue";
 import InkTooltip from "./components/inkTooltip/inkTooltip.vue";
@@ -35,6 +37,7 @@ export default {
     app.component("InkDropdown", InkDropdown);
     app.component("InkField", InkField);
     app.component("InkForm", InkForm);
+    app.component("InkImage", InkImage);
     app.component("InkInput", InkInput);
     app.component("InkJsonEditor", InkJsonEditor);
     app.component("InkLoading", InkLoading);
@@ -42,6 +45,7 @@ export default {
     app.component("InkPicker", InkPicker);
     app.component("InkPlaceholder", InkPlaceholder);
     app.component("InkPopup", InkPopup);
+    app.component("InkScrim", InkScrim);
     app.component("InkSwitch", InkSwitch);
     app.component("InkTextarea", InkTextarea);
     app.component("InkTooltip", InkTooltip);
@@ -58,6 +62,7 @@ export {
   InkDropdown,
   InkField,
   InkForm,
+  InkImage,
   InkInput,
   InkJsonEditor,
   InkLoading,
@@ -65,6 +70,7 @@ export {
   InkPicker,
   InkPlaceholder,
   InkPopup,
+  InkScrim,
   InkSwitch,
   InkTextarea,
   InkTooltip,
