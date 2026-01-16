@@ -1,5 +1,11 @@
 # @inkcre/web-design
 
+## 1.2.2
+
+### Patch Changes
+
+- e74f929: Add InkImage and InkScrim
+
 ## 1.2.1
 
 ### Patch Changes
