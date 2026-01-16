@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import InkScrim from "./inkScrim.vue";
+
+const open = ref(true);
 </script>
 
 <template>
   <Story title="Overlays/Scrim" :layout="{ type: 'grid', width: '100%' }">
     <!-- [Basic] Default -->
     <Variant title="Open Scrim">
-      <InkScrim v-model:open="true" />
+      <InkScrim v-model:open="open" />
       <div class="p-4">
         <p class="text-gray-600">
           Scrim overlay is visible covering the background
@@ -17,7 +19,7 @@ import InkScrim from "./inkScrim.vue";
 
     <!-- [State] Closed -->
     <Variant title="Closed Scrim">
-      <InkScrim v-model:open="false" />
+      <InkScrim v-model:open="open" />
       <div class="p-4">
         <p class="text-gray-600">Scrim is not visible</p>
       </div>
@@ -34,7 +36,7 @@ import InkScrim from "./inkScrim.vue";
           </label>
         </div>
       </div>
-      <InkScrim v-model:open="true" />
+      <InkScrim v-model:open="open" />
     </Variant>
 
     <!-- [Interaction] Non-dismissible -->
@@ -50,7 +52,7 @@ import InkScrim from "./inkScrim.vue";
           </label>
         </div>
       </div>
-      <InkScrim v-model:open="true" :close-on-scrim="false" />
+      <InkScrim v-model:open="open" :close-on-scrim="false" />
     </Variant>
   </Story>
 </template>

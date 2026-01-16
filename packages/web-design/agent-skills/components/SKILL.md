@@ -1,6 +1,6 @@
 ---
 name: components
-description: Use @inkcre/web-design Vue 3 components. Includes all 19 components with props, events, and usage examples.
+description: Use @inkcre/web-design Vue 3 components. Includes all 22 components with props, events, and usage examples.
 ---
 
 # @inkcre/web-design Components
@@ -9,7 +9,8 @@ Use this skill when working with the @inkcre/web-design Vue 3 component library.
 
 ## Overview
 
-@inkcre/web-design provides 19 UI components for Vue 3 applications:
+@inkcre/web-design provides 21 UI components for Vue 3 applications:
+
 - [inkAutoForm](references/inkAutoForm.md)
 - [inkButton](references/inkButton.md)
 - [inkDatetimePickerView](references/inkDatetimePickerView.md)
@@ -19,6 +20,7 @@ Use this skill when working with the @inkcre/web-design Vue 3 component library.
 - [inkField](references/inkField.md)
 - [inkForm](references/inkForm.md)
 - [inkHeader](references/inkHeader.md)
+- [inkImage](references/inkImage.md)
 - [inkInput](references/inkInput.md)
 - [inkJsonEditor](references/inkJsonEditor.md)
 - [inkLoading](references/inkLoading.md)
@@ -26,6 +28,7 @@ Use this skill when working with the @inkcre/web-design Vue 3 component library.
 - [inkPicker](references/inkPicker.md)
 - [inkPlaceholder](references/inkPlaceholder.md)
 - [inkPopup](references/inkPopup.md)
+- [inkScrim](references/inkScrim.md)
 - [inkSwitch](references/inkSwitch.md)
 - [inkTextarea](references/inkTextarea.md)
 - [inkTooltip](references/inkTooltip.md)
@@ -63,13 +66,16 @@ Each component has detailed documentation in the `references/` directory:
 - [`inkField`](references/inkField.md) - Component with props, events, and examples
 - [`inkForm`](references/inkForm.md) - Component with props, events, and examples
 - [`inkHeader`](references/inkHeader.md) - Component with props, events, and examples
+- [`inkImage`](references/inkImage.md) - Component with props, events, and examples
 - [`inkInput`](references/inkInput.md) - Component with props, events, and examples
 - [`inkJsonEditor`](references/inkJsonEditor.md) - Component with props, events, and examples
 - [`inkLoading`](references/inkLoading.md) - Component with props, events, and examples
+- [`inkOverlay`](references/inkOverlay.md) - Component with props, events, and examples
 - [`inkPagination`](references/inkPagination.md) - Component with props, events, and examples
 - [`inkPicker`](references/inkPicker.md) - Component with props, events, and examples
 - [`inkPlaceholder`](references/inkPlaceholder.md) - Component with props, events, and examples
 - [`inkPopup`](references/inkPopup.md) - Component with props, events, and examples
+- [`inkScrim`](references/inkScrim.md) - Component with props, events, and examples
 - [`inkSwitch`](references/inkSwitch.md) - Component with props, events, and examples
 - [`inkTextarea`](references/inkTextarea.md) - Component with props, events, and examples
 - [`inkTooltip`](references/inkTooltip.md) - Component with props, events, and examples

@@ -1,49 +1,43 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import InkImage from "./inkImage.vue";
+
+const imageSrc = ref("/sample.jpg");
 </script>
 
 <template>
   <Story title="Media/Image" :layout="{ type: 'grid', width: '100%' }">
     <!-- [Basic] Default -->
     <Variant title="Basic Usage">
-      <InkImage
-        src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop"
-        alt="Mountain landscape"
-      />
+      <InkImage :src="imageSrc" alt="Mountain landscape" />
     </Variant>
 
     <!-- [Visual] With title -->
     <Variant title="With Title">
       <InkImage
-        src="https://images.unsplash.com/photo-1469022563149-aa64dbd37daf?w=400&h=300&fit=crop"
+        :src="imageSrc"
         alt="Ocean sunset"
         title="Beautiful Ocean Sunset"
       />
     </Variant>
 
-    <!-- [Size] Size Constraints -->
-    <Variant title="Custom Width & Height">
+    <!-- [Styling] Custom Size (Style + Class) -->
+    <Variant title="Custom Size (Style + Class)">
       <InkImage
-        src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop"
+        :src="imageSrc"
         alt="Mountain landscape"
-        max-width="250px"
-        max-height="200px"
+        class="h-48"
+        style="width: 200px"
       />
     </Variant>
 
     <!-- [Slot] Custom Thumbnail -->
     <Variant title="Custom Thumbnail Slot">
-      <InkImage
-        src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop"
-        alt="Mountain landscape"
-        max-width="280px"
-        max-height="200px"
-      >
+      <InkImage :src="imageSrc" alt="Mountain landscape">
         <template #thumbnail>
           <div class="relative overflow-hidden rounded-lg group">
             <img
-              src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop"
+              :src="imageSrc"
               alt="Mountain landscape"
               class="w-full h-auto"
             />
@@ -62,17 +56,13 @@ import InkImage from "./inkImage.vue";
 
     <!-- [State] Lazy Loading Disabled -->
     <Variant title="Eager Loading (lazy: false)">
-      <InkImage
-        src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=400&h=300&fit=crop"
-        alt="City skyline"
-        :lazy="false"
-      />
+      <InkImage :src="imageSrc" alt="City skyline" :lazy="false" />
     </Variant>
 
     <!-- [Slot] With Footer -->
     <Variant title="With Expanded Footer">
       <InkImage
-        src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop"
+        :src="imageSrc"
         alt="Mountain landscape"
         title="Mountain Adventure"
       >
@@ -93,36 +83,9 @@ import InkImage from "./inkImage.vue";
       </InkImage>
     </Variant>
 
-    <!-- [Edge] Various sizes -->
-    <Variant title="Thumbnail Grid">
-      <div class="grid grid-cols-3 gap-3">
-        <InkImage
-          src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=200&fit=crop"
-          alt="Mountain"
-          max-width="100%"
-          max-height="120px"
-        />
-        <InkImage
-          src="https://images.unsplash.com/photo-1469022563149-aa64dbd37daf?w=300&h=200&fit=crop"
-          alt="Sunset"
-          max-width="100%"
-          max-height="120px"
-        />
-        <InkImage
-          src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=300&h=200&fit=crop"
-          alt="City"
-          max-width="100%"
-          max-height="120px"
-        />
-      </div>
-    </Variant>
-
     <!-- [State] With Header Slot -->
     <Variant title="With Custom Header">
-      <InkImage
-        src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop"
-        alt="Mountain landscape"
-      >
+      <InkImage :src="imageSrc" alt="Mountain landscape">
         <template #expanded-header>
           <span class="text-sm text-gray-600">📸 Photo Details</span>
         </template>

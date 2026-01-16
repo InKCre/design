@@ -6,18 +6,19 @@ import {
   type InkImageErrorPayload,
 } from "./inkImage";
 import InkScrim from "../inkScrim/inkScrim.vue";
+import { useOptionalModel } from "../../composables/use-optional-model";
 
 const props = defineProps(inkImageProps);
 const emit = defineEmits(inkImageEmits);
 
-const expanded = defineModel<boolean>("expanded", { default: false });
+const expanded = useOptionalModel({
+  props,
+  emit,
+  modelName: "expanded",
+  defaultValue: false,
+});
 
 // --- Computed ---
-
-const thumbnailStyle = computed(() => ({
-  maxWidth: props.maxWidth,
-  maxHeight: props.maxHeight,
-}));
 
 const lazyLoadAttr = computed(() => {
   return props.lazy ? { loading: "lazy" as const } : {};
@@ -30,11 +31,6 @@ const handleThumbnailClick = () => {
   emit("expand");
 };
 
-const handleClose = () => {
-  expanded.value = false;
-  emit("close");
-};
-
 const handleImageError = (error: Event) => {
   const payload: InkImageErrorPayload = {
     error,
@@ -42,20 +38,10 @@ const handleImageError = (error: Event) => {
   };
   emit("error", payload);
 };
-
-const handleKeydown = (event: KeyboardEvent) => {
-  if (event.key === "Escape" && expanded.value) {
-    handleClose();
-  }
-};
-
-const handleScrimClick = () => {
-  handleClose();
-};
 </script>
 
 <template>
-  <div class="ink-image" @keydown="handleKeydown" tabindex="0">
+  <div class="ink-image">
     <!-- Thumbnail -->
     <div
       class="ink-image__thumbnail"
@@ -67,7 +53,6 @@ const handleScrimClick = () => {
           :src="props.src"
           :alt="props.alt"
           :title="props.title"
-          :style="thumbnailStyle"
           v-bind="lazyLoadAttr"
           class="ink-image__img"
           data-testid="ink-image-img"
@@ -76,54 +61,45 @@ const handleScrimClick = () => {
       </slot>
     </div>
 
-    <!-- Scrim overlay -->
+    <!-- Scrim overlay with expanded view content -->
     <InkScrim
       v-model:open="expanded"
       :close-on-scrim="true"
-      @scrim-click="handleScrimClick"
-    />
-
-    <!-- Expanded view container (teleported to body via Teleport) -->
-    <Teleport v-if="expanded" to="body">
+      :show-close-button="true"
+    >
       <div class="ink-image__expanded" data-testid="ink-image-expanded">
-        <!-- Header with close button -->
-        <div class="ink-image__expanded-header">
-          <slot name="expanded-header">
-            <div class="ink-image__expanded-title" v-if="props.title">
-              {{ props.title }}
-            </div>
-          </slot>
-          <button
-            class="ink-image__close-btn"
-            data-testid="ink-image-close-btn"
-            aria-label="Close image"
-            @click="handleClose"
-          >
-            <span class="i-mdi-close"></span>
-          </button>
+        <!-- Header -->
+        <div
+          class="ink-image__expanded-header"
+          v-if="$slots['expanded-header']"
+        >
+          <slot name="expanded-header"> </slot>
         </div>
 
-        <!-- Image -->
-        <div class="ink-image__expanded-content">
-          <img
-            :src="props.src"
-            :alt="props.alt"
-            :title="props.title"
-            class="ink-image__img-expanded"
-            data-testid="ink-image-img-expanded"
-            @error="handleImageError"
-          />
-        </div>
+        <!-- Image - maintains aspect ratio and fills available space -->
+        <img
+          @click.stop
+          :src="props.src"
+          :alt="props.alt"
+          :title="props.title"
+          class="ink-image__img-expanded"
+          data-testid="ink-image-img-expanded"
+          @error="handleImageError"
+        />
 
         <!-- Footer -->
         <div
-          v-if="$slots['expanded-footer']"
+          v-if="props.title || $slots['expanded-footer']"
           class="ink-image__expanded-footer"
         >
-          <slot name="expanded-footer"></slot>
+          <slot name="expanded-footer">
+            <div class="ink-image__expanded-title">
+              {{ props.title }}
+            </div>
+          </slot>
         </div>
       </div>
-    </Teleport>
+    </InkScrim>
   </div>
 </template>
 

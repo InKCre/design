@@ -3,9 +3,23 @@ import { mount } from "@vue/test-utils";
 import InkScrim from "./inkScrim.vue";
 
 describe("InkScrim", () => {
+  const mountOptions = {
+    global: {
+      stubs: {
+        Teleport: {
+          template: "<div><slot /></div>",
+        },
+        Transition: {
+          template: "<div><slot /></div>",
+        },
+      },
+    },
+  };
+
   describe("rendering", () => {
     it("renders scrim overlay when open is true", async () => {
       const wrapper = mount(InkScrim, {
+        ...mountOptions,
         props: {
           open: true,
         },
@@ -16,6 +30,7 @@ describe("InkScrim", () => {
 
     it("does not render scrim when open is false", () => {
       const wrapper = mount(InkScrim, {
+        ...mountOptions,
         props: {
           open: false,
         },
@@ -28,6 +43,7 @@ describe("InkScrim", () => {
   describe("close functionality", () => {
     it("closes scrim when clicked if closeOnScrim is true", async () => {
       const wrapper = mount(InkScrim, {
+        ...mountOptions,
         props: {
           open: true,
           closeOnScrim: true,
@@ -44,6 +60,7 @@ describe("InkScrim", () => {
 
     it("emits scrim-click event when scrim is clicked", async () => {
       const wrapper = mount(InkScrim, {
+        ...mountOptions,
         props: {
           open: true,
         },
@@ -57,6 +74,7 @@ describe("InkScrim", () => {
 
     it("does not close scrim when clicked if closeOnScrim is false", async () => {
       const wrapper = mount(InkScrim, {
+        ...mountOptions,
         props: {
           open: true,
           closeOnScrim: false,
@@ -73,6 +91,7 @@ describe("InkScrim", () => {
   describe("v-model:open", () => {
     it("updates open state via v-model", async () => {
       const wrapper = mount(InkScrim, {
+        ...mountOptions,
         props: {
           open: false,
         },
@@ -89,6 +108,7 @@ describe("InkScrim", () => {
   describe("transitions", () => {
     it("applies fade transition when opening", async () => {
       const wrapper = mount(InkScrim, {
+        ...mountOptions,
         props: {
           open: false,
         },

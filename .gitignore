@@ -26,3 +26,7 @@ coverage/
 
 # histoire
 .histoire/
+
+# images
+*.png
+*.jpg

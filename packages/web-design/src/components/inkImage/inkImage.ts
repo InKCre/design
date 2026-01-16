@@ -15,12 +15,10 @@ export const inkImageProps = {
   alt: makeStringProp(),
   /** Image title or caption */
   title: makeStringProp(""),
-  /** Maximum width of thumbnail (CSS value, e.g., "200px", "100%") */
-  maxWidth: makeStringProp("100%"),
-  /** Maximum height of thumbnail (CSS value, e.g., "200px") */
-  maxHeight: makeStringProp(""),
   /** Whether to lazy load the image */
   lazy: makeBooleanProp(true),
+  /** Whether the image is expanded */
+  expanded: makeBooleanProp(false),
 } as const;
 
 // --- Emits ---
@@ -31,4 +29,6 @@ export const inkImageEmits = {
   close: () => true,
   /** Triggered when image fails to load */
   error: (payload: InkImageErrorPayload) => true,
+  /** Triggered when expanded state changes */
+  "update:expanded": (value: boolean) => true,
 } as const;
